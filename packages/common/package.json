@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "name": "@tuteria/common",
+  "umd:name": "@tuteria/common",
+  "scripts": {
+    "build": "tsc --module commonjs --outDir dist --declaration false",
+    "lint:src": "eslint src --ext .ts,.tsx --config ../../.eslintrc",
+    "lint:types": "tsc --noEmit",
+    "lint": "npm-run-all lint:src lint:types",
+    "test": "uvu -r ts-node/register test"
+  }
+}

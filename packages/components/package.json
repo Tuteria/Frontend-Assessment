@@ -1,0 +1,42 @@
+{
+  "version": "0.0.1",
+  "name": "@tuteria/components",
+  "umd:name": "@tuteria/components",
+  "repository": "git@github.com:Tuteria/frontend-application.git",
+  "description": "Npm package housing internal components used in building the application",
+  "module": "dist/esm/index.js",
+  "main": "dist/cjs/index.js",
+  "types": "dist/types/index.d.ts",
+  "license": "MIT",
+  "author": {
+    "name": "Tuteria",
+    "email": "dev@tuteria.com",
+    "url": "https://www.tuteria.com"
+  },
+  "files": [
+    "dist",
+    "types"
+  ],
+  "engines": {
+    "node": ">= 10"
+  },
+  "scripts": {
+    "build:esm": "tsc --module es2015 --outDir dist/esm --declaration false",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs --declaration false",
+    "build:types": "tsc --emitDeclarationOnly --declaration true --declarationDir dist/types",
+    "build": "npm-run-all build:esm build:cjs build:types",
+    "lint:src": "eslint src --ext .ts,.tsx --config ../../.eslintrc",
+    "lint:types": "tsc --noEmit",
+    "lint": "npm-run-all lint:src lint:types",
+    "test": "uvu -r ts-node/register test"
+  },
+  "keywords": [
+    "TODO",
+    "module",
+    "keywords"
+  ],
+  "peerDependencies": {
+    "react": "16.13.1",
+    "react-dom": "16.13.1"
+  }
+}

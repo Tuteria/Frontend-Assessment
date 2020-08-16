@@ -1,0 +1,30 @@
+version: "3.1"
+
+volumes:
+  postgres_data_dev: {}
+  postgres_backup_dev: {}
+  webserver_vol: {}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ops/Dockerfile-example
+    ports:
+      - "0.0.0.0:9007:3000"
+    # command: uvicorn index:app
+
+  postgres:
+    image: sameersbn/postgresql:9.6-2
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+      - postgres_backup_dev:/backups
+    restart: always
+    environment:
+      DB_USER: test_db
+      DB_PASS: test_db
+      DB_NAME: test_db
+    ports:
+      - "5529:5432"
+
+  

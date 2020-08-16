@@ -1,0 +1,5 @@
+{
+  "python.formatting.provider": "black",
+  "restructuredtext.confPath": "",
+  "editor.tabSize": 2
+}

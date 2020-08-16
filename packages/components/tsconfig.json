@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs",
+      "sourceMap": true
+    },
+    "include": ["tests/**/*"]
+  },
+  "include": ["@types", "src"],
+  "exclude": ["node_modules", "**/**/*.stories.tsx", "src/stories"]
+}

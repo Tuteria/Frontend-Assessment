@@ -1,0 +1,14 @@
+{
+  "name": "@tuteria/video-web-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "uvu -r ts-node/register test"
+  },
+  "dependencies": {
+    "next": "9.4.4"
+  }
+}
