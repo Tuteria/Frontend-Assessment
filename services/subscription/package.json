@@ -1,6 +1,6 @@
 {
   "version": "0.0.1",
-  "name": "@tuteria/subscription-service",
+  "name": "@gbozee/subscription-service",
   "scripts": {
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
