@@ -1,11 +1,11 @@
 import express from "express";
-import notes from "./notes";
+import accounts from "./accounts";
 import * as bodyParser from "body-parser";
-import { logging as httpLogger } from "@tuteria/common/src/middleware";
+import { logging as httpLogger } from "@gbozee/common/src/middleware";
 
 const app = express();
 app.use(bodyParser.json());
 app.use(httpLogger);
-app.use("/notes", notes);
+app.use("/accounts", accounts);
 
 export default app;
