@@ -1,0 +1,3 @@
+[submodule "enhanced_savings"]
+	path = enhanced_savings
+	url = git@github.com:gbozee/enhanced_savings.git

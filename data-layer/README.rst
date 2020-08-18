@@ -1,3 +1,0 @@
-Data Layer Documentation
-========================
-
