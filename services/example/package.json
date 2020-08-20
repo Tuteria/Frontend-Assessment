@@ -1,6 +1,6 @@
 {
   "version": "0.0.1",
-  "name": "@gbozee/example-service",
+  "name": "@tuteria/example-service",
   "scripts": {
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",

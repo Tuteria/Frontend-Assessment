@@ -3,93 +3,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-model AutoTrade {
-  created        DateTime
-  freeze         Boolean
-  id             String   @id
-  info           Json
-  last_updated   DateTime
-  margin         Float
-  percent_margin Float
-  quantity       Float
-}
-
-model accounts {
-  api_key        String
-  api_secret     String
-  freeze         Boolean?
-  id             Int     @default(autoincrement()) @id
-  margin_markets Json?
-  markets        Json?
-  owner          String
+  provider = "sqlite"
+  url      = "file:./../../../example.db"
 }
 
 model alembic_version {
   version_num String @id
 }
 
-model deposits {
-  amount          Float
-  created         DateTime
-  factor          Float
-  id              Int           @default(autoincrement()) @id
-  in_trade        Boolean
-  modified        DateTime
-  no_of_months    Int
-  trade_group     Int?
-  withdrawal_date DateTime?
-  withdrawn       Boolean
-  trade_groups    trade_groups? @relation(fields: [trade_group], references: [id])
-}
-
-model markets {
-  base_price Float
-  id         String  @id
-  info       Json
-  purchased  Boolean
-  sold       Boolean
-}
-
-model queue {
-  id     Int    @default(autoincrement()) @id
-  info   Json
-  market String
-}
-
-model signals {
-  created DateTime
-  id      Int      @default(autoincrement()) @id
-  text    String
-}
-
-model storage {
-  buy      Json
-  created  DateTime
-  id       Int      @default(autoincrement()) @id
-  modified DateTime
-  sell     Json
-}
-
-model swing_trade {
-  default_kline String
-  freeze        Boolean
-  id            String  @id
-  info          Json
-  klines_info   Json
-  max_klines    Int
-}
-
-model trade_groups {
-  coin_purchase_price Float
-  completed_trades    Json
-  id                  Int        @default(autoincrement()) @id
-  investment_instance Json
-  margin              Int
-  no_of_trades        Int
-  total_trades        Int
-  deposits            deposits[]
+model notes {
+  description String?
+  id          Int     @default(autoincrement()) @id
+  title       String?
 }
