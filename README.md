@@ -76,7 +76,7 @@ Building on the work done in the second task, Building a [NextJS](https://nextjs
 5. Hosting the whole application on a production url e.g Heroku, Vercel, Netlify, AWS, Digitalocean e.t.c
 
 
-This tasks require using [TypeScript](https://www.typescriptlang.org/). 
+These tasks require using [TypeScript](https://www.typescriptlang.org/). 
 
 Also in order to ensure consistent commit messages, visit [https://www.conventionalcommits.org/en/v1.0.0/](https://www.conventionalcommits.org/en/v1.0.0/) for commit conventions.
 
