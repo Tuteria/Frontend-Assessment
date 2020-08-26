@@ -36,7 +36,7 @@ export const User = ({ data, error }) => {
 
 	async function getUser() {
 		try {
-			const res = await axios.get(`${host}/users/${data[0].authorId}`);
+			const res = await axios.get(`${host}/users/${data[0]?.authorId}`);
 			setUser(res.data);
 		} catch (err) {
 			console.log(err);
@@ -56,7 +56,7 @@ export const User = ({ data, error }) => {
 			</>
 			<div>
 				<br />
-				{data.length === 0 && (
+				{data && data.length === 0 && (
 					<div style={{ textAlign: "center" }}>
 						Looks like you have no notes, Create one now, click the{" "}
 						<span style={{ color: "lightblue" }}> "Create Note"</span> link
