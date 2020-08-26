@@ -9,8 +9,9 @@ export interface Idata {
 	id: number;
 	title: string;
 	description: string;
+	authorId: number;
 }
-interface Iprops {
+export interface Iprops {
 	error: string;
 	data: Array<Idata>;
 }
