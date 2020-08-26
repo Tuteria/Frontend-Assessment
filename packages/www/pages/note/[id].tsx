@@ -3,9 +3,9 @@ import { useToast } from "@chakra-ui/core";
 import axios from "axios";
 import Layout from "./../../components/Layout";
 import { host } from "../../utils/environment";
-import Link from "next/link";
 
 import { Idata } from "../index";
+import { useRouter } from "next/router";
 
 interface Iprops {
 	error: string;
@@ -31,6 +31,13 @@ export async function getServerSideProps({ params }) {
 }
 const Note = ({ data, error }: Iprops) => {
 	const toast = useToast();
+	const router = useRouter();
+	useEffect(() => {
+		if (!data) {
+			router.push("/404");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<Layout>

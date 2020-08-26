@@ -17,7 +17,7 @@ router.post("/create", verifyJwt, async (req: any, res) => {
 });
 
 //gets all notes
-router.get("/", verifyJwt, async (req: any, res) => {
+router.get("/", async (req: any, res) => {
 	try {
 		const prisma: PrismaClient = req.app.locals.prisma;
 		const result = await prisma.notes.findMany();
@@ -27,9 +27,28 @@ router.get("/", verifyJwt, async (req: any, res) => {
 	}
 });
 
+//gets a note
+router.get("/:id", async (req: any, res) => {
+	try {
+		const prisma: PrismaClient = req.app.locals.prisma;
+		const result = await prisma.notes.findOne({
+			where: {
+				id: parseInt(req.params.id),
+			},
+		});
+		if (result === null) {
+			return res.send("");
+		}
+		console.log(result);
+
+		res.status(200).json(result);
+	} catch (err) {
+		res.status(500).send(err.message);
+	}
+});
+
 //updates a note
-router.put("/:id", verifyJwt, async (req: any, res) => {
-	const authorId = req.payload.user_id;
+router.put("/:id", async (req: any, res) => {
 	try {
 		const prisma: PrismaClient = req.app.locals.prisma;
 		const { description, title } = req.body;
