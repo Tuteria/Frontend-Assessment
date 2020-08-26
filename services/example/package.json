@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
-    "start:dev": "cross-env NODE_ENV=development nodemon dist/app.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/app.ts",
     "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL uvu -r ts-node/register tests",
     "test:raw": "uvu -r ts-node/register",
     "test:debug": "node --inspect ../../node_modules/uvu/bin.js -r ts-node/register tests",
@@ -13,5 +13,15 @@
     "lint:src": "eslint src --ext .ts --config ../../.eslintrc",
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.7",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "ts-node": "^9.0.0"
   }
 }

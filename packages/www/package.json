@@ -9,6 +9,8 @@
     "test": "uvu -r ts-node/register test"
   },
   "dependencies": {
+    "axios": "^0.20.0",
+    "jwt-decode": "^2.2.0",
     "next": "9.4.4"
   }
 }
