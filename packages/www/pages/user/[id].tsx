@@ -4,12 +4,15 @@ import axios from "axios";
 import { host } from "../../utils/environment";
 import { Button, useToast } from "@chakra-ui/core";
 import Link from "next/link";
+import { ProtectRoute } from "./../../ProtectedRoute";
+import jwtDecode from "jwt-decode";
+import { Iprops } from "../index";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps({ params }) {
 	try {
 		const res = await axios.get(`${host}/users/${params.id}/notes`);
 		const data = res.data.reverse();
-
 		return {
 			props: {
 				data,
@@ -23,17 +26,19 @@ export async function getServerSideProps({ params }) {
 		};
 	}
 }
-export const User = ({ data, error }) => {
+export const User = ({ data, error }: Iprops) => {
 	const toast = useToast();
+	const router = useRouter();
 	const [user, setUser] = useState<{ id: number; email: string }>();
 
 	useEffect(() => {
-		if (data) {
+		if (data && data.length > 0) {
 			getUser();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	//gets user email
 	async function getUser() {
 		try {
 			const res = await axios.get(`${host}/users/${data[0]?.authorId}`);
@@ -41,6 +46,37 @@ export const User = ({ data, error }) => {
 		} catch (err) {
 			console.log(err);
 		}
+	}
+
+	//gets logged in user
+	const [userId, setUserId] = useState();
+	useEffect(() => {
+		try {
+			const token = jwtDecode(localStorage.getItem("tuteria"));
+			if (token) {
+				setUserId(token.user_id);
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	}, []);
+
+	async function handleDelete(id: number) {
+		if (window.confirm("Are you sure you want to Delete this note?")) {
+			try {
+				const res = await axios.delete(`${host}/notes/${id}`);
+				if (res.data) {
+					router.reload();
+				}
+			} catch (error) {
+				console.log(error.message);
+			}
+		}
+	}
+
+	if (typeof window === "object") {
+		if (!localStorage.getItem("tuteria"))
+			return "redirecting, please sign in...";
 	}
 	return (
 		<Layout>
@@ -69,11 +105,38 @@ export const User = ({ data, error }) => {
 				{user && <div>Notes for user: {user.email}</div>}
 				{data &&
 					data.map((d) => (
-						<Link href={`/note/${d.id}`} key={d.id}>
-							<a>
-								<p>{d.title}</p>
-							</a>
-						</Link>
+						<div className="user_notes" key={d.id}>
+							<p>
+								<Link href={`/note/${d.id}`} as={`/note/${d.id}`}>
+									<a>{d.title}</a>
+								</Link>
+							</p>
+							<Button
+								style={{
+									display: user && user.id === userId ? "flex" : "none",
+								}}
+								size="sm"
+								variantColor="red"
+								marginLeft="5"
+								marginRight="5"
+								onClick={() => {
+									handleDelete(d.id);
+								}}
+							>
+								Delete
+							</Button>
+							<Button
+								size="sm"
+								variantColor="blue"
+								style={{
+									display: user && user.id === userId ? "flex" : "none",
+								}}
+							>
+								<Link href={`/note/update/${d.id}`} as={`/note/update/${d.id}`}>
+									<a>Update</a>
+								</Link>
+							</Button>
+						</div>
 					))}
 			</main>
 
@@ -82,15 +145,18 @@ export const User = ({ data, error }) => {
 					margin: auto;
 					width: 80%;
 				}
+				main div:first-child {
+					margin-bottom: 10px;
+				}
 
 				main p {
 					cursor: pointer;
 					color: #333;
 					background: lightblue;
-					padding: 10px;
+					padding: 5px;
 					border: 1px solid var(--softgrey);
 					border-radius: 5px;
-					margin: 10px 0;
+					width: 100%;
 				}
 
 				main p:hover {
@@ -99,6 +165,13 @@ export const User = ({ data, error }) => {
 				}
 				main div {
 					font-weight: bold;
+				}
+
+				.user_notes {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					margin-bottom: 5px;
 				}
 
 				@media only screen and (min-width: 700px) {
@@ -111,4 +184,4 @@ export const User = ({ data, error }) => {
 		</Layout>
 	);
 };
-export default User;
+export default ProtectRoute(User);
