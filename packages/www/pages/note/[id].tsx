@@ -56,8 +56,8 @@ const Note = ({ data, error }: Iprops) => {
 					<div>Description</div>
 				</div>
 				<ul>
-					<li>{data.title}</li>
-					<li style={{ whiteSpace: "pre-line" }}>{data.description}</li>
+					<li>{data && data.title}</li>
+					<li style={{ whiteSpace: "pre-line" }}>{data && data.description}</li>
 				</ul>
 			</main>
 

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "apituteria",
+  "public": true,
+  "builds": [{ "src": "/app.ts", "use": "@now/node-server" }],
+  "routes": [
+    { "src": "/notes/.*", "dest": "/app.ts" },
+    { "src": "/users/.*", "dest": "/app.ts" }
+  ]
+}

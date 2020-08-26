@@ -2,6 +2,7 @@
   "version": "0.0.1",
   "name": "@tuteria/example-service",
   "scripts": {
+    "start": "nodemon ./src/app.ts",
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
     "start:dev": "cross-env NODE_ENV=development nodemon ./src/app.ts",
