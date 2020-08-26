@@ -39,7 +39,6 @@ router.get("/:id", async (req: any, res) => {
 		if (result === null) {
 			return res.send("");
 		}
-		console.log(result);
 
 		res.status(200).json(result);
 	} catch (err) {
@@ -48,7 +47,10 @@ router.get("/:id", async (req: any, res) => {
 });
 
 //updates a note
-router.put("/:id", async (req: any, res) => {
+router.put("/:id", verifyJwt, async (req: any, res) => {
+	if (req.payload.user_id !== req.body.authorId) {
+		return res.send("unauthorised");
+	}
 	try {
 		const prisma: PrismaClient = req.app.locals.prisma;
 		const { description, title } = req.body;

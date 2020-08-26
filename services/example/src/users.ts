@@ -43,7 +43,7 @@ router.post("/login", async (req, res) => {
 		if (!email || !password) {
 			return res.status(400).send("email and password fields are required");
 		}
-		//prevents duplicate emails
+		//checks if email exists
 		const userExists = await prisma.users.findMany({
 			where: { email },
 		});
