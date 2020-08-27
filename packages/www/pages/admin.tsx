@@ -41,6 +41,10 @@ export const Admin = () => {
 		}
 	}
 
+	function mapNotesToUsers(id: number): number {
+		const Note = Notes.filter((n) => n.authorId === id);
+		return Note.length;
+	}
 	return (
 		<Layout>
 			<>
@@ -60,25 +64,64 @@ export const Admin = () => {
 						isClosable: true,
 					})}
 			</>
-			<section>
-				{Users &&
-					Users.map((u) => (
-						<div key={u.id}>
-							<p>{u.email}</p>
-							<p>{u.id}</p>
-						</div>
-					))}
-			</section>
+			<main>
+				<section className="admin-table-header">
+					<h1>User Email</h1>
+					<h1>User ID</h1>
+					<h1>No Of Notes</h1>
+				</section>
+				<section>
+					{Users &&
+						Users.map((u) => (
+							<div key={u.id} className="admin-table-body">
+								<p>{u.email}</p>
+								<p>{u.id}</p>
+								<p>{mapNotesToUsers(u.id)}</p>
+							</div>
+						))}
+				</section>
+			</main>
+			<style jsx>{`
+				main {
+					margin: auto;
+					width: 80%;
+					padding-top: 20px;
+				}
+				.admin-table-header,
+				.admin-table-body {
+					display: grid;
+					grid-template-columns: 1fr 1fr 1fr;
+					gap: 10px;
+					text-align: center;
+					place-items: center;
+				}
+				.admin-table-header {
+					border-bottom: 1px solid var(--softgrey);
+				}
+				.admin-table-header h1 {
+					font-weight: bold;
+				}
 
-			<section>
-				{Notes &&
-					Notes.map((n) => (
-						<div key={n.id}>
-							<p>{n.authorId}</p>
-						</div>
-					))}
-			</section>
-			<style jsx>{``}</style>
+				.admin-table-body p {
+					word-wrap: break-word;
+					width: 100px;
+				}
+				@media only screen and (min-width: 700px) {
+					main {
+						margin: auto;
+						width: 60%;
+					}
+
+					.admin-table-header h1 {
+						font-size: 1.1rem;
+					}
+
+					.admin-table-body p {
+						width: 100%;
+						padding: 5px 0;
+					}
+				}
+			`}</style>
 		</Layout>
 	);
 };
