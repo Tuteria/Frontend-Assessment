@@ -33,6 +33,6 @@ services:
     environment:
       DB_USER: test_db
       DB_PASS: test_db
-      DB_NAME: test_db
+      DB_NAME: test_db, app_test_db, test_db_dev,
     ports:
       - "5529:5432"

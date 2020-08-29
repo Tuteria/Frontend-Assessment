@@ -15,4 +15,13 @@ model notes {
   id          Int     @default(autoincrement()) @id
   title       String?
   description String?
+  username    String?
+}
+
+model users {
+  id       Int     @default(autoincrement()) @id
+  username String?
+  email    String?
+  bio      String?
+  password String?
 }

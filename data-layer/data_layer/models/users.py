@@ -8,6 +8,7 @@ class Users(Base):
     username = sql.Column(sql.String)
     email = sql.Column(sql.String)
     bio = sql.Column(sql.Text)
+    password = sql.Column(sql.Text)
 
     def __repr__(self):
         return f"<User (id={self.id}, username={self.username})>"
