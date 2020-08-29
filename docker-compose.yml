@@ -12,14 +12,17 @@ services:
       dockerfile: ops/Dockerfile-example
     ports:
       - "0.0.0.0:9007:3300"
+    depends_on:
+      - postgres
 
   app_test:
     build:
       context: .
       dockerfile: ops/Dockerfile-app
     ports:
-      - "0.0.0.0:9007:3000"
-    # command: uvicorn index:app
+      - "0.0.0.0:9008:3000"
+    depends_on:
+      - postgres
 
   postgres:
     image: sameersbn/postgresql:9.6-2
