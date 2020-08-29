@@ -48,4 +48,33 @@ Notes("Get endpoint works as expected", async (context) => {
 		});
 });
 
+Notes("Create endpoint works as expected", async (context) => {
+	const note = {
+		title: "Sample Update Note",
+		description: "This is a sample update note description",
+	};
+	// Creates the note
+	const response = await request(App)
+		.post("/notes/create")
+		.send(note)
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/);
+
+	assert.is(response.body.title, note.title);
+	assert.ok(response.body.id);
+
+	// Creates the note
+	const noteUpdate = {
+		title: "Sample Note Updated",
+		description: "Description updated",
+	};
+	const updateResponse = await request(App)
+		.put(`/notes/${response.body.id}`)
+		.send(noteUpdate)
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/);
+	assert.is(updateResponse.body.description, noteUpdate.description);
+	assert.is(updateResponse.body.title, noteUpdate.title);
+});
+
 Notes.run();

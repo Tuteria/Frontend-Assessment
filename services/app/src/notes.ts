@@ -13,13 +13,13 @@ router.post("/create", async (req, res) => {
 	res.status(200).json(result);
 });
 
+// GET /notes Fetching the list of anonymous notes created
 router.get("/", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const result = await prisma.notes.findMany();
 	res.status(200).json(result);
 });
 
-// GET /notes Fetching the list of anonymous notes created
 // PUT /notes/:note-id The ability to update a specific anonymous note
 // DELETE /notes/:note-id The ability to delete a specific anonymous note
 // POST /users/create Endpoint to create a user
