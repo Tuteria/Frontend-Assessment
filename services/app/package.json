@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "name": "@tuteria/app-service",
+  "scripts": {
+    "build": "tsc --module commonjs --outDir dist --declaration false",
+    "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
+    "start:dev": "cross-env NODE_ENV=development nodemon dist/app.js",
+    "test": "cross-env DATABASE_URL=postgresql://test_db:test_db@localhost:5529/test_db uvu -r ts-node/register tests",
+    "test:raw": "uvu -r ts-node/register",
+    "test:debug": "node --inspect ../../node_modules/uvu/bin.js -r ts-node/register tests",
+    "db:update": "cross-env DATABASE_URL=postgresql://test_db:test_db@localhost:5529/test_db prisma introspect",
+    "db:generate": "cross-env DATABASE_URL=postgresql://test_db:test_db@localhost:5529/test_db prisma generate",
+    "lint:src": "eslint src --ext .ts --config ../../.eslintrc",
+    "lint:types": "tsc --noEmit",
+    "lint": "npm-run-all lint:src lint:types"
+  }
+}

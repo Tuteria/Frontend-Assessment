@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model alembic_version {
+  version_num String @id
+}
+
+model notes {
+  id          Int     @default(autoincrement()) @id
+  title       String?
+  description String?
+}

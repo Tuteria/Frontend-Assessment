@@ -11,6 +11,13 @@ services:
       context: .
       dockerfile: ops/Dockerfile-example
     ports:
+      - "0.0.0.0:9007:3300"
+
+  app_test:
+    build:
+      context: .
+      dockerfile: ops/Dockerfile-app
+    ports:
       - "0.0.0.0:9007:3000"
     # command: uvicorn index:app
 
@@ -26,5 +33,3 @@ services:
       DB_NAME: test_db
     ports:
       - "5529:5432"
-
-  
