@@ -44,7 +44,7 @@ Notes("Get endpoint works as expected", async (context) => {
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/)
 		.then((response) => {
-			assert.instance(response.body, []);
+			assert.instance(response.body, Array);
 		});
 });
 
