@@ -7,6 +7,8 @@ WORKDIR /app
 ### BUILDER ###
 FROM base AS builder
 
+RUN ls -alh
+
 # Install production dependencies
 ADD server-package.json ./package.json
 COPY tsconfig.json service-tsconfig.json lerna.json yarn.lock ./
