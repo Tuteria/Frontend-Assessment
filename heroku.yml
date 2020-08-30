@@ -1,3 +1,11 @@
 build:
   docker:
     web: ops/Dockerfile-app
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+  config:
+    S3_BUCKET: my-example-bucket
+  config:
+    RAILS_ENV: development
+    FOO: bar
