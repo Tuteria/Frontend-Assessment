@@ -64,6 +64,16 @@ Users("Create endpoint works as expected", async (context) => {
 		});
 });
 
+Users("Get a single user by username works as expected", async (context) => {
+	await request(App)
+		.get(`/users/${userData.username}`)
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/)
+		.then((response) => {
+			assert.is(response.body.username, userData.username);
+		});
+});
+
 Users("Login endpoint works as expected", async (context) => {
 	await request(App)
 		.post("/users/login")
@@ -85,7 +95,8 @@ Users("Login endpoint works as expected", async (context) => {
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/)
 		.then((response) => {
-			console.log(response);
+			assert.ok(response.body.success);
+			assert.ok(response.body.token);
 		});
 });
 

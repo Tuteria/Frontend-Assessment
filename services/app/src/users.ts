@@ -36,9 +36,11 @@ router.post("/login", async (req, res, next) => {
 			return res.status(400).send("email and password are required");
 		}
 		//checks if email exists
-		const user = await prisma.users.findOne({
+		const result = await prisma.users.findMany({
 			where: { email },
 		});
+
+		const user = result[0];
 
 		if (!user) {
 			return res.send("user doesn't exists");
@@ -71,14 +73,16 @@ router.get("/:username", async (req, res, next) => {
 	try {
 		const { username } = req.params;
 		const prisma: PrismaClient = req.app.locals.prisma;
-		const result = await prisma.users.findOne({
+		const result = await prisma.users.findMany({
 			where: { username },
 		});
 
-		if (!result) {
+		const user = result[0];
+
+		if (!user) {
 			return res.status(404).send("user not found");
 		}
-		res.status(200).json(result);
+		res.status(200).json(user);
 	} catch (error) {
 		console.log(error);
 		next(error);
