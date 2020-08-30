@@ -12,8 +12,8 @@ async function populateDB(unit: Number = 0): Promise<Boolean> {
 	for (let i = 0; i < unit; i++) {
 		// Generate users
 		const user = {
-			username: faker.internet.userName(),
-			email: faker.internet.email(),
+			username: i + faker.internet.userName(),
+			email: i + faker.internet.email(),
 			password: faker.internet.password(),
 			bio: faker.lorem.sentence(),
 		};

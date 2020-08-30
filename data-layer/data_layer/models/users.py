@@ -5,8 +5,8 @@ import sqlalchemy as sql
 class Users(Base):
     __tablename__ = "users"
     id = sql.Column(sql.Integer, primary_key=True)
-    username = sql.Column(sql.String)
-    email = sql.Column(sql.String)
+    username = sql.Column(sql.String, unique=True, index=True)
+    email = sql.Column(sql.String, unique=True, index=True)
     bio = sql.Column(sql.Text)
     password = sql.Column(sql.Text)
 
