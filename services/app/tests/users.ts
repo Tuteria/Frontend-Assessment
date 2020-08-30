@@ -64,6 +64,31 @@ Users("Create endpoint works as expected", async (context) => {
 		});
 });
 
+Users("Login endpoint works as expected", async (context) => {
+	await request(App)
+		.post("/users/login")
+		.send({
+			username: "usernamet",
+			bio: "This is a sample description",
+			email: "testt@email.com",
+			password: "password",
+		})
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/);
+
+	await request(App)
+		.post("/users/login")
+		.send({
+			email: "testt@email.com",
+			password: "password",
+		})
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/)
+		.then((response) => {
+			console.log(response);
+		});
+});
+
 Users("Get endpoint works as expected", async (context) => {
 	const note = {
 		title: "Sample Update Note",
