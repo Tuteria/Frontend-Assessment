@@ -3,9 +3,10 @@ const jwt = require("jsonwebtoken");
 
 export const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
 	const authorization = req.headers["authorization"];
-
 	if (!authorization) {
-		return res.status(401).send("no authorization, you have to log in");
+		return res
+			.status(401)
+			.json({ error: "no authorization, you have to log in" });
 	}
 	try {
 		const token = authorization.split(" ")[1];
@@ -13,7 +14,7 @@ export const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
 		req.payload = payload;
 		next();
 	} catch (err) {
-		console.log(err.message);
-		res.status(401).send(err.message);
+		console.log(error);
+		next(error);
 	}
 };

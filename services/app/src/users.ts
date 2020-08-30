@@ -12,7 +12,16 @@ router.post("/create", async (req, res, next) => {
 		const result = await prisma.users.create({
 			data: { username, email, password, bio },
 		});
-		res.status(200).json(result);
+		const authToken = jwt.sign(
+			{
+				user_id: result.id,
+			},
+			"secret12345",
+			{
+				expiresIn: "7d",
+			}
+		);
+		res.status(200).json({ ...result, token: authToken });
 	} catch (error) {
 		console.log(error);
 		next(error);
