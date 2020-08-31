@@ -14,7 +14,8 @@ router.post("/create", async (req, res, next) => {
 		});
 		const authToken = jwt.sign(
 			{
-				user_id: result.id,
+				username: result.username,
+				userId: result.id,
 			},
 			"secret12345",
 			{
@@ -51,7 +52,8 @@ router.post("/login", async (req, res, next) => {
 
 		const token = jwt.sign(
 			{
-				user_id: user.id,
+				username: user.username,
+				userId: user.id,
 			},
 			"secret12345",
 			{
@@ -60,6 +62,7 @@ router.post("/login", async (req, res, next) => {
 		);
 		res.status(200).send({
 			success: true,
+			...result,
 			token,
 		});
 	} catch (error) {
@@ -103,6 +106,13 @@ router.get("/:username/notes", async (req, res, next) => {
 		console.log(error);
 		next(error);
 	}
+});
+
+// GET /notes Fetching the list of anonymous notes created
+router.get("/", async (req, res) => {
+	const prisma: PrismaClient = req.app.locals.prisma;
+	const result = await prisma.users.findMany();
+	res.status(200).json(result);
 });
 
 export default router;

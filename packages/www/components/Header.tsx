@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import { Button } from "@chakra-ui/core";
 import { useRouter } from "next/router";
+import cookies from "react-cookies";
 
 export const Header = () => {
 	const router = useRouter();
-	const [userId, setUserId] = useState();
+	const [username, setUsername] = useState();
 	useEffect(() => {
 		try {
-			const token = jwtDecode(localStorage.getItem("tuteria"));
+			const token = jwtDecode(cookies.load("authToken"));
 			if (token) {
-				setUserId(token.user_id);
+				setUsername(token.username);
 			}
 		} catch (error) {
 			console.log(error.message);
@@ -34,22 +35,25 @@ export const Header = () => {
 					</div>
 					<div
 						className="user-notes"
-						style={{ display: userId ? "block" : "none" }}
+						style={{ display: username ? "block" : "none" }}
 					>
-						<Link href={`/user/${userId}`}>
+						<Link href={`/user/${username}`}>
 							<a>My Notes</a>
 						</Link>
 					</div>
 					<div
 						className="signup"
-						style={{ display: userId ? "none" : "block" }}
+						style={{ display: username ? "none" : "block" }}
 					>
 						<Link href="/signup">
 							<a>Sign Up</a>
 						</Link>
 					</div>
 
-					<div className="login" style={{ display: userId ? "none" : "block" }}>
+					<div
+						className="login"
+						style={{ display: username ? "none" : "block" }}
+					>
 						<Link href="/login">
 							<a>Log In</a>
 						</Link>
@@ -57,7 +61,7 @@ export const Header = () => {
 
 					<div
 						className="logout"
-						style={{ display: userId ? "block" : "none" }}
+						style={{ display: username ? "block" : "none" }}
 					>
 						<Button
 							variantColor="blue"

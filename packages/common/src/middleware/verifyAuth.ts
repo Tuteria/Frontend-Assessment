@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from "express";
 const jwt = require("jsonwebtoken");
 
-export const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
+export const verifyAuth = (req: any, res: any, next: any) => {
 	const authorization = req.headers["authorization"];
 	if (!authorization) {
 		return res
@@ -13,7 +12,7 @@ export const verifyAuth = (req: Request, res: Response, next: NextFunction) => {
 		const payload = jwt.verify(token, "secret12345");
 		req.payload = payload;
 		next();
-	} catch (err) {
+	} catch (error) {
 		console.log(error);
 		next(error);
 	}

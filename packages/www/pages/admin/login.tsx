@@ -7,69 +7,57 @@ import {
 	InputGroup,
 	InputRightElement,
 } from "@chakra-ui/core";
-import axios from "axios";
-import { host } from "../config.json";
-import Layout from "../components/Layout";
-import cookies from "react-cookies";
+import Layout from "../../components/Layout";
 import { useRouter } from "next/router";
+import { adminToken } from "../../config.json";
+import cookies from "react-cookies";
 
-export const Signup = () => {
+export const AdminLogin = () => {
 	const router = useRouter();
 	const [email, setEmail] = useState("");
-	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
 	const [loading, setloading] = useState(false);
 	const [show, setshow] = useState(false);
 
-	useEffect(() => {
-		if (error) {
-			setTimeout(() => {
-				setError("");
-			}, 7000);
-		}
-	}, [error]);
-
 	async function handleSubmit(e: any) {
 		e.preventDefault();
-		const payload = {
-			email,
-			password,
-			username,
-		};
+
 		setError("");
 		setSuccess("");
+
 		try {
 			setloading(true);
-			const res = await axios.post(`${host}/users/create`, payload);
-			if (res.data) {
+			if (email === "admin@mail.com" && password === "admintuteria") {
+				cookies.save("isAdmin", true);
+				cookies.save("isAdminToken", adminToken);
 				setEmail("");
 				setPassword("");
-				setUsername("");
 				setloading(false);
-				cookies.save("currentUser", res.data);
-				cookies.save("authToken", res.data.token);
-				setSuccess("Sign Up successful!");
-				router.push(`/notes/${res.data.username}`);
+				setSuccess("login successful!");
+				router.push("/admin");
 				return;
 			}
 			setloading(false);
+			setError("wrong credentials");
 		} catch (error) {
 			console.log(error.message);
 			setloading(false);
-			setError("an Error occurred, check your internet connection");
 		}
 	}
 	return (
 		<Layout>
 			<form onSubmit={handleSubmit}>
 				<br />
+				<h1>Admin Login</h1>
 				<FormControl isRequired>
 					<h3 style={{ color: "red" }}>{error}</h3>
 					<h3 style={{ color: "green" }}>{success}</h3>
+
 					<FormLabel htmlFor="email">Email address</FormLabel>
 					<br />
+
 					<Input
 						type="email"
 						id="email"
@@ -77,17 +65,6 @@ export const Signup = () => {
 						placeholder="Enter Your Email"
 						onChange={(e: any) => {
 							setEmail(e.target.value);
-						}}
-					/>
-					<FormLabel htmlFor="username">Username</FormLabel>
-					<br />
-					<Input
-						type="text"
-						id="username"
-						value={username}
-						placeholder="Enter Your Username"
-						onChange={(e: any) => {
-							setUsername(e.target.value);
 						}}
 					/>
 					<FormLabel htmlFor="password">Password</FormLabel>
@@ -141,4 +118,4 @@ export const Signup = () => {
 	);
 };
 
-export default Signup;
+export default AdminLogin;

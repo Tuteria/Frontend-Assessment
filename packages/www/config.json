@@ -1,3 +1,4 @@
 {
-  "host": "http://localhost:9008"
+  "host": "http://localhost:9008",
+  "adminToken": "wonder_do_you_miss_me_when_i_am_busy_on_the_road"
 }

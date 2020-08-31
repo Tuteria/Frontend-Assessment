@@ -17,4 +17,15 @@ app.use(httpLogger);
 app.use("/notes", notes);
 app.use("/users", users);
 
+app.use((error: any, req: any, res: any, next: any) => {
+	if (error) {
+		return res
+			.status(error.status || 500)
+			.json({
+				error: error.message || "Something bad happened",
+				stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
+			});
+	}
+});
+
 export default app;

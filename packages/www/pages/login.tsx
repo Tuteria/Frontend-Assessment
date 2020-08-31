@@ -10,13 +10,12 @@ import {
 import axios from "axios";
 import { host } from "../config.json";
 import Layout from "../components/Layout";
-import cookies from "react-cookies";
 import { useRouter } from "next/router";
+import cookies from "react-cookies";
 
-export const Signup = () => {
+export const Login = () => {
 	const router = useRouter();
 	const [email, setEmail] = useState("");
-	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
@@ -36,25 +35,26 @@ export const Signup = () => {
 		const payload = {
 			email,
 			password,
-			username,
 		};
 		setError("");
 		setSuccess("");
+
 		try {
 			setloading(true);
-			const res = await axios.post(`${host}/users/create`, payload);
-			if (res.data) {
+			const res = await axios.post(`${host}/users/login`, payload);
+
+			if (res.data.token) {
 				setEmail("");
 				setPassword("");
-				setUsername("");
 				setloading(false);
-				cookies.save("currentUser", res.data);
+				setSuccess("login successful!");
 				cookies.save("authToken", res.data.token);
-				setSuccess("Sign Up successful!");
-				router.push(`/notes/${res.data.username}`);
+				console.log(res.data);
+				// router.push(`/user/${res.data.username}/notes`);
 				return;
 			}
 			setloading(false);
+			setError(res.data);
 		} catch (error) {
 			console.log(error.message);
 			setloading(false);
@@ -65,11 +65,14 @@ export const Signup = () => {
 		<Layout>
 			<form onSubmit={handleSubmit}>
 				<br />
+				<h1>Login</h1>
 				<FormControl isRequired>
 					<h3 style={{ color: "red" }}>{error}</h3>
 					<h3 style={{ color: "green" }}>{success}</h3>
+
 					<FormLabel htmlFor="email">Email address</FormLabel>
 					<br />
+
 					<Input
 						type="email"
 						id="email"
@@ -77,17 +80,6 @@ export const Signup = () => {
 						placeholder="Enter Your Email"
 						onChange={(e: any) => {
 							setEmail(e.target.value);
-						}}
-					/>
-					<FormLabel htmlFor="username">Username</FormLabel>
-					<br />
-					<Input
-						type="text"
-						id="username"
-						value={username}
-						placeholder="Enter Your Username"
-						onChange={(e: any) => {
-							setUsername(e.target.value);
 						}}
 					/>
 					<FormLabel htmlFor="password">Password</FormLabel>
@@ -141,4 +133,4 @@ export const Signup = () => {
 	);
 };
 
-export default Signup;
+export default Login;
