@@ -49,8 +49,8 @@ export const Login = () => {
 				setloading(false);
 				setSuccess("login successful!");
 				cookies.save("authToken", res.data.token);
-				console.log(res.data);
-				// router.push(`/user/${res.data.username}/notes`);
+				cookies.save("currentUser", res.data[0] || res.data);
+				router.push(`/user/${(res.data[0] || res.data).username}/notes`);
 				return;
 			}
 			setloading(false);

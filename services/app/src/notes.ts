@@ -21,6 +21,15 @@ router.get("/", async (req, res) => {
 	res.status(200).json(result);
 });
 
+// GET /notes Fetching the list of anonymous notes created
+router.get("/:nodeId", async (req, res) => {
+	const prisma: PrismaClient = req.app.locals.prisma;
+	const result = await prisma.notes.findOne({
+		where: { id: parseInt(req.params.nodeId) },
+	});
+	res.status(200).json(result);
+});
+
 // PUT /notes/:note-id The ability to update a specific anonymous note
 router.put("/:nodeId", verifyAuth, async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;

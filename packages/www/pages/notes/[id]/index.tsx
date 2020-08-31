@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useToast } from "@chakra-ui/core";
 import axios from "axios";
-import Layout from "./../../components/Layout";
-import { host } from "../../config.json";
+import Layout from "./../../../components/Layout";
+import { host } from "../../../config.json";
 
-import { Inotes } from "../index";
+import { Inotes } from "../../index";
 import { useRouter } from "next/router";
 
 interface Iprops {

@@ -7,6 +7,7 @@ import Link from "next/link";
 import jwtDecode from "jwt-decode";
 import { Iprops } from "../../index";
 import { useRouter } from "next/router";
+import cookies from "react-cookies";
 
 export async function getServerSideProps({ params }) {
 	try {
@@ -26,7 +27,7 @@ export async function getServerSideProps({ params }) {
 	}
 }
 
-export const User = ({ notes, error }: Iprops) => {
+export const User = ({ notes, error, authToken, currentUser }) => {
 	const toast = useToast();
 	const router = useRouter();
 	const [user, setUser] = useState<{
@@ -41,7 +42,7 @@ export const User = ({ notes, error }: Iprops) => {
 			getUser();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [notes.length]);
 
 	//gets user email
 	async function getUser() {
@@ -53,23 +54,19 @@ export const User = ({ notes, error }: Iprops) => {
 		}
 	}
 
-	//gets logged in user
-	const [userId, setUserId] = useState();
-	useEffect(() => {
-		try {
-			const token = jwtDecode(localStorage.getItem("tuteria"));
-			if (token) {
-				setUserId(token.user_id);
-			}
-		} catch (error) {
-			console.log(error.message);
-		}
-	}, []);
-
 	async function handleDelete(id: number) {
 		if (window.confirm("Are you sure you want to Delete this note?")) {
 			try {
-				const res = await axios.delete(`${host}/notes/${id}`);
+				const instance = axios.create({
+					withCredentials: true,
+				});
+				const config = {
+					headers: {
+						"Content-Type": "application/json",
+						authorization: `bearer ${authToken}`,
+					},
+				};
+				const res = await instance.delete(`${host}/notes/${id}`, config);
 				if (res.data) {
 					router.reload();
 				}
@@ -80,8 +77,7 @@ export const User = ({ notes, error }: Iprops) => {
 	}
 
 	if (typeof window === "object") {
-		if (!localStorage.getItem("tuteria"))
-			return "redirecting, please sign in...";
+		if (!cookies.load("authToken")) return "redirecting, please sign in...";
 	}
 	return (
 		<Layout>
@@ -108,41 +104,48 @@ export const User = ({ notes, error }: Iprops) => {
 
 			<main>
 				{user && <div>Notes for user: {user.email}</div>}
-				{notes &&
-					notes.map((d) => (
-						<div className="user_notes" key={d.id}>
-							<p>
-								<Link href={`/note/${d.id}`} as={`/note/${d.id}`}>
-									<a>{d.title}</a>
-								</Link>
-							</p>
-							<Button
-								style={{
-									display: user && user.id === userId ? "flex" : "none",
-								}}
-								size="sm"
-								variantColor="red"
-								marginLeft="5"
-								marginRight="5"
-								onClick={() => {
-									handleDelete(d.id);
-								}}
-							>
-								Delete
-							</Button>
-							<Button
-								size="sm"
-								variantColor="blue"
-								style={{
-									display: user && user.id === userId ? "flex" : "none",
-								}}
-							>
-								<Link href={`/note/update/${d.id}`} as={`/note/update/${d.id}`}>
-									<a>Update</a>
-								</Link>
-							</Button>
-						</div>
-					))}
+				<div>
+					{notes &&
+						notes.map((d) => (
+							<div className="user_notes" key={d.id}>
+								<p className="user_note">
+									<Link href={`/notes/${d.id}`} key={d.id}>
+										<a className="note-item">
+											<p>{d.title}</p>
+
+											<div className="note-meta">
+												<small className="note-item-username">
+													{d.username}
+												</small>
+												{user && user.id === currentUser.id ? (
+													<>
+														<small>
+															<a
+																className="delete-note"
+																onClick={() => {
+																	handleDelete(d.id);
+																}}
+															>
+																Delete
+															</a>
+														</small>
+														<Link
+															href={`/notes/${d.id}/update`}
+															as={`/notes/${d.id}/update`}
+														>
+															<a className="update-note">
+																<small>Update</small>
+															</a>
+														</Link>{" "}
+													</>
+												) : null}
+											</div>
+										</a>
+									</Link>
+								</p>
+							</div>
+						))}
+				</div>
 			</main>
 
 			<style jsx>{`
@@ -150,35 +153,65 @@ export const User = ({ notes, error }: Iprops) => {
 					margin: auto;
 					width: 80%;
 				}
-				main div:first-child {
-					margin-bottom: 10px;
+				.note-meta {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
 				}
-				main p {
+				.note-item-username,
+				.delete-note,
+				.update-note {
+					display: block;
+					font-style: italic;
+					font-weight: normal;
+					text-decoration: underline;
+				}
+				.delete-note,
+				.update-note {
+					align-self: flex-end;
+				}
+				.delete-note {
+					color: red;
+				}
+
+				.update-note {
+					color: green;
+				}
+				.note-item {
 					cursor: pointer;
-					color: #333;
-					background: lightblue;
-					padding: 5px;
+					display: block;
+					padding: 1rem;
+					background: lightgray;
+					border-radius: 10px;
+					padding: 10px;
 					border: 1px solid var(--softgrey);
 					border-radius: 5px;
-					width: 100%;
-				}
-				main p:hover {
-					transform: scale(1.01);
+					margin: 10px 0;
 					transition: ease 0.2s;
+				}
+				.note-item:hover {
+					transform: scale(1.01);
+					background: var(--softgrey);
 				}
 				main div {
 					font-weight: bold;
-				}
-				.user_notes {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					margin-bottom: 5px;
 				}
 				@media only screen and (min-width: 700px) {
 					main {
 						margin: auto;
 						width: 60%;
+						display: grid;
+						justify-content: stretch;
+						align-content: stretch;
+						grid-gap: 1rem;
+						grid-template-columns: repeat(4, 1fr);
+						grid-auto-rows: max-content;
+					}
+					.note-item {
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						height: 100%;
 					}
 				}
 			`}</style>

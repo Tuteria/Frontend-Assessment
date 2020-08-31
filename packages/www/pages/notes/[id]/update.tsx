@@ -20,6 +20,7 @@ interface Iprops {
 
 export async function getServerSideProps({ params }) {
 	try {
+		console.log(params);
 		const res = await axios.get(`${host}/notes/${params.id}`);
 		const data = res.data;
 		return {
@@ -76,7 +77,7 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				authorization: `bearer ${localStorage.getItem("tuteria")}`,
+				authorization: `bearer ${authToken}`,
 			},
 		};
 
@@ -92,7 +93,6 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 			if (res.data) {
 				setLoading(false);
 				setcustomMsg("Note successfully updated!");
-				router.push(`/note/${data.id}`);
 			}
 		} catch (err) {
 			setLoading(false);

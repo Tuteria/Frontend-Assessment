@@ -37,7 +37,7 @@ export const Header = () => {
 						className="user-notes"
 						style={{ display: username ? "block" : "none" }}
 					>
-						<Link href={`/user/${username}`}>
+						<Link href={`/user/${username}/notes`}>
 							<a>My Notes</a>
 						</Link>
 					</div>
@@ -68,8 +68,8 @@ export const Header = () => {
 							size="sm"
 							onClick={() => {
 								if (window.confirm("Are you sure you want to LogOut?")) {
-									localStorage.removeItem("tuteria");
-									router.push("/login");
+									cookies.remove("authToken");
+									setTimeout(() => router.push("/login"), 200);
 								}
 							}}
 						>

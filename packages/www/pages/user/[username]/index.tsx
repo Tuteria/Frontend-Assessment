@@ -137,7 +137,10 @@ export const User = ({ notes, error }: Iprops) => {
 									display: user && user.id === userId ? "flex" : "none",
 								}}
 							>
-								<Link href={`/note/update/${d.id}`} as={`/note/update/${d.id}`}>
+								<Link
+									href={`/notes/${d.id}/update`}
+									as={`/notes/${d.id}/update`}
+								>
 									<a>Update</a>
 								</Link>
 							</Button>
