@@ -8,6 +8,6 @@
     },
     "include": ["tests/**/*"]
   },
-  "include": ["@types", "src"],
+  "include": ["@types", "src","../../node_modules/@tuteria/common"],
   "exclude": ["tests"]
 }
