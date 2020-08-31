@@ -17,14 +17,14 @@ All the very best!
 ### Taking and submitting the assessment
 
 1. Clone the repository and provide your implementation to the tasks there.
-2. When done, submit a pull request of your implementation to the base repository. 
+2. When done, submit a pull request of your implementation to the base repository.
 
-    ***Bonus Points:*** If you make use of the [changesets](https://github.com/atlassian/changesets) when creating the PR and also provide a live link of the hosted application.
+   **_Bonus Points:_** If you make use of the [changesets](https://github.com/atlassian/changesets) when creating the PR and also provide a live link of the hosted application.
 
 3. These tasks require using [TypeScript](https://www.typescriptlang.org/).
 4. To ensure consistent commit messages, visit [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit conventions.
-5. If you have any questions, please reach out to me on Telegram [@Beee_sama](https://t.me/Beee_sama) or send an email to [biola@tuteria.com](mailto:biola@tuteria.com)
-
+5. We recommend you complete this assessment **within 4 days** from when you fork the project
+6. If you have any questions, please reach out to me on Telegram [@Beee_sama](https://t.me/Beee_sama) or send an email to [biola@tuteria.com](mailto:biola@tuteria.com)
 
 ### The assessment
 
@@ -47,7 +47,7 @@ The first task is to ensure that all tests pass when you run `yarn test` from 
 3. Run `poetry run alembic upgrade head` to apply the migration to the database.
 4. Navigate back to the root of the project and run `yarn service:example db:update` to create [Prisma](https://www.prisma.io/docs/) model schema
 5. Run `yarn service:example db:generate` to generate [Prisma](https://www.prisma.io/docs/) definitions that would be used in the project.
-6. Finally run `yarn service:example test`. All the tests located in `services/example/tests` should pass. 
+6. Finally run `yarn service:example test`. All the tests located in `services/example/tests` should pass.
 
 **You get bonus points if:**
 
@@ -55,7 +55,7 @@ Instead of using `sqlite` as the database of choice, make use of [PostgreSQL]
 
 i. The `data-layer` python project
 
-ii. The `services/example/prisma` settings. 
+ii. The `services/example/prisma` settings.
 
 You may need to go through the Prisma documentation to figure out how to switch from `sqlite` to `postgresql`.
 
