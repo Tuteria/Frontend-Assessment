@@ -75,6 +75,7 @@
   },
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",
+    "faker": "^5.1.0",
     "@changesets/cli": "^2.9.2",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",

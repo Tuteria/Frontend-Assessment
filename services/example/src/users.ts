@@ -1,14 +1,14 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from ".prisma/client";
 import { Router } from "express";
 
 const router = Router();
 
 router.post("/create", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
-	const { username } = req.body;
+	const { username, email, password, about } = req.body;
 	try {
 		const newUser = await prisma.users.create({
-			data: { username },
+			data: { username, email, password, about },
 		});
 		res.status(200).json(newUser);
 	} catch (err) {

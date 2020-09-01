@@ -21,4 +21,7 @@ model notes {
 model users {
   id       Int     @default(autoincrement()) @id
   username String?
+  password String?
+  email    String?
+  about    String?
 }
