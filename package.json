@@ -65,6 +65,7 @@
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.5",
     "eslint-plugin-testing-library": "^3.3.1",
+    "faker": "^5.1.0",
     "hard-rejection": "^2.1.0",
     "husky": "^4.2.5",
     "lerna": "^3.20.2",
@@ -89,7 +90,6 @@
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
     "express": "^4.17.1",
-    "faker": "^5.1.0",
     "json-groupby": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
@@ -102,7 +102,6 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "typescript": "3.9.6",
-    "winston": "^3.3.3",
-    "yup": "^0.29.3"
+    "winston": "^3.3.3"
   }
 }
