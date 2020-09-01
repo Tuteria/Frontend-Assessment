@@ -27,9 +27,9 @@
     "clean": "lerna clean --yes && rm -rf node_modules",
     "test": "lerna run test",
     "service:common": "yarn workspace @tuteria/common",
-    "service:example": "yarn workspace @tuteria/example-service",
-    "service:app": "yarn workspace @tuteria/app-service",
-    "db:generate-all": "yarn service:example db:generate"
+    "service:example": "./startup.sh && yarn workspace @tuteria/example-service",
+    "service:app": "./startup.sh && yarn workspace @tuteria/app-service",
+    "db:generate-all": "./startup.sh && yarn service:example db:generate"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
