@@ -1,0 +1,8 @@
+build:
+  docker:
+    web: ops/Dockerfile-app
+  config:
+    S3_BUCKET: my-example-bucket
+  config:
+    RAILS_ENV: development
+    FOO: bar

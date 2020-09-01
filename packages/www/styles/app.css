@@ -1,0 +1,22 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+/* globals  */
+:root {
+	--softgrey: rgba(32, 33, 36, 0.28);
+	/* --boxshadow: 0 1px 6px 0 */
+}
+
+li {
+	list-style: none;
+}
+
+.spinner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 90vh;
+}
