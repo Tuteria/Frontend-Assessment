@@ -21,14 +21,12 @@ router.post("/create", async (req, res) => {
 router.get("/:username/notes", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username } = req.params;
-	console.log("This is the username id", username);
 	try {
 		const foundNotes = await prisma.notes.findMany({
 			where: { author_id: Number(username) },
 		});
 		res.status(200).json(foundNotes);
 	} catch (err) {
-		console.log("there's an err", err);
 		res.status(200).json({
 			error: err.message || "Something Went Wrong",
 		});
