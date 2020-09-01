@@ -22,6 +22,7 @@ const userCreator = (): IUserCreator => {
 		password: "drowssap001",
 	};
 };
+
 const noteCreator = (arg: number): INoteCreator => {
 	const boolean = Math.round(Math.random() * 1) > 0.05;
 	return {
@@ -38,7 +39,9 @@ const populator = async (amt: populatorArg = [10, 10]) => {
 		console.log("started populating db");
 		const prisma = new PrismaClient();
 		await prisma.users.deleteMany({});
+		console.log("compeleted deleting user");
 		await prisma.notes.deleteMany({});
+		console.log("compeleted deleting notes");
 
 		const newUser = [];
 		for (let i = 0; i < amt[0]; i++) {

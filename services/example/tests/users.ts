@@ -19,23 +19,28 @@ const testUser = {
 
 const jwtToken: string = null;
 
-// Users.before(async context => {
-//   try{
-//     context.prisma = new PrismaClient()
-//     App.locals.prisma = context.prisma;
-//     await context.prisma.$queryRaw("DELETE from notes")
-//     await context.prisma.$queryRaw("DELETE from users")
+Users.before(async (context) => {
+	try {
+		context.prisma = new PrismaClient();
+		App.locals.prisma = context.prisma;
+		await context.prisma.$queryRaw("DELETE from notes");
+		await context.prisma.$queryRaw("DELETE from users");
 
-//     await request(App).post("/users/create")
-//                       .send(testUser)
-//                       .set("Accept",'application/json')
-//                       .expect("Content-Type",/json/).then(response => {
-//                         jwtToken = response.body.token
-//                       })
-//   }catch(err){
-//     console.log(err)
-//   }
-// })
+		await request(App)
+			.post("/users/create")
+			.send(testUser)
+			.set("Accept", "application/json")
+			.expect("Content-Type", /json/)
+			.then((response) => {
+				console.log(response.body);
+				assert.is(testUser.id, response.body.id);
+				assert.is(testUser.username, response.body.username);
+				assert.is(testUser.email, response.body.email);
+			});
+	} catch (err) {
+		console.log(err);
+	}
+});
 
 Users.after(async (context) => {
 	await context.prisma.$queryRaw("DELETE from notes");
@@ -82,7 +87,7 @@ Users("Create note to a specific User", async (context) => {
 		.expect("Content-Type", /json/)
 		.then(async (response) => {
 			await request(App)
-				.get(`/users/${testUser.username}/notes`)
+				.get(`/users/${testUser.id}/notes`)
 				.set("Accept", "application/json")
 				.set("Authorization", `Bearer ${jwtToken}`)
 				.expect("Content-Type", /json/)
@@ -94,4 +99,4 @@ Users("Create note to a specific User", async (context) => {
 		});
 });
 
-Users("All Notes of a single user", async (context) => {});
+Users.run();

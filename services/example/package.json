@@ -13,12 +13,5 @@
     "lint:src": "eslint src --ext .ts --config ../../.eslintrc",
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types"
-  },
-  "devDependencies": {
-    "@prisma/cli": "^2.5.1",
-    "@types/faker": "^4.1.12"
-  },
-  "dependencies": {
-    "@prisma/client": "^2.5.1"
   }
 }

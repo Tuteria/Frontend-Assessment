@@ -13,7 +13,7 @@ Notes.before(async (context) => {
 	// context.prisma = await beforeCallback();
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
-	await context.prisma.queryRaw("DELETE from notes;");
+	await context.prisma.$queryRaw("DELETE from notes;");
 });
 
 Notes.after(async (context) => {
@@ -43,11 +43,8 @@ Notes("Get all notes without author_id", async (context) => {
 		.get("/notes")
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/);
-	// .set("Authorization",`Bearer ${jwtToken}`)
-	// const isTrue = noAuthorId.some(note => {
-	//   note.author_id !== null
-	// })
-	// assert.is(isTrue,true)
+	const isTrue = noAuthorId.body.every((note) => note.author_id === null);
+	assert.is(isTrue, true);
 });
 
 Notes("Update notes", async (context) => {
@@ -64,17 +61,13 @@ Notes("Update notes", async (context) => {
 		.post("/notes/create")
 		.send(newNote)
 		.set("Accept", `application/json`)
-		// .set("Authorization",`Bearer ${jwtToken}`)
 		.expect("Content-Type", /json/)
 		.then((data) => {
-			return (
-				request(App)
-					.put(`/notes/${data.body.id}`)
-					.send(updatedNote)
-					.set("Accept", "application/json")
-					// .set("Authorization",`Bearer ${jwtToken}`)
-					.expect("Content-Type", /json/)
-			);
+			return request(App)
+				.put(`/notes/${data.body.id}`)
+				.send(updatedNote)
+				.set("Accept", "application/json")
+				.expect("Content-Type", /json/);
 		});
 	assert.is(response.body.description, updatedNote.description);
 	assert.is(response.body.title, updatedNote.title);
@@ -90,16 +83,12 @@ Notes("Delete notes", async (context) => {
 		.post("/notes/create")
 		.send(newNote)
 		.set("Accept", `application/json`)
-		// .set("Authorization",`Bearer ${jwtToken}`)
 		.expect("Content-Type", /json/)
 		.then((data) => {
-			return (
-				request(App)
-					.delete(`/notes/${data.body.id}`)
-					.set("Accept", "application/json")
-					// .set("Authorization",`Bearer ${jwtToken}`)
-					.expect("Content-Type", /json/)
-			);
+			return request(App)
+				.delete(`/notes/${data.body.id}`)
+				.set("Accept", "application/json")
+				.expect("Content-Type", /json/);
 		});
 
 	assert.is(response.body.description, newNote.description);

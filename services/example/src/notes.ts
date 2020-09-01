@@ -14,8 +14,8 @@ router.post("/create", async (req, res) => {
 				...(author_id && { author_id: Number(author_id) }),
 			},
 		});
-		const foundPost = await prisma.notes.findMany();
-		res.status(200).json(foundPost);
+		// const foundPost = await prisma.notes.findMany();
+		res.status(200).json(result);
 	} catch (err) {
 		return res.status(401).json({
 			error: err.message || "Something went wrong",
@@ -34,6 +34,7 @@ router.put("/:noteId", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const noteId = Number(req.params.noteId);
 	const { title, description } = req.body;
+	console.log("This is the noteId", noteId);
 	let foundNotes = await prisma.notes.findOne({ where: { id: noteId } });
 	try {
 		if (foundNotes) {
@@ -58,7 +59,7 @@ router.delete("/:noteId", async (req, res) => {
 	try {
 		const prisma: PrismaClient = req.app.locals.prisma;
 		const deletedNote = await prisma.notes.delete({
-			where: { id: noteId },
+			where: { id: Number(noteId) },
 		});
 		res.status(200).json(deletedNote);
 	} catch (err) {
