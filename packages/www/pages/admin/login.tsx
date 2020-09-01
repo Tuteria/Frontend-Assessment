@@ -51,6 +51,14 @@ export const AdminLogin = () => {
 			<form onSubmit={handleSubmit}>
 				<br />
 				<h1>Admin Login</h1>
+				<div className="details-container">
+					<p>
+						Email: <strong>admin@mail.com</strong>
+					</p>
+					<p>
+						Password <strong>admintuteria</strong>
+					</p>
+				</div>
 				<FormControl isRequired>
 					<h3 style={{ color: "red" }}>{error}</h3>
 					<h3 style={{ color: "green" }}>{success}</h3>
@@ -106,6 +114,14 @@ export const AdminLogin = () => {
 				form {
 					margin: auto;
 					width: 80%;
+				}
+				.details-container {
+					margin-bottom: 1rem;
+				}
+				h1 {
+					font-size: 2rem;
+					font-weight: bold;
+					margin-bottom: 1rem;
 				}
 				@media only screen and (min-width: 700px) {
 					form {

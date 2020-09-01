@@ -27,7 +27,7 @@ MyApp.getInitialProps = async function (context) {
 		context.ctx
 	);
 
-	if (["admin", "/user/[username]", "/notes/create"].includes(pathname)) {
+	if (["/admin", "/user/[username]", "/notes/create"].includes(pathname)) {
 		const isLoginPath = ["/login", "/admin/login"].includes(pathname);
 		const adminAuthorized = isAdmin && isAdminToken === adminToken;
 		const isUserAuthRoutes: boolean = [
