@@ -8,6 +8,7 @@
     },
     "include": ["tests/**/*"]
   },
+  "skipLibCheck": true,
   "include": ["@types", "src"],
   "exclude": ["tests"]
 }
