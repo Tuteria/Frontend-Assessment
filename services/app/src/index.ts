@@ -14,16 +14,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(httpLogger);
-app.use("/notes", notes);
-app.use("/users", users);
-
-app.use((error: any, req: any, res: any, next: any) => {
-	if (error) {
-		return res.status(error.status || 500).json({
-			error: error.message || "Something bad happened",
-			stack: process.env.NODE_ENV === "development" ? error.stack : undefined,
-		});
-	}
-});
+app.use("/api/notes", notes);
+app.use("/api/users", users);
 
 export default app;

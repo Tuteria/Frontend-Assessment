@@ -58,8 +58,11 @@
     "dotenv": "^8.2.0",
     "faker": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
+    "next": "9.5.2",
     "nodemon": "^2.0.4",
     "express": "^4.17.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "typescript": "3.9.6",
     "morgan": "^1.10.0",
     "winston": "^3.3.3"

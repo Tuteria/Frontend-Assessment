@@ -37,23 +37,6 @@ export const User = ({ notes, error, authToken, currentUser }) => {
 		bio: string;
 	}>();
 
-	useEffect(() => {
-		if (notes && notes.length > 0) {
-			getUser();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [notes.length]);
-
-	//gets user email
-	async function getUser() {
-		try {
-			const res = await axios.get(`${host}/users/${notes[0]?.username}`);
-			setUser(res.data);
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
 	async function handleDelete(id: number) {
 		if (window.confirm("Are you sure you want to Delete this note?")) {
 			try {
@@ -76,9 +59,6 @@ export const User = ({ notes, error, authToken, currentUser }) => {
 		}
 	}
 
-	if (typeof window === "object") {
-		if (!cookies.load("authToken")) return "redirecting, please sign in...";
-	}
 	return (
 		<Layout>
 			<>

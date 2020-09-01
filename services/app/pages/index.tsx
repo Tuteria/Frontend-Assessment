@@ -62,7 +62,7 @@ export const Home = ({ notes, error }: Iprops) => {
 			<main>
 				{notes &&
 					notes.map((d) => (
-						<Link href={`/note/${d.id}`} key={d.id}>
+						<Link href={`/notes/${d.id}`} key={d.id}>
 							<a className="note-item">
 								<p>{d.title}</p>
 								<small className="note-item-username">{d.username}</small>

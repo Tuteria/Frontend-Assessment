@@ -6,8 +6,26 @@
       "module": "commonjs",
       "sourceMap": true
     },
-    "include": ["tests/**/*"]
+    "include": [
+      "tests/**/*"
+    ]
   },
-  "include": ["@types", "src"],
-  "exclude": ["tests"]
+  "include": [
+    "@types",
+    "src"
+  ],
+  "exclude": [
+    "tests"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  }
 }

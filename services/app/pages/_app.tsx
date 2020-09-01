@@ -27,10 +27,17 @@ MyApp.getInitialProps = async function (context) {
 		context.ctx
 	);
 
-	if (["/admin", "/user/[username]"].includes(pathname)) {
+	if (
+		["/admin", "/user/[username]", "/username/[username]/notes"].includes(
+			pathname
+		)
+	) {
 		const isLoginPath = ["/login", "/admin/login"].includes(pathname);
 		const adminAuthorized = isAdmin && isAdminToken === adminToken;
-		const isUserAuthRoutes: boolean = ["user/[username]"].includes(pathname);
+		const isUserAuthRoutes: boolean = [
+			"user/[username]",
+			"/username/[username]/notes",
+		].includes(pathname);
 		if (!isUserAuthRoutes && !adminAuthorized && !isLoginPath) {
 			typeof window !== "undefined"
 				? Router.push("/admin/login")

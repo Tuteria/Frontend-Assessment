@@ -2,8 +2,10 @@
   "version": "0.0.1",
   "name": "@tuteria/app-service",
   "scripts": {
+    "dev": "ts-node src/app.ts",
+    "start": "NODE_ENV=production node dist/app.js",
     "populate:db": "ts-node populateDB.ts",
-    "build": "tsc --module commonjs --outDir dist --declaration false",
+    "build": "next build",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
     "start:dev": "cross-env NODE_ENV=development nodemon dist/app.js",
     "test": "uvu -r ts-node/register tests",

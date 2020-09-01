@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Layout from "../../components/Layout";
 import {
 	Button,
 	useToast,
@@ -8,56 +9,17 @@ import {
 	Textarea,
 } from "@chakra-ui/core";
 import axios from "axios";
+import { host } from "../../config.json";
 import { useRouter } from "next/router";
-import { host } from "../../../config.json";
-import Layout from "../../../components/Layout";
-import { Inotes } from "../..";
-interface Iprops {
-	error: string;
-	data: Inotes;
-	authToken: string;
-}
 
-export async function getServerSideProps({ params }) {
-	try {
-		console.log(params);
-		const res = await axios.get(`${host}/notes/${params.id}`);
-		const data = res.data;
-		return {
-			props: {
-				data,
-			},
-		};
-	} catch (err) {
-		return {
-			props: {
-				error: err.message,
-			},
-		};
-	}
-}
-
-export const Update = ({ data, error, authToken }: Iprops) => {
+export const Create = ({ authToken, currentUser }) => {
 	const router = useRouter();
-	useEffect(() => {
-		if (!authToken) {
-			router.push("/signup");
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 	const toast = useToast();
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [errorMsg, setError] = useState(false);
+	const [error, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [customMsg, setcustomMsg] = useState("");
-
-	useEffect(() => {
-		if (data) {
-			setTitle(data.title);
-			setDescription(data.description);
-		}
-	}, [data]);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -68,7 +30,7 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 		const payload = {
 			title,
 			description,
-			usename: data.username,
+			username: currentUser.username,
 		};
 
 		const instance = axios.create({
@@ -77,22 +39,18 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 		const config = {
 			headers: {
 				"Content-Type": "application/json",
-				authorization: `bearer ${authToken}`,
+				...(authToken ? { authorization: `bearer ${authToken}` } : {}),
 			},
 		};
 
 		try {
-			const res = await instance.put(
-				`${host}/notes/${data.id}`,
-				payload,
-				config
-			);
-			if (res.data === "unauthorised") {
-				return router.push("/");
-			}
+			const res = await instance.post(`${host}/notes/create`, payload, config);
+
 			if (res.data) {
 				setLoading(false);
-				setcustomMsg("Note successfully updated!");
+				setcustomMsg("Note successfully created!");
+				setTitle("");
+				setDescription("");
 			}
 		} catch (err) {
 			setLoading(false);
@@ -103,17 +61,16 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 	return (
 		<Layout>
 			<>
-				{error || errorMsg
-					? toast({
-							title: "An error occurred.",
-							description: "check your internet connection and refresh.",
-							status: "error",
-							duration: 5000,
-							isClosable: true,
-					  })
-					: ""}
+				{error &&
+					toast({
+						title: "An error occurred.",
+						description: "check your internet connection and refresh.",
+						status: "error",
+						duration: 5000,
+						isClosable: true,
+					})}
 			</>
-			<h1>Update Note</h1>
+			<h1>Write a New Note</h1>
 			<form onSubmit={handleSubmit}>
 				<p>{customMsg}</p>
 				<FormControl isRequired>
@@ -127,6 +84,8 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 							placeholder="Note title"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
+							isInvalid={error}
+							errorBorderColor="red.300"
 						/>
 					</div>
 					<br />
@@ -140,6 +99,8 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 							placeholder="Body of Your Note"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
+							isInvalid={error}
+							errorBorderColor="red.300"
 						></Textarea>
 					</div>
 				</FormControl>
@@ -150,7 +111,7 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 					type="submit"
 					isLoading={loading}
 				>
-					Update
+					Submit
 				</Button>
 			</form>
 
@@ -180,4 +141,4 @@ export const Update = ({ data, error, authToken }: Iprops) => {
 	);
 };
 
-export default Update;
+export default Create;

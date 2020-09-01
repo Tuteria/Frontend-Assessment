@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useToast } from "@chakra-ui/core";
 import axios from "axios";
-import Layout from "./../../../components/Layout";
+import Layout from "../../../components/Layout";
 import { host } from "../../../config.json";
 
 import { Inotes } from "../../index";

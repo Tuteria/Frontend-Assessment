@@ -8,6 +8,7 @@ import cookies from "react-cookies";
 export const Header = () => {
 	const router = useRouter();
 	const [username, setUsername] = useState();
+	const isAdmin = cookies.load("isAdmin");
 	useEffect(() => {
 		try {
 			const token = jwtDecode(cookies.load("authToken"));
@@ -52,7 +53,7 @@ export const Header = () => {
 
 					<div
 						className="login"
-						style={{ display: username ? "none" : "block" }}
+						style={{ display: isAdmin || username ? "none" : "block" }}
 					>
 						<Link href="/login">
 							<a>Log In</a>
@@ -61,7 +62,7 @@ export const Header = () => {
 
 					<div
 						className="logout"
-						style={{ display: username ? "block" : "none" }}
+						style={{ display: username || isAdmin ? "block" : "none" }}
 					>
 						<Button
 							variantColor="blue"
@@ -69,7 +70,10 @@ export const Header = () => {
 							onClick={() => {
 								if (window.confirm("Are you sure you want to LogOut?")) {
 									cookies.remove("authToken");
-									setTimeout(() => router.push("/login"), 200);
+									cookies.remove("currentUser");
+									cookies.remove("isAdmin");
+									cookies.remove("adminToken");
+									setTimeout(() => location.replace("/login"), 200);
 								}
 							}}
 						>

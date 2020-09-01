@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "./../../components/Layout";
 import {
 	Button,
 	useToast,
@@ -9,17 +8,55 @@ import {
 	Textarea,
 } from "@chakra-ui/core";
 import axios from "axios";
-import { host } from "./../../config.json";
 import { useRouter } from "next/router";
+import { host } from "../../../config.json";
+import Layout from "../../../components/Layout";
+import { Inotes } from "../..";
+interface Iprops {
+	error: string;
+	data: Inotes;
+	authToken: string;
+}
 
-export const Create = ({ authToken, currentUser }) => {
+export async function getServerSideProps({ params }) {
+	try {
+		const res = await axios.get(`${host}/notes/${params.id}`);
+		const data = res.data;
+		return {
+			props: {
+				data,
+			},
+		};
+	} catch (err) {
+		return {
+			props: {
+				error: err.message,
+			},
+		};
+	}
+}
+
+export const Update = ({ data, error, authToken }: Iprops) => {
 	const router = useRouter();
+	useEffect(() => {
+		if (!authToken) {
+			router.push("/signup");
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	const toast = useToast();
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
-	const [error, setError] = useState(false);
+	const [errorMsg, setError] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [customMsg, setcustomMsg] = useState("");
+
+	useEffect(() => {
+		if (data) {
+			setTitle(data.title);
+			setDescription(data.description);
+		}
+	}, [data]);
 
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -30,7 +67,7 @@ export const Create = ({ authToken, currentUser }) => {
 		const payload = {
 			title,
 			description,
-			username: currentUser.username,
+			usename: data.username,
 		};
 
 		const instance = axios.create({
@@ -44,13 +81,17 @@ export const Create = ({ authToken, currentUser }) => {
 		};
 
 		try {
-			const res = await instance.post(`${host}/notes/create`, payload, config);
-
+			const res = await instance.put(
+				`${host}/notes/${data.id}`,
+				payload,
+				config
+			);
+			if (res.data === "unauthorised") {
+				return router.push("/");
+			}
 			if (res.data) {
 				setLoading(false);
-				setcustomMsg("Note successfully created!");
-				setTitle("");
-				setDescription("");
+				setcustomMsg("Note successfully updated!");
 			}
 		} catch (err) {
 			setLoading(false);
@@ -61,16 +102,17 @@ export const Create = ({ authToken, currentUser }) => {
 	return (
 		<Layout>
 			<>
-				{error &&
-					toast({
-						title: "An error occurred.",
-						description: "check your internet connection and refresh.",
-						status: "error",
-						duration: 5000,
-						isClosable: true,
-					})}
+				{error || errorMsg
+					? toast({
+							title: "An error occurred.",
+							description: "check your internet connection and refresh.",
+							status: "error",
+							duration: 5000,
+							isClosable: true,
+					  })
+					: ""}
 			</>
-			<h1>Write a New Note</h1>
+			<h1>Update Note</h1>
 			<form onSubmit={handleSubmit}>
 				<p>{customMsg}</p>
 				<FormControl isRequired>
@@ -84,8 +126,6 @@ export const Create = ({ authToken, currentUser }) => {
 							placeholder="Note title"
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							isInvalid={error}
-							errorBorderColor="red.300"
 						/>
 					</div>
 					<br />
@@ -99,8 +139,6 @@ export const Create = ({ authToken, currentUser }) => {
 							placeholder="Body of Your Note"
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
-							isInvalid={error}
-							errorBorderColor="red.300"
 						></Textarea>
 					</div>
 				</FormControl>
@@ -111,7 +149,7 @@ export const Create = ({ authToken, currentUser }) => {
 					type="submit"
 					isLoading={loading}
 				>
-					Submit
+					Update
 				</Button>
 			</form>
 
@@ -141,4 +179,4 @@ export const Create = ({ authToken, currentUser }) => {
 	);
 };
 
-export default Create;
+export default Update;

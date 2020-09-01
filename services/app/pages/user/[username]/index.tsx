@@ -11,10 +11,12 @@ import { useRouter } from "next/router";
 export async function getServerSideProps({ params }) {
 	try {
 		const res = await axios.get(`${host}/users/${params.username}/notes`);
+		const userRes = await axios.get(`${host}/users/${params.username}`);
 		const notes = res.data.reverse();
 		return {
 			props: {
 				notes,
+				currentUserData: userRes.data,
 			},
 		};
 	} catch (err) {
@@ -26,7 +28,7 @@ export async function getServerSideProps({ params }) {
 	}
 }
 
-export const User = ({ notes, error }: Iprops) => {
+export const User = ({ notes, error, currentUserData }) => {
 	const toast = useToast();
 	const router = useRouter();
 	const [user, setUser] = useState<{
@@ -34,37 +36,7 @@ export const User = ({ notes, error }: Iprops) => {
 		email: string;
 		username: string;
 		bio: string;
-	}>();
-
-	useEffect(() => {
-		if (notes && notes.length > 0) {
-			getUser();
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	//gets user email
-	async function getUser() {
-		try {
-			const res = await axios.get(`${host}/users/${notes[0]?.username}`);
-			setUser(res.data);
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
-	//gets logged in user
-	const [userId, setUserId] = useState();
-	useEffect(() => {
-		try {
-			const token = jwtDecode(localStorage.getItem("tuteria"));
-			if (token) {
-				setUserId(token.user_id);
-			}
-		} catch (error) {
-			console.log(error.message);
-		}
-	}, []);
+	}>(currentUserData);
 
 	async function handleDelete(id: number) {
 		if (window.confirm("Are you sure you want to Delete this note?")) {
@@ -79,10 +51,6 @@ export const User = ({ notes, error }: Iprops) => {
 		}
 	}
 
-	if (typeof window === "object") {
-		if (!localStorage.getItem("tuteria"))
-			return "redirecting, please sign in...";
-	}
 	return (
 		<Layout>
 			<>
@@ -118,7 +86,7 @@ export const User = ({ notes, error }: Iprops) => {
 							</p>
 							<Button
 								style={{
-									display: user && user.id === userId ? "flex" : "none",
+									display: user && user.id ? "flex" : "none",
 								}}
 								size="sm"
 								variantColor="red"
@@ -134,7 +102,7 @@ export const User = ({ notes, error }: Iprops) => {
 								size="sm"
 								variantColor="blue"
 								style={{
-									display: user && user.id === userId ? "flex" : "none",
+									display: user && user.id ? "flex" : "none",
 								}}
 							>
 								<Link

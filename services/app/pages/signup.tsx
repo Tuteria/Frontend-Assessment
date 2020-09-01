@@ -51,7 +51,7 @@ export const Signup = () => {
 				cookies.save("currentUser", res.data);
 				cookies.save("authToken", res.data.token);
 				setSuccess("Sign Up successful!");
-				router.push(`/notes/${res.data.username}`);
+				router.push(`/user/${res.data.username}/notes`);
 				return;
 			}
 			setloading(false);

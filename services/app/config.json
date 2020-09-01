@@ -1,4 +1,4 @@
 {
-  "host": "http://localhost:9008",
+  "host": "http://localhost:3000/api",
   "adminToken": "wonder_do_you_miss_me_when_i_am_busy_on_the_road"
 }
