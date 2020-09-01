@@ -13,7 +13,7 @@ async function getNotes(req, res) {
 			data: notes,
 		});
 	} catch (error) {
-		return error
+		return error;
 	}
 }
 
@@ -32,12 +32,15 @@ async function createNote(req, res) {
 		res.status(201).json({
 			status: "success",
 			data: {
-				message: "Notes successfully created",
-				...newNote,
+				message: "Note successfully created",
+				title: newNote.title,
 			},
 		});
 	} catch (error) {
-		return error
+		return res.status(500).json({
+			status: error,
+			error: "Something went wrong",
+		});
 	}
 }
 
@@ -48,7 +51,7 @@ async function createNote(req, res) {
  */
 async function updateNote(req, res) {
 	let { noteId } = req.params;
-	noteId = Number(noteId)
+	noteId = Number(noteId);
 	const { description, title } = req.body;
 	try {
 		const note = await noteService.findById(noteId);
@@ -70,16 +73,16 @@ async function updateNote(req, res) {
 			},
 		});
 	} catch (error) {
-		return error
+		return error;
 	}
 }
 
 /**
- * Deletes a note 
+ * Deletes a note
  * @param req - The Request object
  * @param res - The Response object
  */
-async function deleteOne(req ,res) {
+async function deleteOne(req, res) {
 	let { noteId } = req.params;
 	noteId = Number(noteId);
 	try {
@@ -90,7 +93,7 @@ async function deleteOne(req ,res) {
 				error: "Note does not exist",
 			});
 		}
-		const result = await noteService.deleteOne(noteId)
+		const result = await noteService.deleteOne(noteId);
 		res.status(200).json({
 			status: "success",
 			data: {
@@ -99,7 +102,7 @@ async function deleteOne(req ,res) {
 			},
 		});
 	} catch (error) {
-		return error
+		return error;
 	}
 }
 

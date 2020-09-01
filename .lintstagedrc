@@ -2,7 +2,7 @@
   "**/*.{ts,tsx,js,jsx}": [
     "prettier --write",
     "eslint --fix",
-    "tsc --noEmit --allowJs"
+    "tsc --noEmit"
   ],
   "**/*.{md,yml,json,babelrc,eslintrc,prettierrc}": [
     "prettier --write"
