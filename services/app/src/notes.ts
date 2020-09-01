@@ -5,7 +5,7 @@ import { verifyAuth } from "@tuteria/common/src/middleware";
 const router = Router();
 
 // POST /notes/create Anonymous note creation
-router.post("/create", verifyAuth, async (req, res) => {
+router.post("/create", verifyAuth(false), async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { description, title, username } = req.body;
 	const result = await prisma.notes.create({
@@ -31,7 +31,7 @@ router.get("/:nodeId", async (req, res) => {
 });
 
 // PUT /notes/:note-id The ability to update a specific anonymous note
-router.put("/:nodeId", verifyAuth, async (req, res) => {
+router.put("/:nodeId", verifyAuth(), async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { description, title } = req.body;
 	const result = await prisma.notes.update({
@@ -44,7 +44,7 @@ router.put("/:nodeId", verifyAuth, async (req, res) => {
 });
 
 // DELETE /notes/:note-id The ability to delete a specific anonymous note
-router.delete("/:nodeId", verifyAuth, async (req, res) => {
+router.delete("/:nodeId", verifyAuth(), async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { description, title } = req.body;
 	const result = await prisma.notes.delete({

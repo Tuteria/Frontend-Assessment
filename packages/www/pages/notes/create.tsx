@@ -11,16 +11,9 @@ import {
 import axios from "axios";
 import { host } from "./../../config.json";
 import { useRouter } from "next/router";
-import cookies from "react-cookies";
 
 export const Create = ({ authToken, currentUser }) => {
 	const router = useRouter();
-	useEffect(() => {
-		if (!cookies.load("authToken")) {
-			router.push("/login");
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 	const toast = useToast();
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
