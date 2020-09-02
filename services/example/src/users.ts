@@ -36,6 +36,7 @@ router.get("/",async (req,res) => {
 })
 
 router.post("/create", async (req, res) => {
+	console.log("reaching the create route",req.body)
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username, email, password, about } = req.body;
 	try {
@@ -44,6 +45,7 @@ router.post("/create", async (req, res) => {
 		});
 		res.status(200).json(newUser);
 	} catch (err) {
+		console.log("something went wrong",err)
 		return res.status(401).json({
 			error: err.message || "Something Went Wrong",
 		});
