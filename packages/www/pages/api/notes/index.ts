@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { noteController } from "../../../service/controllers";
-import { validate } from "../../../service/middleware";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
 	switch (method) {
-		case "POST":
-			return await noteController.createNote(req, res);
+		case "GET":
+			return await noteController.getNotes(req, res);
 			break;
 		default:
 			return res.status(405).json({
@@ -17,4 +16,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default validate.createNote(handler);
+export default handler;

@@ -13,7 +13,10 @@ async function getNotes(req, res) {
 			data: notes,
 		});
 	} catch (error) {
-		return error;
+		return res.status(500).json({
+			status: error,
+			error: "Something went wrong",
+		});
 	}
 }
 
