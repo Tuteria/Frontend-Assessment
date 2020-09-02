@@ -1,0 +1,5 @@
+type Note @db(name: "notes") {
+  id: Int! @id
+  description: String
+  title: String
+}
