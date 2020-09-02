@@ -53,9 +53,9 @@ async function createNote(req, res) {
  * @param res - The Response object
  */
 async function updateNote(req, res) {
-	let { noteId } = req.params;
+  let { noteId } = req.query;
 	noteId = Number(noteId);
-	const { description, title } = req.body;
+  const { description, title } = req.body;
 	try {
 		const note = await noteService.findById(noteId);
 		if (!note) {
@@ -72,11 +72,14 @@ async function updateNote(req, res) {
 			status: "success",
 			data: {
 				message: "Notes successfully updated",
-				...result,
+				title: result.title,
 			},
 		});
 	} catch (error) {
-		return error;
+		return res.status(500).json({
+			status: error,
+			error: "Something went wrong",
+		});
 	}
 }
 
@@ -85,8 +88,8 @@ async function updateNote(req, res) {
  * @param req - The Request object
  * @param res - The Response object
  */
-async function deleteOne(req, res) {
-	let { noteId } = req.params;
+async function deleteNote(req, res) {
+	let { noteId } = req.query;
 	noteId = Number(noteId);
 	try {
 		const note = await noteService.findById(noteId);
@@ -101,7 +104,7 @@ async function deleteOne(req, res) {
 			status: "success",
 			data: {
 				message: "Notes successfully deleted",
-				...result,
+				title: result.title,
 			},
 		});
 	} catch (error) {
@@ -109,4 +112,4 @@ async function deleteOne(req, res) {
 	}
 }
 
-export { getNotes, createNote, updateNote, deleteOne };
+export { getNotes, createNote, updateNote, deleteNote};
