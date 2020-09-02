@@ -7,7 +7,7 @@ import { noteService } from "../db";
  */
 async function getNotes(req, res) {
 	try {
-		const notes = await noteService.getAllNotes();
+		const notes = await noteService.getAnonymousNotes();
 		res.status(200).json({
 			status: "success",
 			data: notes,
@@ -21,7 +21,7 @@ async function getNotes(req, res) {
 }
 
 /**
- * Creates a new note
+ * Creates an anonymous new note
  * @param req - The Request object
  * @param res - The Response object
  */
@@ -48,7 +48,44 @@ async function createNote(req, res) {
 }
 
 /**
- * Updates a note
+ * Updates an anonymous note
+ * @param req - The Request object
+ * @param res - The Response object
+ */
+async function getOneNote(req, res) {
+  let { noteId } = req.query;
+	noteId = Number(noteId);
+  const { description, title } = req.body;
+	try {
+		const note = await noteService.findById(noteId);
+		if (!note) {
+			return res.status(409).json({
+				status: "error",
+				error: "Note does not exist",
+			});
+		}
+		if (note.user_id) {
+			return res.status(403).json({
+				status: 'error',
+				error: "You caa not authorized for this operation note",
+			});
+		}
+		return res.status(200).json({
+			status: 'error',
+			data: {
+				...note
+			}
+		})
+	} catch (error) {
+		return res.status(500).json({
+			status: 'error',
+			error: "Something went wrong",
+		});
+	}
+}
+
+/**
+ * Updates an anonymous note
  * @param req - The Request object
  * @param res - The Response object
  */
@@ -64,6 +101,12 @@ async function updateNote(req, res) {
 				error: "Note does not exist",
 			});
 		}
+		if (note.user_id) {
+			return res.status(403).json({
+				status: 'error',
+				error: "You caa not authorized to perform this operation",
+			});
+		}
 		const result = await noteService.updateNote(noteId, {
 			description,
 			title,
@@ -77,14 +120,14 @@ async function updateNote(req, res) {
 		});
 	} catch (error) {
 		return res.status(500).json({
-			status: error,
+			status: 'error',
 			error: "Something went wrong",
 		});
 	}
 }
 
 /**
- * Deletes a note
+ * Deletes an anonymous note
  * @param req - The Request object
  * @param res - The Response object
  */
@@ -99,6 +142,12 @@ async function deleteNote(req, res) {
 				error: "Note does not exist",
 			});
 		}
+		if (note.user_id) {
+			return res.status(403).json({
+				status: 'error',
+				error: "YYou caa not authorized to perform this operation",
+			});
+		}
 		const result = await noteService.deleteOne(noteId);
 		res.status(200).json({
 			status: "success",
@@ -108,8 +157,11 @@ async function deleteNote(req, res) {
 			},
 		});
 	} catch (error) {
-		return error;
+		return res.status(500).json({
+			status: 'error',
+			error: "Something went wrong",
+		});
 	}
 }
 
-export { getNotes, createNote, updateNote, deleteNote};
+export { getNotes, createNote, getOneNote, updateNote, deleteNote};

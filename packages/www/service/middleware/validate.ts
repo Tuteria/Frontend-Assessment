@@ -16,31 +16,15 @@ const note = {
 }
 
 /**
- * Checks for required field
- * @param fields - Array of fields
- * @param req - The Request object
- */
-const checkRequiredFields = (fields: string[], req): Error[] => {
-	const errors: Error[] = [];
-
-	for (const field of fields) {
-		if (!(field in req.body)) {
-			errors.push({
-				message: `${field} is mising. ${field} is required`,
-				param: field,
-			});
-		}
-	}
-
-	return errors;
-};
-
-/**
  * Validates field for a new note
  * @param handler - The handler that is returned
  */
 function createNote(handler: Function) {
 	return async (req, res) => {
+
+		if (req.method === 'GET') {
+			return handler(req, res);
+		}
 		const noteData = {
 			title: req.body.title,
 			description: req.body.description
@@ -97,7 +81,7 @@ function updateNote(handler: Function) {
     if (validate({ noteId: req.query.noteId },{ noteId: 'string|integer'})) {
       return res.status(409).json({
 				status: "error",
-				error: "Invalid username",
+				error: "Invalid note id",
 			});
     }
 		return handler(req, res);
@@ -118,7 +102,7 @@ function createUser(handler: Function) {
 		const rules = {
 			username: 'required|string',
 			email: 'required|email',
-			password: 'required'
+			password: 'required|string'
 		};
 		if (validate(userData, rules)) {
 			return res.status(409).json({

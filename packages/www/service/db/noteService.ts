@@ -6,7 +6,22 @@ interface Note {
 }
 
 /**
- * Retrives all anonymous notes from the db
+ * Retrives all notes from the db
+ * @return {Promise} - A promises that resolves to all anonymous note
+ */
+async function getAnonymousNotes() {
+	try {
+		const notes = await prisma.notes.findMany({
+			where : {user_id: null}
+		});
+		return notes;
+	} catch (error) {
+		return error;
+	}
+}
+
+/**
+ * Retrives all notes from the db
  * @return {Promise} - A promises that resolves to all anonymous note
  */
 async function getAllNotes() {
@@ -43,7 +58,7 @@ async function createNote(note: Note) {
 async function findById(id: number) {
 	try {
 		const note = await prisma.notes.findOne({
-			where: { id: Number(id) },
+			where: { id: id },
 		});
 		return note;
 	} catch (error) {
@@ -52,7 +67,7 @@ async function findById(id: number) {
 }
 
 /**
- *
+ *Updates a note in the db
  * @param {number} id - id of a note
  * @param {} note
  * @return {Promise} - A promises that resolves to the details of the updated note
@@ -71,7 +86,7 @@ async function updateNote(id: number, note: Note) {
 }
 
 /**
- * Delete a note from the db
+ * Deletes a note from the db
  * @param id - id of a note
  */
 async function deleteOne(id: number) {
@@ -85,4 +100,40 @@ async function deleteOne(id: number) {
 	}
 }
 
-export { createNote, findById, getAllNotes, updateNote, deleteOne };
+/**
+ * Retrieves a note that matches the id
+ * @param {number} id - id of user
+ * @return {Promise} - A promises that resolves to a note that matches the id
+ */
+async function getNotesByUserId(id: number) {
+	try {
+		const notes = await prisma.notes.findMany({
+			where: { user_id: Number(id) },
+		});
+		return notes;
+	} catch (error) {
+		return error;
+	}
+}
+
+/**
+ * Adds a user's new note to the db
+ * @param note
+ * @return {Promise} - A promises that resolves to the new created note
+ */
+async function createUserNote(userId, note: Note) {
+	const { description, title } = note;
+	try {
+		const createNote = await prisma.notes.create({
+			data: { description, title, user_id: userId },
+		});
+		return createNote;
+	} catch (error) {
+		return error;
+	}
+}
+
+export { 
+	createNote, findById, getAnonymousNotes, getAllNotes, 
+	updateNote, deleteOne, getNotesByUserId, createUserNote
+};

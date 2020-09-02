@@ -5,6 +5,9 @@ import { validate } from "../../../service/middleware";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
 	switch (method) {
+		case 'GET':
+			return await noteController.getOneNote(req, res);
+			break;
 		case 'PUT':
 			return await noteController.updateNote(req, res);
       break;
