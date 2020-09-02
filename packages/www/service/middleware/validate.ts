@@ -1,14 +1,19 @@
+import Validator from 'validatorjs';
+
 type Error = {
 	message: string;
 	param: string;
 };
 
-/**
- * Checks if a value is a string
- * @param value
- * return A boolean value of the check
- */
-const isString = (value: any): boolean => typeof value === "string";
+const validate = (data: any, rules: any) => {
+	const validation = new Validator(data, rules);
+	return validation.fails()
+}
+
+const note = {
+	title: 'required|string|',
+	description: 'required|string|',
+}
 
 /**
  * Checks for required field
@@ -36,24 +41,18 @@ const checkRequiredFields = (fields: string[], req): Error[] => {
  */
 function createNote(handler: Function) {
 	return async (req, res) => {
-		const { title, description } = req.body;
-		const errors = checkRequiredFields(["title", "description"], req);
-		if (errors.length > 0) {
-			return res.status(409).json({
-				status: "error",
-				error: errors,
-			});
+		const noteData = {
+			title: req.body.title,
+			description: req.body.description
 		}
-		if (!(isString(title) && isString(description))) {
-			return res.status(409).json({
-				status: "error",
-				error: "Invalid data",
-			});
+		const rules = {
+			title: 'required|string',
+			description: 'required|string'
 		}
-		if (title.trim().length === 0) {
+		if (validate(noteData, rules)) {
 			return res.status(409).json({
 				status: "error",
-				error: "title cannot be empty",
+				error: "Invalid values were supplied",
 			});
 		}
 		return handler(req, res);
@@ -76,32 +75,26 @@ function isValidNoteId(noteId: string): boolean {
 }
 
 /**
- * Validates field for a new note
+ * Validates field for updating a note
  * @param handler - The handler that is returned
  */
 function updateNote(handler: Function) {
 	return async (req, res) => {
-		const { title, description } = req.body;
-		const errors = checkRequiredFields(["title", "description"], req);
-		if (errors.length > 0) {
+		const noteData = {
+			title: req.body.title,
+			description: req.body.description
+		}
+		const rules = {
+			title: 'required|string',
+			description: 'required|string',
+		}
+		if (validate(noteData, rules)) {
 			return res.status(409).json({
 				status: "error",
-				error: errors,
+				error: "Invalid values were supplied",
 			});
 		}
-		if (!(isString(title) && isString(description))) {
-			return res.status(409).json({
-				status: "error",
-				error: "Invalid data",
-			});
-		}
-		if (title.trim().length === 0) {
-			return res.status(409).json({
-				status: "error",
-				error: "title cannot be empty",
-			});
-    }
-    if (!isValidNoteId(req.query.noteId)) {
+    if (validate({ noteId: req.query.noteId },{ noteId: 'string|integer'})) {
       return res.status(409).json({
 				status: "error",
 				error: "Invalid username",
@@ -111,5 +104,30 @@ function updateNote(handler: Function) {
 	};
 }
 
+/**
+ * Validates fields for a new user
+ * @param handler - The handler that is returned
+ */
+function createUser(handler: Function) {
+	return async (req, res) => {
+		const userData = {
+			username: req.body.username,
+			email: req.body.email,
+			password: req.body.password 
+		}
+		const rules = {
+			username: 'required|string',
+			email: 'required|email',
+			password: 'required'
+		};
+		if (validate(userData, rules)) {
+			return res.status(409).json({
+				status: "error",
+				error: 'Invalid values were supplied'
+			});
+		}
+		return handler(req, res);
+	};
+}
 
-export { createNote, updateNote };
+export { createNote, updateNote, createUser };
