@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import faker from "faker";
+import faker, { random } from "faker";
 
 interface IUserCreator {
 	username: string;
@@ -11,30 +11,30 @@ interface IUserCreator {
 interface INoteCreator {
 	title: string;
 	description: string;
-	author_id?: number;
+	author?: string;
 }
 
 const userCreator = (): IUserCreator => {
 	return {
-		username: `${faker.name.firstName}-${faker.name.lastName}`,
+		username: `${faker.name.firstName()}-${faker.name.lastName()}`,
 		email: faker.internet.email(),
 		about: faker.lorem.sentence(),
 		password: "drowssap001",
 	};
 };
 
-const noteCreator = (arg: number): INoteCreator => {
+const noteCreator = (author: string): INoteCreator => {
 	const boolean = Math.round(Math.random() * 1) > 0.05;
 	return {
 		title: faker.lorem.words(),
 		description: faker.lorem.paragraph(),
-		...(boolean && { author_id: Math.floor(Math.random() * arg) }),
+		...(boolean && {author})
 	};
 };
 
 type populatorArg = number[];
 
-const populator = async (amt: populatorArg = [10, 10]) => {
+const populator = async (amt: populatorArg = [5, 10]) => {
 	try {
 		console.log("started populating db");
 		const prisma = new PrismaClient();
@@ -42,6 +42,8 @@ const populator = async (amt: populatorArg = [10, 10]) => {
 		console.log("compeleted deleting user");
 		await prisma.notes.deleteMany({});
 		console.log("compeleted deleting notes");
+
+
 
 		const newUser = [];
 		for (let i = 0; i < amt[0]; i++) {
@@ -54,9 +56,13 @@ const populator = async (amt: populatorArg = [10, 10]) => {
 			console.log(`${amt[0]} users created`);
 		}
 
+
+
 		const newNote = [];
 		for (let i = 0; i < amt[1]; i++) {
-			newNote.push(prisma.notes.create({ data: noteCreator(amt[0]) }));
+			const randomNo = Math.ceil(Math.random()*allUser.length-1)
+			console.log(randomNo)
+			newNote.push(prisma.notes.create({ data: noteCreator(allUser[randomNo].username!) }));
 		}
 		const allNote = await Promise.all(newNote);
 		if (allNote.some((p) => p == undefined)) {

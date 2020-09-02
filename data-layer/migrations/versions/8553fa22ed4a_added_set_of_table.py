@@ -1,8 +1,8 @@
-"""Added notes table
+"""Added set of table
 
 Revision ID: 2d59e250f085
 Revises: 
-Create Date: 2020-09-01 12:29:36.104700
+Create Date: 2020-09-01 22:34:24.334436
 
 """
 from alembic import op
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(), nullable=True),
     sa.Column('description', sa.Text(), nullable=True),
-    sa.Column('author_id', sa.Integer(), nullable=True),
+    sa.Column('author', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',

@@ -5,13 +5,13 @@ const router = Router();
 
 router.post("/create", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
-	const { description, title, author_id } = req.body;
+	const { description, title, author } = req.body;
 	try {
 		const result = await prisma.notes.create({
 			data: {
 				description,
 				title,
-				...(author_id && { author_id: Number(author_id) }),
+				...(author && { author: author }),
 			},
 		});
 		// const foundPost = await prisma.notes.findMany();
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	try{
 		const notes = await prisma.notes.findMany({
-			where: { author_id: null },
+			where: { author: null },
 		});
 		return res.status(200).json(notes);
 	}catch(err){
@@ -48,7 +48,7 @@ router.put("/:noteId", async (req, res) => {
 				data: {
 					title: title ? title : foundNotes.title,
 					description: description ? description : foundNotes.description,
-					author_id: foundNotes.author_id,
+					author: foundNotes.author,
 				},
 			});
 			res.status(200).json(updatedNote);

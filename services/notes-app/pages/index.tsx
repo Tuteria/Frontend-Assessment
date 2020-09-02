@@ -1,15 +1,25 @@
-import Link from 'next/link'
+import React from "react"
 import Layout from '../components/Layout'
+import {NoteList} from "../components/notelist"
+import useSwr from "swr"
 
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
+
+
+const IndexPage = () => {
+  
+  const nullArr = new Array(10).fill(null)
+
+  const fetcher = (url:string) => fetch(url)
+                    .then(res => res.json())
+
+  const {data,error} = useSwr("/api/notes",fetcher)
+  console.log(data,error)
+  return(
+    <Layout title="Notes App">
+    <h1>Welcome to note Taking App</h1>
+    <NoteList notes={data || nullArr} />
   </Layout>
-)
+  )
+}
 
 export default IndexPage

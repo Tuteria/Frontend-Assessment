@@ -13,5 +13,8 @@
     "lint:src": "eslint src --ext .ts --config ../../.eslintrc",
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types"
+  },
+  "dependencies": {
+    "swr": "^0.3.2"
   }
 }

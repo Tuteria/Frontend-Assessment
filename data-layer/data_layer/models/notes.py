@@ -8,7 +8,7 @@ class Notes(Base):
     id = sql.Column(sql.Integer, primary_key=True)
     title = sql.Column(sql.String)
     description = sql.Column(sql.Text)
-    author_id = sql.Column(sql.Integer)
+    author = sql.Column(sql.String)
     # author-id = sql.Column(sql.Integer)
     
     def __repr__(self):

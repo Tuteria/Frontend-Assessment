@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
+import {Box} from "@chakra-ui/core"
 
 type Props = {
   children?: ReactNode
@@ -14,22 +15,23 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => (
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <header>
+    <Box bg="whitesmoke" color="black" width="100%"
+     height="40px" display="flex" justifyContent="space-between"
+      alignItems="center" >
       <nav>
         <Link href="/">
           <a>Home</a>
         </Link>{' '}
         |{' '}
-        <Link href="/about">
-          <a>About</a>
+        <Link href="/admin">
+          <a>Login</a>
         </Link>{' '}
         |{' '}
-        <Link href="/users">
-          <a>Users List</a>
+        <Link href="/admin">
+          <a>Admin</a>
         </Link>{' '}
-        | <a href="/api/users">Users API</a>
       </nav>
-    </header>
+    </Box>
     {children}
     <footer>
       <hr />
