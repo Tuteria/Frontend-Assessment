@@ -15,7 +15,7 @@ const Note:React.SFC<INote> = ({title,description,...props}) => {
         <Box mx={2} my={5} background="brown" width={"50%"} px={3} py={5}
           textAlign="center" fontSize="1em" color="whitesmoke" borderRadius={".5em"} >
         <Box fontSize="1.5em" display={"block"}>{title}</Box>
-        <em>{description}</em> - {props.author_id && props.author_id}
+        <em>{description}</em> - props.author}
       </Box>
         <style jsx>{
           `

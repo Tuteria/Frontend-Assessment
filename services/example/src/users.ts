@@ -75,7 +75,6 @@ router.put("/:username/admin",async (req,res) => {
 			const updatedUser = await prisma.users.update({
 				where: { id:foundUser.id },
 				data: {
-					// admin:!foundUser.admin,
 					about:foundUser.about,
 					email:foundUser.email,
 					username:foundUser.username,
@@ -89,7 +88,12 @@ router.put("/:username/admin",async (req,res) => {
 			})
 			
 			res.status(200).json({
-				data:updatedUser,
+				data:{
+					about:foundUser.about,
+					email:foundUser.email,
+					admin:foundUser.admin,
+					username:foundUser.username,
+				},
 				token,
 				message:!updatedUser.admin ? "New Admin Successful" : `${foundUser.username} admin Successful deactivation`
 			});
@@ -125,7 +129,6 @@ router.post("/create", async (req, res) => {
 router.get("/:username/notes", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username } = req.params;
-	console.log("reaching username routes")
 	try {
 		const foundNotes = await prisma.notes.findMany({
 			where: { author:username },

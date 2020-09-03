@@ -27,7 +27,7 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
       setAuth(JSON.parse(token))
     }
   },[])
-  
+
   return(
     <div>
       <Head>
@@ -43,12 +43,9 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             <a>Home</a>
           </Link>{' '}
           |{' '}
-          {
-            auth !== null && 
             <Link href="/login">
               <a>Login</a> 
             </Link>
-          }
           |{' '}
           {
             auth?.user.admin &&

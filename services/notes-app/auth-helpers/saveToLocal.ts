@@ -12,6 +12,7 @@ interface IUser {
 
 const saveToLocal =  (arg:IUser):boolean => {
   if(typeof window !== undefined){
+    window.localStorage.removeItem("jwtToken")
     window.localStorage.setItem("jwtToken",JSON.stringify(arg))
     return true
   }else{

@@ -55,7 +55,7 @@ const Admin = () => {
   
   React.useEffect(() => {
     const token = window.localStorage.getItem("jwtToken")
-    if(token !== null){
+    if(token){
       setAuth(JSON.parse(token))
     }
   },[])
@@ -89,9 +89,9 @@ const Admin = () => {
     }
   }
 
-  if(auth == null){
-    return <div>loading</div>
-  }else if(auth.user){
+  if(!auth){
+    return <div>Please Login</div>
+  }else if(auth.user.admin){
     return(
       <Layout title="About | Next.js + TypeScript Example">
         <Text>Welcome to the secure admin page</Text>

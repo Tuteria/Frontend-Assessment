@@ -48,6 +48,15 @@ const populator = async (amt: populatorArg = [5, 10]) => {
 
 
 		const newUser = [];
+		newUser.push(prisma.users.create({
+			data:{
+				admin:true,
+				email:"admin@general.com",
+				password:"password",
+				username:"Admin",
+				about:"He's the leader follow him"
+			}
+		}))
 		for (let i = 0; i < amt[0]; i++) {
 			newUser.push(prisma.users.create({ data: userCreator() }));
 		}
@@ -55,7 +64,7 @@ const populator = async (amt: populatorArg = [5, 10]) => {
 		if (allUser.some((p) => p == undefined)) {
 			console.log("something went wrong ");
 		} else {
-			console.log(`${amt[0]} users created`);
+			console.log(`${allUser.length} users created`);
 		}
 
 
@@ -70,7 +79,7 @@ const populator = async (amt: populatorArg = [5, 10]) => {
 		if (allNote.some((p) => p == undefined)) {
 			console.log("something went wrong");
 		} else {
-			console.log(`${amt[1]} notes created`);
+			console.log(`${allNote.length} notes created`);
 		}
 		console.log("completed populating");
 	} catch (err) {

@@ -6,6 +6,7 @@ const router = Router();
 router.post("/create", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { description, title, author } = req.body;
+	console.log("Reaching the notes creat route")
 	try {
 		const result = await prisma.notes.create({
 			data: {
@@ -17,6 +18,7 @@ router.post("/create", async (req, res) => {
 		// const foundPost = await prisma.notes.findMany();
 		res.status(200).json(result);
 	} catch (err) {
+		console.log("something went wrong",err)
 		return res.status(401).json({
 			error: err.message || "Something went wrong",
 		});

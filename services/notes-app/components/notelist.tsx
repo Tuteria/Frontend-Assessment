@@ -9,7 +9,7 @@ export default {
   notes:"array"
 };
 interface IData {
-  author_id:number;
+  author:string;
   title:string;
   description:string;
 }

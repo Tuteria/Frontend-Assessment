@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import {Box,Skeleton,Text,Checkbox} from "@chakra-ui/core"
+import saveToLocal from "../auth-helpers/saveToLocal"
 import Note from "./note"
 
 
@@ -48,6 +49,10 @@ const UserList:React.SFC<IUserList> = ({user,...props}) => {
       const result = await response.json()
       if(result.message.indexOf("Successful") > 0){
         setUserDetail(newUserDetail)
+        saveToLocal({
+          token:result.token,
+          user:result.data
+        })
         setAlert({...alert,success:`${username} admin status is now ${result.data.admin}`})
       }else{
         setAlert({...alert,error:"Something went wrong unable to complete admin update"})
