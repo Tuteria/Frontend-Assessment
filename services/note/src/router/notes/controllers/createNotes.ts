@@ -25,7 +25,9 @@ export const createNotes = async (req: Request, res: Response) => {
 					category: "Others",
 				},
 			});
-			res.status(200).json(note);
+			res
+				.status(200)
+				.json({ message: "Note created successfully", newNote: note });
 		}
 	} catch (error) {
 		res.status(500).json();
