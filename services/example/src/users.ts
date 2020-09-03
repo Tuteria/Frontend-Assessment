@@ -34,6 +34,7 @@ router.get("/",async (req,res) => {
 
 router.post("/login",async (req,res) => {
 	const prisma : PrismaClient = req.app.locals.prisma;
+	console.log("reaching the login router",req.body)
 	const {email,password} = req.body;
 	try{
 		const foundUser = await prisma.users.findOne({
@@ -81,6 +82,7 @@ router.put("/:username/admin",async (req,res) => {
 					admin:!foundUser.admin
 				}
 			});
+			console.log(foundUser.admin,updatedUser.admin)
 			const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
 			const token = jwt.sign({admin:updatedUser.admin},jwtSecret,{
 				expiresIn:60*60
