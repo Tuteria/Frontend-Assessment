@@ -6,13 +6,9 @@ import { createNotes } from "./controllers/createNotes";
 const router: Router = express.Router();
 
 // send a get request to the notes endpoint to list all notes
-router.get("/", async (req: Request, res: Response) => {
-	// import the get notes controller
-	getNotes(req, res);
-});
+router.get("/", getNotes);
 
 // Post route that creates notes
-router.post("/", async (req: Request, res: Response) => {
-	createNotes(req, res);
-});
+router.post("/", createNotes);
+
 export default router;

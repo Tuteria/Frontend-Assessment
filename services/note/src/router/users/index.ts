@@ -1,13 +1,9 @@
 import express, { Router, Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import { getUsers } from "./controllers/getUsers";
 import { getOneUser } from "./controllers/getOneUser";
 import { getUserNotes } from "./controllers/getUserNote";
 // create the router variable
 const router: Router = express.Router();
-
-// instantiate the prisma data layer
-const prisma = new PrismaClient();
 
 // send a get request to the user endpoint to list all users
 router.get("/", getUsers);
