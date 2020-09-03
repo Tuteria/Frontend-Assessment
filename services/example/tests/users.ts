@@ -13,11 +13,10 @@ const testUser = {
 	username: "John-doe",
 	password: "drowssap",
 	id: 1,
+	admin:false,
 	email: "jane@doe.com",
-	desc: "Adding a description to the test user for testing",
+	about: "Adding a description to the test user for testing",
 };
-
-const jwtToken: string = null;
 
 Users.before(async (context) => {
 	try {
@@ -25,18 +24,6 @@ Users.before(async (context) => {
 		App.locals.prisma = context.prisma;
 		await context.prisma.$queryRaw("DELETE from notes");
 		await context.prisma.$queryRaw("DELETE from users");
-
-		await request(App)
-			.post("/users/create")
-			.send(testUser)
-			.set("Accept", "application/json")
-			.expect("Content-Type", /json/)
-			.then((response) => {
-				console.log(response.body);
-				assert.is(testUser.id, response.body.id);
-				assert.is(testUser.username, response.body.username);
-				assert.is(testUser.email, response.body.email);
-			});
 	} catch (err) {
 		console.log(err);
 	}
@@ -53,23 +40,16 @@ Users.after(async (context) => {
 });
 
 Users("New user endpoint", async (context) => {
-	const newUser = {
-		username: "John-doe",
-		password: "drowssap",
-		email: "jane@doe.com",
-		about: "Adding a description to the test user for testing",
-	};
-
 	await request(App)
 		.post("/users/create")
-		.send(newUser)
+		.send(testUser)
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/)
 		.then((res) => {
-			assert.is(res.body.username, newUser.username);
-			assert.is(res.body.password, newUser.password);
-			assert.is(res.body.email, newUser.email);
-			assert.is(res.body.about, newUser.about);
+			assert.is(res.body.username, testUser.username);
+			assert.is(res.body.password, testUser.password);
+			assert.is(res.body.email, testUser.email);
+			assert.is(res.body.about, testUser.about);
 		});
 });
 
@@ -77,19 +57,17 @@ Users("Create note to a specific User", async (context) => {
 	const newNote = {
 		title: "A Sample data",
 		description: "Adding a description to the new note for the test",
-		author_id: testUser.id,
+		author: testUser.username,
 	};
 	await request(App)
 		.post("/notes/create")
 		.send(newNote)
-		.set("Authorization", `Bearer ${jwtToken}`)
 		.set("Accept", "applcation/json")
 		.expect("Content-Type", /json/)
 		.then(async (response) => {
 			await request(App)
-				.get(`/users/${testUser.id}/notes`)
+				.get(`/users/${testUser.username}/notes`)
 				.set("Accept", "application/json")
-				.set("Authorization", `Bearer ${jwtToken}`)
 				.expect("Content-Type", /json/)
 				.then((response) => {
 					for (let i = 0; i < response.body.length - 1; i++) {

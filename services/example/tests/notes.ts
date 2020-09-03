@@ -38,12 +38,12 @@ Notes("Create endpoint works as expected", async (context) => {
 	assert.is(count, 1);
 });
 
-Notes("Get all notes without author_id", async (context) => {
+Notes("Get all notes without author", async (context) => {
 	const noAuthorId = await request(App)
 		.get("/notes")
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/);
-	const isTrue = noAuthorId.body.every((note) => note.author_id === null);
+	const isTrue = noAuthorId.body.every((note) => note.author === null);
 	assert.is(isTrue, true);
 });
 
@@ -91,8 +91,8 @@ Notes("Delete notes", async (context) => {
 				.expect("Content-Type", /json/);
 		});
 
-	assert.is(response.body.description, newNote.description);
-	assert.is(response.body.title, newNote.title);
+	assert.is(response.body.data.description, newNote.description);
+	assert.is(response.body.data.title, newNote.title);
 });
 
 Notes.run();

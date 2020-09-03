@@ -74,7 +74,8 @@ router.delete("/:noteId", async (req, res) => {
 			where: { id: Number(noteId) }
 		})
 		return res.status(200).json({
-			message:`successfully deleted ${deletedNote.title}`
+			message:`successfully deleted ${deletedNote.title}`,
+			data:deletedNote
 		})
 		}catch(err){
 			return res.status(400).json({
