@@ -7,7 +7,7 @@ import { PrismaClient } from "@prisma/client";
 import { suite } from "uvu";
 import jwt from "jsonwebtoken"
 
-console.log(process.env.TEST_DATABASE_URL);
+console.log("This is the test databse",process.env.TEST_DATABASE_URL);
 const Users = suite("Notes API");
 
 const testUser = {
@@ -99,8 +99,6 @@ Users("Create a new Admin",async(context) => {
 				.set("Accept", "application/json")
 				.expect("Content-Type", /json/)
 				.then((response) => {
-					console.log("we are here dawg")
-					console.log(response.body.data.admin,!testUser.admin)
 					assert.is(response.body.data.username,testUser.username)
 				})
 })

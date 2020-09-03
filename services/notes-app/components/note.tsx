@@ -37,7 +37,7 @@ const Note:React.SFC<INote> = ({note,handleDelete}) => {
         <Box fontSize="1.5em" display={"block"}>{note.title}</Box>
         <em>{note.description}</em> - {note.author}
         {auth && auth.user.username === note.author && 
-          <Button onClick={handleDelete} variantColor="teal" variant="solid" size="md" >
+          <Button display="block" mx="auto" mt="10px" onClick={handleDelete} variantColor="teal" variant="solid" size="md" >
             Delete
           </Button>}
       </Box>

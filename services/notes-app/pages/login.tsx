@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import {Box,Stack,Button,Input,Text} from "@chakra-ui/core"
+import {} from "next"
 import React from 'react'
 import saveToken from "../auth-helpers/saveToLocal"
 
