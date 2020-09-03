@@ -3,8 +3,8 @@ import {NextApiRequest,NextApiResponse} from "next"
 
 const handler = async ({query:{username}}:NextApiRequest,res:NextApiResponse) => {
   try{
-    const userNote = await fetch(`http://localhost:3000/users/${username}/notes`,{
-      method:"GET",
+    const userNote = await fetch(`http://localhost:3000/users/${username}/admin`,{
+      method:"PUT",
       headers:{
         "Accept":"application/json"
       }

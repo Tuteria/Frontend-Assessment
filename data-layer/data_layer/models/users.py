@@ -9,6 +9,7 @@ class User(Base):
   username = sql.Column(sql.String)
   password = sql.Column(sql.String)
   email = sql.Column(sql.String)
+  admin = sql.Column(sql.Boolean)
   about = sql.Column(sql.String)
 
   def __repr__(self):

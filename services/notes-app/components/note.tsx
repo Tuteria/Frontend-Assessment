@@ -22,6 +22,7 @@ const Note:React.SFC<INote> = ({title,description,...props}) => {
           .linkContainer{
             cursor:pointer;
             box-shadow:15px 15px 15px rgba(0,0,0,6)
+            display:none
           }
           `
         }</style>

@@ -6,6 +6,7 @@ interface IUserCreator {
 	email: string;
 	password: string;
 	about: string;
+	admin:boolean;
 }
 
 interface INoteCreator {
@@ -20,6 +21,7 @@ const userCreator = (): IUserCreator => {
 		email: faker.internet.email(),
 		about: faker.lorem.sentence(),
 		password: "drowssap001",
+		admin:false
 	};
 };
 

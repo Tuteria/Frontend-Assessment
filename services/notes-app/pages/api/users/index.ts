@@ -9,7 +9,6 @@ const handler = async (_req:NextApiRequest,res:NextApiResponse) => {
       }
     })
     const result = await allUser.json()
-    console.log("All users",result)
     return res.status(200).json(result)
   }catch(err){
     return res.status(400).json({

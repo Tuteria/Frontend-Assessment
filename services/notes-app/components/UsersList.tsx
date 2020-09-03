@@ -1,5 +1,6 @@
 import React from "react"
-import {Box,Skeleton,Text} from "@chakra-ui/core"
+import Link from "next/link"
+import {Box,Skeleton,Text,Checkbox} from "@chakra-ui/core"
 import Note from "./note"
 
 
@@ -12,6 +13,7 @@ interface IUser {
   username:string;
   about:string;
   email:string;
+  admin:boolean;
   notes?:INote[]
 }
 
@@ -20,17 +22,76 @@ interface IUserList {
 }
 
 
-const UserList:React.SFC<IUserList> = (props) => {
+const UserList:React.SFC<IUserList> = ({user,...props}) => {
   console.log(props)
+  const [alert,setAlert] = React.useState({
+    success:"",
+    error:""
+  })
+  const [userDetail,setUserDetail] = React.useState(user)
+
+  const handleAdminToggle = (username:string) => async () => {
+    const newUserDetail = userDetail.map((user) => {
+      if(user.username === username){
+        const curAdminValue = user.admin
+        user.admin = !curAdminValue
+      } 
+      return user
+    })
+    try{
+      const response = await fetch(`/api/users/${username}/admin`,{
+        method:"PUT",
+        headers:{
+          "Accept":"application/json"
+        }
+      })
+      const result = await response.json()
+      if(result.message.indexOf("Successful") > 0){
+        setUserDetail(newUserDetail)
+        setAlert({...alert,success:`${username} admin status is now ${result.data.admin}`})
+      }else{
+        setAlert({...alert,error:"Something went wrong unable to complete admin update"})
+      }
+      setTimeout(() => {
+        setAlert({success:"",error:""})
+      },2500)
+    }catch(err){
+      console.log(err)
+    }
+  }
+
   return(
     <Box display="flex" alignItems="center"
       flexDirection="column" justifyContent="center" >
-        {props.user.map((user,idx) => (
-          <Skeleton isLoaded={Boolean(user.username)} >
+        {
+          alert.error.length > 3 &&
+        <Box width={"75%"} background="red" color="black" >
+          <Text textAlign="center" fontSize="1.9em">
+            {alert.error}
+          </Text>
+        </Box>
+        }
+        {
+          alert.success.length > 3 &&
+        <Box width={"75%"} background="blue" color="whitesmoke" >
+          <Text textAlign="center" fontSize="1.9em">
+            {alert.success}
+          </Text>
+        </Box>
+        }
+        
+        {userDetail.map((user,idx) => (
+          <Skeleton key={idx} isLoaded={Boolean(user.username)} >
             <Box my="20px" mx="10px" borderRadius="10px" border="2px solid grey" width="40em" display="flex" alignItems="center"
             flexDirection="column" justifyContent="center" key={idx} >
-              <Box fontSize="1.3em"  >
-                {user.username} - <strong>{user.email}</strong>
+              <Link href={`/user/${user.username}`} >
+                <Box fontSize="1.3em"  >
+                  {user.username} - <strong>{user.email}</strong>
+                </Box>
+              </Link>
+              <Box display="flex" justifyContent="center" alignItems="center" >
+                <span style={{marginRight:"10px"}} >Admin ?</span>
+                <Checkbox onChange={handleAdminToggle(user.username)} isChecked={user.admin} />
               </Box>
               {user.notes && user.notes.map((note,idx) => (
                 <Note {...note} key={idx} />

@@ -48,7 +48,7 @@ router.put("/:noteId", async (req, res) => {
 				data: {
 					title: title ? title : foundNotes.title,
 					description: description ? description : foundNotes.description,
-					author: foundNotes.author,
+					...(foundNotes.author && {author: foundNotes.author }),
 				},
 			});
 			res.status(200).json(updatedNote);
@@ -58,6 +58,7 @@ router.put("/:noteId", async (req, res) => {
 			})
 		}
 	} catch (err) {
+		console.log(err)
 		return res.status(401).json({
 			error: err.message || "Something went wrong",
 		});

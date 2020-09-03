@@ -15,6 +15,12 @@
     "lint": "npm-run-all lint:src lint:types"
   },
   "dependencies": {
-    "swr": "^0.3.2"
+    "@prisma/client": "^2.5.1",
+    "swr": "^0.3.2",
+    "jsonwebtoken":"8.5.1"
+  },
+  "devDependencies": {
+    "@prisma/cli": "^2.5.1",
+    "@types/jsonwebtoken":"8.5.0"
   }
 }

@@ -13,10 +13,10 @@ const IndexPage = () => {
                     .then(res => res.json())
 
   const {data,error} = useSwr("/api/notes",fetcher)
-  console.log(data,error)
   return(
     <Layout title="Notes App">
     <h1>Welcome to note Taking App</h1>
+    {error && <div>Unable to successfully retrieve notes</div>}
     <NoteList notes={data || nullArr} />
   </Layout>
   )
