@@ -1,22 +1,18 @@
 import express, { Router, Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { getNotes } from "./controllers/getNotes";
+import { createNotes } from "./controllers/createNotes";
 
 // create the router variable
 const router: Router = express.Router();
 
-// instantiate the prisma data layer
-const prisma = new PrismaClient();
-
 // send a get request to the notes endpoint to list all notes
 router.get("/", async (req: Request, res: Response) => {
-	try {
-		const notes = await prisma.note.findMany();
-		res.status(200).json(notes);
-	} catch (error) {
-		res.status(500).json();
-	} finally {
-		await prisma.$disconnect();
-	}
+	// import the get notes controller
+	getNotes(req, res);
 });
 
+// Post route that creates notes
+router.post("/", async (req: Request, res: Response) => {
+	createNotes(req, res);
+});
 export default router;
