@@ -1,17 +1,18 @@
 // import { GetServerSideProps,InferGetServerSidePropsType } from 'next'
 import Layout from '../../components/Layout'
-import {NoteList} from "../../components/notelist"
+import NoteList from "../../components/notelist"
 import {Stack,Textarea,Button,Input,Text} from "@chakra-ui/core"
 import React from 'react'
 
-interface IData {
+interface INote {
   title:string;
-  description:string
-  author:string
+  description:string;
+  id:number;
+  author?:string
 }
 
 interface IProps {
-  data:IData[];
+  data:INote[];
   username:string;
 }
 interface IState { 
@@ -50,6 +51,8 @@ const User:React.SFC<IProps> = (props) => {
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
   }
+
+
   const handleSubmit = async () => {
     setAlert({...alert,submitting:true})
     const response = await fetch("/api/notes/create",{
@@ -58,7 +61,7 @@ const User:React.SFC<IProps> = (props) => {
         "Content-Type":"application/json",
         "Accept":"application/json"
       },
-      body:JSON.stringify(body)
+      body:JSON.stringify({...body,...(auth !== null && {author:auth.user.username})})
     })
     const result = await response.json()
     console.log("this is the result",result)
@@ -74,22 +77,6 @@ const User:React.SFC<IProps> = (props) => {
       setAlert({submitting:false,success:"",error:"Something went wrong"})  
     }
   }
-  const handleDelete = async (notesId:number) => {
-    setAlert({...alert,submitting:true})
-    const response = await fetch(`/api/notes/${notesId}`,{
-      method:"DELETE",
-      headers:{
-        "Accept":"applcation/json"
-      }
-    })
-    const result = await response.json()
-    if(result.message.indexOf("Successful")){
-      setAlert({submitting:false,success:"Note successfully deleted",error:""})
-    }else{
-      setAlert({submitting:false,success:"",error:"Action was not successful"})
-    }
-  }
-  console.log(note)
   return(
     <Layout>
         {auth !== null ? auth.user.username === props.username &&(
@@ -105,7 +92,7 @@ const User:React.SFC<IProps> = (props) => {
           </Button>
         </Stack>  
         ) : null}
-        <NoteList notes={note || nullArr} />
+        {note.length > 0 && <NoteList notes={note || nullArr} />}
     </Layout>
   )
 }
@@ -119,7 +106,7 @@ export async function getServerSideProps(context: { params: { username: any } })
         "Accept":"application/json"
       }
     })
-    const data:IData = await res.json()  
+    const data:INote = await res.json()  
     // Pass data to the page via props
     return { props: { data,username:context.params.username } }
   }

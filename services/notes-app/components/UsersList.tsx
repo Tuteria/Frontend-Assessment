@@ -2,12 +2,14 @@ import React from "react"
 import Link from "next/link"
 import {Box,Skeleton,Text,Checkbox} from "@chakra-ui/core"
 import saveToLocal from "../auth-helpers/saveToLocal"
-import Note from "./note"
+import NoteList from "./notelist"
 
 
 interface INote {
   title:string;
   description:string;
+  id:number;
+  author?:string
 }
 
 interface IUser {
@@ -15,7 +17,7 @@ interface IUser {
   about:string;
   email:string;
   admin:boolean;
-  notes?:INote[]
+  notes:INote[] | null[]
 }
 
 interface IUserList {
@@ -23,8 +25,7 @@ interface IUserList {
 }
 
 
-const UserList:React.SFC<IUserList> = ({user,...props}) => {
-  console.log(props)
+const UserList:React.SFC<IUserList> = ({user}) => {
   const [alert,setAlert] = React.useState({
     success:"",
     error:""
@@ -39,6 +40,7 @@ const UserList:React.SFC<IUserList> = ({user,...props}) => {
       } 
       return user
     })
+    setUserDetail(newUserDetail)
     try{
       const response = await fetch(`/api/users/${username}/admin`,{
         method:"PUT",
@@ -48,7 +50,6 @@ const UserList:React.SFC<IUserList> = ({user,...props}) => {
       })
       const result = await response.json()
       if(result.message.indexOf("Successful") > 0){
-        setUserDetail(newUserDetail)
         saveToLocal({
           token:result.token,
           user:result.data
@@ -96,12 +97,14 @@ const UserList:React.SFC<IUserList> = ({user,...props}) => {
               </Link>
               <Box display="flex" justifyContent="center" alignItems="center" >
                 <span style={{marginRight:"10px"}} >Admin ?</span>
-                <Checkbox onChange={handleAdminToggle(user.username)} isChecked={user.admin} />
+                <Checkbox onChange={handleAdminToggle(user.username)}
+                 isChecked={user.admin} />
               </Box>
-              {user.notes && user.notes.map((note,idx) => (
-                <Note {...note} key={idx} />
-              ))}
-              {user.notes!.length < 1 && <Text>No Notes yet from this user</Text>}
+              {/* {user.notes && user.notes.map((note,idx) => (
+                <Note note={note} handleDelete={} key={idx} />
+              ))} */}
+              <NoteList notes={user.notes} />
+              { user.notes && user.notes.length < 1 && <Text>No Notes yet from this user</Text>}
             </Box>
         </Skeleton>
         ))}

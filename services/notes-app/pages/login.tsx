@@ -86,7 +86,7 @@ const Login = () => {
           <Input my={2} name="password" onChange={handleChange} value={body.password}
           variant="flushed" isRequired placeholder="password" focusBorderColor="blue.500" />
           <Button isDisabled={alert.submitting} onClick={handleSubmit}>
-            {alert.submitting ? "Creating new user" : "Submit"}
+            {alert.submitting ? `Login ${body.email}` : "Submit"}
           </Button>
         </Stack>
     </Layout>

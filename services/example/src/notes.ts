@@ -73,7 +73,9 @@ router.delete("/:noteId", async (req, res) => {
 		const deletedNote = await prisma.notes.delete({
 			where: { id: Number(noteId) }
 		})
-		return res.status(200).json(deletedNote)
+		return res.status(200).json({
+			message:`successfully deleted ${deletedNote.title}`
+		})
 		}catch(err){
 			return res.status(400).json({
 				message:err.message || "Unable to delete note"

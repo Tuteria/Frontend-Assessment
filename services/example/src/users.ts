@@ -71,7 +71,6 @@ router.put("/:username/admin",async (req,res) => {
 	let foundUser = await prisma.users.findOne({ where: { username:username } });
 	try {
 		if (foundUser) {
-			console.log(foundUser)
 			const updatedUser = await prisma.users.update({
 				where: { id:foundUser.id },
 				data: {
@@ -119,7 +118,6 @@ router.post("/create", async (req, res) => {
 		});
 		res.status(200).json(newUser);
 	} catch (err) {
-		console.log("something went wrong",err)
 		return res.status(401).json({
 			error: err.message || "Something Went Wrong",
 		});
@@ -135,7 +133,6 @@ router.get("/:username/notes", async (req, res) => {
 		});
 		res.status(200).json(foundNotes);
 	} catch (err) {
-		console.log("something went wrong",err)
 		res.status(400).json({
 			error: err.message || "Something Went Wrong",
 		});

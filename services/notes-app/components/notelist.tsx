@@ -4,34 +4,51 @@ import React from "react";
 import {Box} from "@chakra-ui/core"
 import Note from "./note"
 
-export default {
-  title: "Components/Loader",
-  notes:"array"
-};
-interface IData {
-  author:string;
+interface INote {
   title:string;
   description:string;
+  id:number;
+  author?:string
 }
 type INoteList =  { 
-  notes:IData[] | null[]
+  notes:INote[] | null[]
 }
 
-export const NoteList:React.SFC<INoteList> = ({notes}) => {
-  const [defaultNote,setDefaultNote] = React.useState(Array(10).fill(""))
+const NoteList:React.SFC<INoteList> = ({notes}) => {
+  const [defaultNote,setDefaultNote] = React.useState(Array(10).fill(null))
 
   React.useEffect(() => {
     if(Array.isArray(notes)){
       setDefaultNote(notes)
     }
   },[notes])
+
+  const handleDelete = (notesId:number) => async() => {
+    const filterNote = defaultNote.filter((note:INote) => (
+      note.id !== notesId
+    ))
+    setDefaultNote(filterNote)
+    const response = await fetch(`/api/notes/${notesId}`,{
+      method:"DELETE",
+      headers:{
+        "Accept":"applcation/json"
+      }
+    })
+    const result = await response.json()
+    if(result.message.indexOf("Successful")){
+      console.log("notes successfully deleted")
+    }else{
+      console.log("something went wrong")
+    }
+  }
   return(
     <Box display="flex" justifyContent="center"
      flexDirection={"column"} alignItems={"center"}  >
-      {defaultNote.map((note:IData,idx:number) => (
-        <Note {...note} key={idx} />
+      {defaultNote.map((note:INote,idx:number) => (
+        <Note note={note} key={idx} handleDelete ={handleDelete(note?.id)} />
       ))}
     </Box>
     )
 }
 
+export default NoteList
