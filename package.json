@@ -28,6 +28,7 @@
     "test": "lerna run test",
     "service:common": "yarn workspace @tuteria/common",
     "service:example": "yarn workspace @tuteria/example-service",
+    "service:note": "yarn workspace @tuteria/note-service",
     "db:generate-all": "yarn service:example db:generate"
   },
   "devDependencies": {
