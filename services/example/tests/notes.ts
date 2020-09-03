@@ -1,3 +1,4 @@
+require('dotenv').config('./.env.ts')
 import App from "../src";
 import "../src/env";
 import request from "supertest";

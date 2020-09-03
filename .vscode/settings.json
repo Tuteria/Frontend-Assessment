@@ -6,5 +6,6 @@
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
     "**/.hg/store/**": true
-  }
+  },
+  "python.pythonPath": "C:\\Users\\Chidibede\\AppData\\Local\\Programs\\Python\\Python37\\python.exe"
 }

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./../../../example.db"
+  provider = "postgresql"
+  url      = "postgres://jqixbldb:C2B5Co2H5WmL_y620Qlt_n_QjdiovOqI@lallah.db.elephantsql.com:5432/jqixbldb"
 }
 
 model alembic_version {
@@ -12,7 +12,7 @@ model alembic_version {
 }
 
 model notes {
-  description String?
   id          Int     @default(autoincrement()) @id
   title       String?
+  description String?
 }
