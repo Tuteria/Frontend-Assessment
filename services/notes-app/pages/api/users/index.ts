@@ -1,11 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const handler = async (_req:NextApiRequest,res:NextApiResponse) => {
+const handler = async (req:NextApiRequest,res:NextApiResponse) => {
   try{
+    if(!req.headers.authorization){
+     throw new Error("Authorization needed")
+    }
     const allUser = await fetch("http://localhost:3000/users",{
       method:"GET",
       headers:{
-        "Accept":"application/json"
+        "Accept":"application/json",
+        "Authorization":`Bearer ${req.headers.authorization.split(" ")[1]}`
       }
     })
     const result = await allUser.json()
@@ -16,17 +20,5 @@ const handler = async (_req:NextApiRequest,res:NextApiResponse) => {
     })
   }
 }
-
-// const handler = (_req: NextApiRequest, res: NextApiResponse) => {
-//   try {
-//     if (!Array.isArray(sampleUserData)) {
-//       throw new Error('Cannot find user data')
-//     }
-
-//     return res.status(200).json(sampleUserData)
-//   } catch (err) {
-//     return res.status(500).json({ statusCode: 500, message: err.message })
-//   }
-// }
 
 export default handler

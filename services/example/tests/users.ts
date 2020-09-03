@@ -13,8 +13,8 @@ const Users = suite("Notes API");
 const testUser = {
 	username: "John-doe",
 	password: "drowssap",
-	id: 1,
-	admin:false,
+	id: 10,
+	admin:true,
 	email: "john@doe.com",
 	about: "Adding a description to the test user for testing",
 };
@@ -95,12 +95,21 @@ Users("Successful login user",async() => {
 
 Users("Create a new Admin",async(context) => {
 	await request(App)
-				.put(`/users/${testUser.username}/admin`)
-				.set("Accept", "application/json")
-				.expect("Content-Type", /json/)
-				.then((response) => {
-					assert.is(response.body.data.username,testUser.username)
-				})
+			.post("/users/login")
+			.send({email:testUser.email,password:testUser.password})
+			.set("Accept", "application/json")
+			.expect("Content-Type", /json/)
+			.then(async (res) => {
+				const curToken = res.body.token
+					await request(App)
+						.put(`/users/${testUser.username}/admin`)
+						.set("Accept", "application/json")
+						.set("Authorization",`Bearer ${curToken}`)
+						.expect("Content-Type", /json/)
+						.then((response) => {
+							assert.is(response.body.message.indexOf("admin") > 0,true)
+						})
+	});
 })
 
 Users("Create note to a specific User", async (context) => {

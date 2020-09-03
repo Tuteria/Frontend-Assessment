@@ -1,20 +1,9 @@
 import Layout from '../components/Layout'
 import UsersList from "../components/UsersList"
-import useSwr from "swr"
 import {Box,Stack,Textarea,Button,Input,Text} from "@chakra-ui/core"
 import React from 'react'
-
-
-const fetcher = (url:string) => fetch(url)
-                    .then((res: { json: () => any }) => res.json())
-
-// interface IUser {
-//   username:string;
-//   password:string;
-//   about:string;
-//   email:string;
-//   notes?:any
-// }
+import {IUser} from "../components//UsersList"
+import {IToken} from "../interfaces"
 
 interface IState { 
   username:string;
@@ -28,17 +17,38 @@ interface IAlert {
   submitting:boolean;
   success:string;
 }
-interface IToken {
-  token:string;
-  user:{
-    username:string;
-    email:string;
-    admin:boolean;
-  }
+interface IData {
+  error:string;
+  data:IUser[]
 }
 
 const Admin = () => {
-  const {error,data} = useSwr("/api/users",fetcher)
+  const [auth,setAuth] = React.useState<IToken | null>(null)
+  const [state,setState] = React.useState<IData>({
+    error:"",
+    data:[]
+  })
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("jwtToken")
+    if(token){
+      const jwt = JSON.parse(token)
+      setAuth(jwt)
+      async function apiCall(){
+        const response = await fetch("/api/users",{
+          headers:{
+            Authorization:`Bearer ${(jwt as IToken).token}`
+          }
+        })
+        const result = await response.json()
+        console.log(result)
+        if(!(result.message)){
+          setState({...state,data:(result as unknown as IUser[])})
+        console.log(state.data)
+        }
+      }
+      apiCall()
+    }
+  },[])
   const [body,setBody] = React.useState<IState>({
     username:"",
     password:"",
@@ -51,15 +61,7 @@ const Admin = () => {
     success:"",
     submitting:false
   })
-  const [auth,setAuth] = React.useState<IToken | null>(null)
   
-  React.useEffect(() => {
-    const token = window.localStorage.getItem("jwtToken")
-    if(token){
-      setAuth(JSON.parse(token))
-    }
-  },[])
-
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
   }
@@ -83,12 +85,11 @@ const Admin = () => {
         about:"",
         admin:false
       })
-      setAlert({submitting:false,success:"Sign Up Successful",error:""})
+      setAlert({submitting:false,success:"Create User Successful",error:""})
     }else{
       setAlert({submitting:false,success:"",error:"Something went wrong"})  
     }
   }
-
   if(!auth){
     return <div>Please Login</div>
   }else if(auth.user.admin){
@@ -127,8 +128,8 @@ const Admin = () => {
           </Button>
         </Stack>
         <Box>
-          {error ? <div>Something went wrong</div> : 
-          data && data.length > 1 ? <UsersList user={data} /> :
+          {state.error ? <div>Something went wrong</div> : 
+          state.data && (state.data as IUser[]).length > 1 ? <UsersList user={(state.data as IUser[])} /> :
           <div>No User available</div>
         }
         </Box>

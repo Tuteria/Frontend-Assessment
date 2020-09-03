@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 import {Box,Stack,Button,Input,Text} from "@chakra-ui/core"
-import {} from "next"
+import {useRouter} from "next/router"
 import React from 'react'
 import saveToken from "../auth-helpers/saveToLocal"
 
@@ -27,6 +27,7 @@ const Login = () => {
     success:"",
     submitting:false
   })
+  const router = useRouter()
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
@@ -44,6 +45,7 @@ const Login = () => {
     const result = await response.json()
     console.log("This is the result",result)
     if(result.message.indexOf("Successful") > 1){
+      router.push("/")
       saveToken({
         token:result.token,
         user:result.user

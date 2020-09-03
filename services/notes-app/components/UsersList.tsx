@@ -1,9 +1,8 @@
 import React from "react"
 import Link from "next/link"
 import {Box,Skeleton,Text,Checkbox} from "@chakra-ui/core"
-import saveToLocal from "../auth-helpers/saveToLocal"
 import NoteList from "./notelist"
-
+import {IToken} from "../interfaces/"
 
 interface INote {
   title:string;
@@ -12,7 +11,7 @@ interface INote {
   author?:string
 }
 
-interface IUser {
+export interface IUser {
   username:string;
   about:string;
   email:string;
@@ -30,8 +29,15 @@ const UserList:React.SFC<IUserList> = ({user}) => {
     success:"",
     error:""
   })
+  const [jwt,setJwt] = React.useState<IToken| null >(null)
   const [userDetail,setUserDetail] = React.useState(user)
-
+  React.useEffect(() => {
+    const token = window.localStorage.getItem("jwtToken")
+    if(token){
+      const auth = JSON.parse(token)
+      setJwt(auth)
+      }
+  },[])
   const handleAdminToggle = (username:string) => async () => {
     const newUserDetail = userDetail.map((user) => {
       if(user.username === username){
@@ -45,15 +51,12 @@ const UserList:React.SFC<IUserList> = ({user}) => {
       const response = await fetch(`/api/users/${username}/admin`,{
         method:"PUT",
         headers:{
-          "Accept":"application/json"
+          "Accept":"application/json",
+          "Authorization":`Bearer ${jwt!.token}`
         }
       })
       const result = await response.json()
-      if(result.message.indexOf("Successful") > 0){
-        saveToLocal({
-          token:result.token,
-          user:result.data
-        })
+      if(result.message.indexOf("S") > 0){
         setAlert({...alert,success:`${username} admin status is now ${result.data.admin}`})
       }else{
         setAlert({...alert,error:"Something went wrong unable to complete admin update"})

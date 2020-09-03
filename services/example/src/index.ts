@@ -5,7 +5,9 @@ import * as bodyParser from "body-parser";
 // import { logging as httpLogger } from "@tuteria/common/src/middleware";
 import populatDb from "./populate";
 
-populatDb([5,10]);
+
+// Comment out for test
+// populatDb([5,10]);
 
 const app = express();
 app.use(bodyParser.json());

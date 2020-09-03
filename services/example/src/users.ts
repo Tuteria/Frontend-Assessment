@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import {Request,Response,NextFunction} from "express"
 import jwt from "jsonwebtoken"
 import { Router } from "express";
 const router = Router();
@@ -15,7 +16,39 @@ interface IUser {
 	notes?:INote[]
 }
 
-router.get("/",async (req,res) => {
+interface IDecoded {
+	admin:boolean
+}
+
+const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
+
+const verifyAdmin = (req:Request,res:Response,next:NextFunction) => {
+	try{
+		if(req.headers.authorization){
+			const token = req.headers.authorization.split(" ")[1]
+			jwt.verify(token,jwtSecret,function(err,decoded){
+				if(err){
+					return res.status(400).json({
+						message:err.message || "Unauthorized"
+					})
+				}
+					if((decoded as unknown as IDecoded).admin){
+							return next();
+					}else{
+							return res.status(400).json({
+								message:"err authorized"
+							})
+					}
+			})
+		}
+	}catch(e){
+			return next({
+					status:401,
+					message:"You are not allowed to perform this actions"
+			})
+	}
+}
+router.get("/",verifyAdmin,async (req,res) => {
 	const prisma : PrismaClient = req.app.locals.prisma;
 	try{
 		const allUser = await prisma.users.findMany()
@@ -40,7 +73,6 @@ router.post("/login",async (req,res) => {
 			where:{email:email}
 		})
 		if(foundUser && foundUser.password.toLowerCase() == password.toLowerCase()){
-			const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
 			const token = jwt.sign({admin:foundUser.admin},jwtSecret,{
 				expiresIn:60*60
 			})
@@ -65,7 +97,7 @@ router.post("/login",async (req,res) => {
 	}
 })
 
-router.put("/:username/admin",async (req,res) => {
+router.put("/:username/admin",verifyAdmin,async (req,res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const username = req.params.username
 	let foundUser = await prisma.users.findOne({ where: { username:username } });
@@ -81,20 +113,8 @@ router.put("/:username/admin",async (req,res) => {
 					admin:!foundUser.admin
 				}
 			});
-			const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
-			const token = jwt.sign({admin:updatedUser.admin},jwtSecret,{
-				expiresIn:60*60
-			})
-			
 			res.status(200).json({
-				data:{
-					about:foundUser.about,
-					email:foundUser.email,
-					admin:foundUser.admin,
-					username:foundUser.username,
-				},
-				token,
-				message:!updatedUser.admin ? "New Admin Successful" : `${foundUser.username} admin Successful deactivation`
+				message:updatedUser.admin ? "New Admin Successful" : `${foundUser.username} admin Successful deactivation`
 			});
 		}else{
 			res.status(400).json({

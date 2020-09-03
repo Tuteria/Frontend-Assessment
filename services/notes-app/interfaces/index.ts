@@ -8,3 +8,12 @@ export type User = {
   id: number
   name: string
 }
+
+export interface IToken {
+  token:string;
+  user:{
+    username:string;
+    email:string;
+    admin:boolean;
+  }
+}
