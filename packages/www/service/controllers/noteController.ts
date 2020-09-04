@@ -37,6 +37,7 @@ async function createNote(req, res) {
 			data: {
 				message: "Note successfully created",
 				title: newNote.title,
+				description: newNote.description
 			},
 		});
 	} catch (error) {

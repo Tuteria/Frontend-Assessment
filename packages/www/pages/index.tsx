@@ -1,18 +1,32 @@
-import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import { Button, Box, useToast } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, Note
 } from '../components';
 import { HOST_URL, ERROR, SUCCESS } from '../constants';
+import { FunctionComponent } from 'react';
 
-export const getServerSideProps = async () => {
+type Note = {
+  id: string
+  title: string
+  description: string
+  user_id: null
+}
+
+export interface HomeProps {
+  status: string,
+  notes: Note[]
+}
+
+export const getServerSideProps:GetServerSideProps = async () => {
   try {
-  const res = await axios.get(`${HOST_URL}/api/notes`)
+    const res = await axios.get(`${HOST_URL}/api/notes`)
+    const notes = res.data.data.sort((a, b) => b.id - a.id)
     return {
       props: {
         status: SUCCESS,
-        notes: res.data.data,
+        notes: notes,
       },
     }
   } catch(err) {
@@ -26,7 +40,7 @@ export const getServerSideProps = async () => {
 
 }
 
-export default function Home({status, notes}) {
+const Home: FunctionComponent<HomeProps> = ({status, notes}) => {
   const toast = useToast();
   return (
     <Layout>
@@ -60,3 +74,5 @@ export default function Home({status, notes}) {
     </Layout>
   )
 }
+
+export default Home;

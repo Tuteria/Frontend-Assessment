@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Head from 'next/head';
 import axios from 'axios';
 import {
   Button, Flex, FormControl, FormLabel,
@@ -69,12 +68,12 @@ export default function Note({status, note}) {
     
     setIsSending(true);
     try {
-      const response = await axios.put(`${HOST_URL}/api/notes/${note.id}`, {
+      const response = await axios.put(`/api/notes/${note.id}`, {
         title,
         description
       })
       toast({
-        title: "An error occurred.",
+        title: "Note updated",
         description: "Note successfully updated",
         status: "success",
         position: "top",

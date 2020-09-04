@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, FunctionComponent } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios'
 import {
@@ -8,8 +8,11 @@ import {
 } from '@chakra-ui/core';
 import { HOST_URL } from '../constants';
 
+export interface DeleteNoteProps {
+  noteId: string
+}
 
-const DeleteNote = ({noteId}) => {
+const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const router = useRouter()
@@ -18,9 +21,9 @@ const DeleteNote = ({noteId}) => {
     onClose()
     
     try {
-      const response = await axios.delete(`${HOST_URL}/api/notes/${noteId}`)
+      const response = await axios.delete(`/api/notes/${noteId}`)
       toast({
-        title: "An error occurred.",
+        title: "Note deleted",
         description: "Note successfully deleted",
         status: "success",
         position: "top",

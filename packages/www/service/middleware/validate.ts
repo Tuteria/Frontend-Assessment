@@ -36,6 +36,23 @@ const isValidNoteData = (title, description) => {
 }
 
 /**
+ * Validates field for a new note
+ * @param handler - The handler that is returned
+ */
+function createNote(handler: Function) {
+	return async (req, res) => {
+		const { title, description } = req.body
+		if (isValidNoteData(title, description)) {
+			return res.status(409).json({
+				status: "error",
+				error: "Invalid values were supplied",
+			});
+		}
+		return handler(req, res);
+	};
+}
+
+/**
  * Validates fields for route notes/:noteId
  * @param handler - The handler that is returned
  */
@@ -80,34 +97,6 @@ function notesNoteId(handler: Function) {
 				break;
 		}
 
-		return handler(req, res);
-	};
-}
-
-/**
- * Validates field for a new note
- * @param handler - The handler that is returned
- */
-function createNote(handler: Function) {
-	return async (req, res) => {
-
-		if (req.method === 'GET') {
-			return handler(req, res);
-		}
-		const noteData = {
-			title: req.body.title,
-			description: req.body.description
-		}
-		const rules = {
-			title: 'required|string',
-			description: 'required|string'
-		}
-		if (validate(noteData, rules)) {
-			return res.status(409).json({
-				status: "error",
-				error: "Invalid values were supplied",
-			});
-		}
 		return handler(req, res);
 	};
 }
