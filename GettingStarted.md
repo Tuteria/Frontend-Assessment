@@ -10,4 +10,4 @@
 
 - "/user/[user-id]" to get all notes created by a user
 
-- "/admin" is a protected route, to gain access, navigate to "/admin-login" and login in with: email - 'admin@mail.com' | password - 'admintuteria'. This page displays a list of users and the number of notes they have created.
+- "/admin" is a protected route, to gain access, navigate to "/admin-login" and login with: email - 'admin@mail.com' | password - 'admintuteria'. This page displays a list of users and the number of notes they have created.
