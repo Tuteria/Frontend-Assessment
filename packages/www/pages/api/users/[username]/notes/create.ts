@@ -1,13 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { userController } from '../../../../service/controllers';
-import { validate } from '../../../../service/middleware';
+import { userController } from '../../../../../service/controllers';
+import { validate } from '../../../../../service/middleware';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
 	switch (method) {
-		case "GET":
-			return await userController.getNotes(req, res);
-			break;
 		case "POST":
 			return await userController.createNote(req, res);
 			break;

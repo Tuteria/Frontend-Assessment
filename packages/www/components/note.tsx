@@ -4,12 +4,17 @@ import { Box } from '@chakra-ui/core';
 
 interface NoteProps {
   id: string,
+  username: string | null
   title: string
  }
 
-const Note: FunctionComponent<NoteProps> = ({id, title}) => {
+const Note: FunctionComponent<NoteProps> = ({id, title, username}) => {
+  let url = `/notes/${id}`
+  if (username) {
+    url = `/users/${username}/notes/${id}`
+  }
   return (
-    <Link href={`/notes/${id}`} as={`/notes/${id}`}>
+    <Link href={url} as={url}>
       <a>
         <div className="card">
           <p className="title">{title}</p>

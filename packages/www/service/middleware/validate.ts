@@ -5,21 +5,6 @@ const validate = (data: any, rules: any) => {
 	return validation.fails()
 }
 
-/**
- * Checks if a string is a valid noteId
- * @param noteId 
- * @return boolean 
- */
-// function isValidNoteId(noteId: string): boolean {
-//   if (noteId.trim().length === 0) {
-//     return false
-//   }else if (isNaN(Number(noteId))) {
-//     return false
-//   } else {
-//     return noteId.match(/\d/g).length === noteId.length
-//   }
-// }
-
 const isValidNoteId = (noteId: string): boolean =>
 	validate({ noteId: noteId },{ noteId: 'string|integer'})
 

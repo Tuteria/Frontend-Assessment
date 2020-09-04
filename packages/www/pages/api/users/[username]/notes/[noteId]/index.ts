@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { userController } from '../../../../../service/controllers';
-import { validate } from '../../../../../service/middleware';
+import { userController } from '../../../../../../service/controllers';
+import { validate } from '../../../../../../service/middleware';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
@@ -23,4 +23,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default handler;
+export default validate.notesNoteId(handler);

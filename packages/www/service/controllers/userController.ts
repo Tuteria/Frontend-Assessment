@@ -88,7 +88,7 @@ async function getOneNote(req, res) {
       })
     } else {
       return res.status(400).json({
-        status: 'success',
+        status: 'error',
         error: 'User does not have the requested note'
       })
     }

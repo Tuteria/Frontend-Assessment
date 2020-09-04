@@ -9,19 +9,27 @@ import {
 import { HOST_URL } from '../constants';
 
 export interface DeleteNoteProps {
-  noteId: string
+  noteId: string,
+  username: string
 }
 
-const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId}) => {
+const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId, username}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const router = useRouter()
+
+  let requestUrl = `/api/notes/${noteId}`
+  let redirectUrl = '/';
+  if (username) {
+    requestUrl = `/api/users/${username}/notes/${noteId}`;
+    redirectUrl = `/users/${username}/notes`
+  }
 
   const deleteNote = async () => {
     onClose()
     
     try {
-      const response = await axios.delete(`/api/notes/${noteId}`)
+      const response = await axios.delete(requestUrl)
       toast({
         title: "Note deleted",
         description: "Note successfully deleted",
@@ -30,7 +38,9 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId}) => {
         duration: 9000,
         isClosable: true
       })
-      router.push('/')
+      setTimeout(() => {
+        router.push(redirectUrl);
+      })
     } catch (err) {
       toast({
         title: "An error occurred.",
@@ -59,6 +69,7 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId}) => {
         isOpen={isOpen}
         onClose={onClose}
         closeOnOverlayClick={false}
+        size="sm"
       >
         <ModalOverlay />
         <ModalContent borderRadius={10}>
@@ -67,7 +78,7 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId}) => {
           <ModalBody>
             Are you sure you want to delete this note?
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter justifyContent="center">
             <Button
                 variantColor="blue"
                 borderRadius={7}

@@ -7,15 +7,17 @@ import {
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, DeleteNote
-} from '../../../components';
-import { HOST_URL, ERROR, SUCCESS } from '../../../constants';
+} from '../../../../../components';
+import { HOST_URL, ERROR, SUCCESS } from '../../../../../constants';
 
 export const getServerSideProps = async ({params}) => {
   try {
-    const note = await axios.get(`${HOST_URL}/api/notes/${params.noteId}`)
+    const {username, noteId} = params;
+    const note = await axios.get(`${HOST_URL}/api/users/${username}/notes/${noteId}`)
     return {
       props: {
         status: SUCCESS,
+        username: params.username,
         note: note.data.data,
       },
     }
@@ -29,9 +31,9 @@ export const getServerSideProps = async ({params}) => {
   }
 }
 
-export default function Note({status, note}) {
-  const toast = useToast();
+export default function UserNote({status, note, username}) {
   const router = useRouter();
+  const toast = useToast();
   const [title, setTitle] = useState(note.title);
   const [description, setDescription] = useState(note.description);
   const [notEditable, setNotEditable] = useState(true);
@@ -70,7 +72,7 @@ export default function Note({status, note}) {
     
     setIsSending(true);
     try {
-      const response = await axios.put(`/api/notes/${note.id}`, {
+      const response = await axios.put(`/api/users/${username}/notes/${note.id}`, {
         title,
         description
       })
@@ -131,7 +133,7 @@ export default function Note({status, note}) {
               >
                 Edit
               </Button>
-              <DeleteNote noteId={note.id} username={null}/>
+              <DeleteNote noteId={note.id} username={username}/>
             </Flex>
           ) : null
         }

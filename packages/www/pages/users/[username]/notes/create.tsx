@@ -7,9 +7,17 @@ import {
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav
-} from '../../components';
+} from '../../../../components';
 
-export default function CreateNote() {
+export const getServerSideProps = async ({params}) => {
+  return {
+    props: {
+      username: params.username
+    },
+  }
+}
+
+export default function CreateUserNote({username}) {
   const router = useRouter();
   const toast = useToast();
   const [title, setTitle] = useState("");
@@ -41,7 +49,7 @@ export default function CreateNote() {
     setIsSending(true);
 
     try {
-      const response = await axios.post(`/api/notes/create`, {
+      const response = await axios.post(`/api/users/${username}/notes/create`, {
         title,
         description
       })
@@ -53,7 +61,7 @@ export default function CreateNote() {
         duration: 9000,
         isClosable: true
       });
-      router.push('/');
+      router.push(`/users/${username}/notes`);
     } catch (err) {
       setIsSending(false);
       toast({
@@ -76,7 +84,7 @@ export default function CreateNote() {
           <FormControl>
             <FormLabel>Title</FormLabel>
             <Input
-              placeholder="Enter the note title here"
+              placeholder="Enter note title here"
               variant={isEmptyTitle ? "outline" : "unstyled"}
               value={title}
               onChange={handleTitleChange}
