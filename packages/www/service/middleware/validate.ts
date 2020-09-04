@@ -1,18 +1,87 @@
 import Validator from 'validatorjs';
 
-type Error = {
-	message: string;
-	param: string;
-};
-
 const validate = (data: any, rules: any) => {
 	const validation = new Validator(data, rules);
 	return validation.fails()
 }
 
-const note = {
-	title: 'required|string|',
-	description: 'required|string|',
+/**
+ * Checks if a string is a valid noteId
+ * @param noteId 
+ * @return boolean 
+ */
+// function isValidNoteId(noteId: string): boolean {
+//   if (noteId.trim().length === 0) {
+//     return false
+//   }else if (isNaN(Number(noteId))) {
+//     return false
+//   } else {
+//     return noteId.match(/\d/g).length === noteId.length
+//   }
+// }
+
+const isValidNoteId = (noteId: string): boolean =>
+	validate({ noteId: noteId },{ noteId: 'string|integer'})
+
+const isValidNoteData = (title, description) => {
+	const noteData = {
+		title: title,
+		description: description
+	}
+	const rules = {
+		title: 'required|string',
+		description: 'required|string',
+	}
+	return validate(noteData, rules)
+}
+
+/**
+ * Validates fields for route notes/:noteId
+ * @param handler - The handler that is returned
+ */
+function notesNoteId(handler: Function) {
+	return async (req, res) => {
+		const { noteId } = req.query;
+		const { description, title } = req.body;
+		const { method } = req;
+		
+		switch (method) {
+			case 'GET':
+				if (isValidNoteId(noteId)) {
+					return res.status(409).json({
+						status: "error",
+						error: "Invalid note id",
+					});
+				}
+				break;
+			case 'PUT':
+				if (isValidNoteId(noteId)) {
+					return res.status(409).json({
+						status: "error",
+						error: "Invalid note id",
+					});
+				}
+				if (isValidNoteData(title, description)) {
+					return res.status(409).json({
+						status: "error",
+						error: "Invalid values were supplied",
+					});
+				}
+				break;
+			case 'DELETE':
+				if (isValidNoteId(noteId)) {
+					return res.status(409).json({
+						status: "error",
+						error: "Invalid note id",
+					});
+				}
+				break;
+			default:
+				break;
+		}
+
+		return handler(req, res);
+	};
 }
 
 /**
@@ -44,51 +113,6 @@ function createNote(handler: Function) {
 }
 
 /**
- * Checks if a string is a valid noteId
- * @param noteId 
- * @return boolean 
- */
-function isValidNoteId(noteId: string): boolean {
-  if (noteId.trim().length === 0) {
-    return false
-  }else if (isNaN(Number(noteId))) {
-    return false
-  } else {
-    return noteId.match(/\d/g).length === noteId.length
-  }
-}
-
-/**
- * Validates field for updating a note
- * @param handler - The handler that is returned
- */
-function updateNote(handler: Function) {
-	return async (req, res) => {
-		const noteData = {
-			title: req.body.title,
-			description: req.body.description
-		}
-		const rules = {
-			title: 'required|string',
-			description: 'required|string',
-		}
-		if (validate(noteData, rules)) {
-			return res.status(409).json({
-				status: "error",
-				error: "Invalid values were supplied",
-			});
-		}
-    if (validate({ noteId: req.query.noteId },{ noteId: 'string|integer'})) {
-      return res.status(409).json({
-				status: "error",
-				error: "Invalid note id",
-			});
-    }
-		return handler(req, res);
-	};
-}
-
-/**
  * Validates fields for a new user
  * @param handler - The handler that is returned
  */
@@ -114,4 +138,4 @@ function createUser(handler: Function) {
 	};
 }
 
-export { createNote, updateNote, createUser };
+export { createNote, notesNoteId, createUser, isValidNoteId };

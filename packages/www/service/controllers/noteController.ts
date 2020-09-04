@@ -67,7 +67,7 @@ async function getOneNote(req, res) {
 		if (note.user_id) {
 			return res.status(403).json({
 				status: 'error',
-				error: "You caa not authorized for this operation note",
+				error: "You are not authorized for this operation note",
 			});
 		}
 		return res.status(200).json({
@@ -104,7 +104,7 @@ async function updateNote(req, res) {
 		if (note.user_id) {
 			return res.status(403).json({
 				status: 'error',
-				error: "You caa not authorized to perform this operation",
+				error: "You are not authorized to perform this operation",
 			});
 		}
 		const result = await noteService.updateNote(noteId, {
@@ -145,7 +145,7 @@ async function deleteNote(req, res) {
 		if (note.user_id) {
 			return res.status(403).json({
 				status: 'error',
-				error: "YYou caa not authorized to perform this operation",
+				error: "YYou are not authorized to perform this operation",
 			});
 		}
 		const result = await noteService.deleteOne(noteId);

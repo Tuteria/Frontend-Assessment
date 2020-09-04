@@ -1,162 +1,62 @@
-import Head from 'next/head'
-import * as React from 'react';
-import { useState } from 'react';
+import Head from 'next/head';
+import axios from 'axios';
+import { Button, Box, useToast } from '@chakra-ui/core';
+import {
+  Container, Layout, Nav, Note
+} from '../components';
+import { HOST_URL, ERROR, SUCCESS } from '../constants';
 
-export default function Home() {
-  const [notes, setNotes] = useState([])
-  const note = {
-    title: 'cat',
-    description: 'catcat'
+export const getServerSideProps = async () => {
+  try {
+  const res = await axios.get(`${HOST_URL}/api/notes`)
+    return {
+      props: {
+        status: SUCCESS,
+        notes: res.data.data,
+      },
+    }
+  } catch(err) {
+    return {
+      props: {
+        status: ERROR,
+        notes: [],
+      },
+    }
   }
-  function submit() {
-    console.log('Button Clicked')
-    fetch('api/hello', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json;charset=utf-8'},
-      body: JSON.stringify(note)
-    })
-  }
-  function show() {
-    fetch('api/hello')
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setNotes(data)
-      })
-      .catch(err => console.log(err))
-  }
+
+}
+
+export default function Home({status, notes}) {
+  const toast = useToast();
   return (
-    <div >
-      <Head>
-        <title>{"Notes"}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <h1 className="title">
-          {"Notes"}
-        </h1>
-
-        <div className="grid">
-          
-        </div>
-      </main>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        main {
-          padding: 2rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .grid {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          flex-wrap: wrap;
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 2rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+    <Layout>
+      <Nav/>
+      <Container>
+      <Button
+        leftIcon="add"
+        variantColor="teal"
+        marginBottom={4}
+        borderRadius={7}
+        fontSize={14}
+        ml={2} mr={2}
+      >
+        <a href="/notes/create">Add Note</a>
+      </Button>
+      {status === ERROR ?
+        toast({
+          title: "An error occurred.",
+          description: "Something went wrong. Try again",
+          status: "error",
+          position: "top",
+          duration: 9000,
+          isClosable: true
+        }) : 
+        notes.map(({id, title}) => (
+          <Note key={id} id={id} title={title} />
+        ))
+      }
+      <Box mb={10}></Box>
+      </Container>
+    </Layout>
   )
 }

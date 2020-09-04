@@ -23,4 +23,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default validate.updateNote(handler);
+export default validate.notesNoteId(handler);
