@@ -6,6 +6,7 @@ on:
     branches:
       - develop
       - release/*
+      - Temitope-Emmanuel-master
 
 jobs:
   test:
