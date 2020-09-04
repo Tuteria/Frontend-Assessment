@@ -8,7 +8,5 @@
     "start": "next start",
     "test": "uvu -r ts-node/register test"
   },
-  "dependencies": {
-    "next": "9.4.4"
-  }
+  "dependencies": {}
 }
