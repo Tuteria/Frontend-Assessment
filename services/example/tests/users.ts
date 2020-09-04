@@ -8,7 +8,7 @@ import { suite } from "uvu";
 import jwt from "jsonwebtoken"
 
 console.log("This is the test databse",process.env.TEST_DATABASE_URL);
-const Users = suite("Notes API");
+const Users = suite("Users API");
 
 const testUser = {
 	username: "John-doe",
