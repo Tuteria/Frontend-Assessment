@@ -1,8 +1,8 @@
 {
-  "**/*.{ts,tsx,js,jsx}": [
+  "**/*.{ts,js,jsx}": [
     "prettier --write",
     "eslint --fix",
-    "tsc --noEmit"
+    "tsc --allowJs --noEmit --esModuleInterop"
   ],
   "**/*.{md,yml,json,babelrc,eslintrc,prettierrc}": [
     "prettier --write"

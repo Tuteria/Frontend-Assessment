@@ -1,4 +1,5 @@
 from data_layer.models.base import Base
+from sqlalchemy.orm import relationship
 import sqlalchemy as sql
 
 
@@ -7,7 +8,9 @@ class Notes(Base):
     id = sql.Column(sql.Integer, primary_key=True)
     title = sql.Column(sql.String)
     description = sql.Column(sql.Text)
-
+    author = sql.Column(sql.String)
+    # author-id = sql.Column(sql.Integer)
+    
     def __repr__(self):
         return f"<Note (id={self.id}, title={self.title})>"
 
