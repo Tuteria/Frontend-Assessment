@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = "postgres://smmuymuwdjdnwh:d32a41d2a517936b68388f2236d12e4680a3ea6e6bd42bfebc70aa3cde7e358e@ec2-52-71-85-210.compute-1.amazonaws.com:5432/dbekvrbcb0rauv"
+}
+
+model alembic_version {
+  version_num String @id
+}
+
+model notes {
+  description String?
+  id          Int     @default(autoincrement()) @id
+  title       String
+  ownerId     Int
+}
+
+model users {
+  username    String
+  id          Int     @default(autoincrement()) @id
+  name       String?
+}
