@@ -7,6 +7,5 @@
     "build": "next build",
     "start": "next start",
     "test": "uvu -r ts-node/register test"
-  },
-  "dependencies": {}
+  }
 }
