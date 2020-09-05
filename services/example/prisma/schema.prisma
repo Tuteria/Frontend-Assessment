@@ -12,7 +12,16 @@ model alembic_version {
 }
 
 model notes {
-  description String?
   id          Int     @default(autoincrement()) @id
   title       String?
+  description String?
+  user        String?
+}
+
+model users {
+  id       Int     @default(autoincrement()) @id
+  username String? @unique
+  password String?
+  email    String? @unique
+  role     String?
 }

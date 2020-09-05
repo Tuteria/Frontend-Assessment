@@ -4,10 +4,11 @@
     "transpileOnly": true,
     "compilerOptions": {
       "module": "commonjs",
-      "sourceMap": true
+      "sourceMap": true,
+      "esModuleInterop": true
     },
     "include": ["tests/**/*"]
   },
-  "include": ["@types", "src","../../node_modules/@tuteria/common"],
+  "include": ["@types", "src", "../../node_modules/@tuteria/common"],
   "exclude": ["tests"]
 }
