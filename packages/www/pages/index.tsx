@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/core";
 import Link from "next/link";
-import { host } from "../utils/environment";
 import Layout from "../components/Layout";
 
 export interface Idata {
@@ -18,7 +17,8 @@ export interface Iprops {
 
 export async function getServerSideProps() {
 	try {
-		const res = await axios.get(`${host}/notes`);
+		//used nextjs api route here
+		const res = await axios.get(`http://localhost:3000/api/getnotes`);
 		const data = res.data.reverse();
 
 		return {
@@ -60,11 +60,11 @@ export const Home = ({ data, error }: Iprops) => {
 				)}
 			</div>
 
-			<div style={{ textAlign: "center" }}>All Notes</div>
+			<div style={{ textAlign: "center", fontWeight: "bold" }}>All Notes</div>
 			<main>
 				{data &&
 					data.map((d) => (
-						<Link href={`/note/${d.id}`} key={d.id}>
+						<Link key={d.id} href={`/note/${d.id}`}>
 							<a>
 								<p>{d.title}</p>
 							</a>

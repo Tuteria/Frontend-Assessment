@@ -16,7 +16,7 @@ router.post("/create", verifyJwt, async (req: any, res) => {
 	res.status(200).json(result);
 });
 
-//gets all notes
+// gets all notes
 router.get("/", async (req: any, res) => {
 	try {
 		const prisma: PrismaClient = req.app.locals.prisma;
