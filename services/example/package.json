@@ -17,12 +17,10 @@
     "lint": "npm-run-all lint:src lint:types"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.7",
     "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "ts-node": "^9.0.0"
   }
 }
