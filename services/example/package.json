@@ -16,6 +16,9 @@
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types"
   },
+  "engines": {
+    "node": "12.18.3"
+  },
   "devDependencies": {
     "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"

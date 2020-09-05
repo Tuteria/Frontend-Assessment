@@ -30,6 +30,9 @@
     "service:example": "yarn workspace @tuteria/example-service",
     "db:generate-all": "yarn service:example db:generate"
   },
+  "engines": {
+    "node": "12.18.3"
+  },
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@prisma/cli": "^2.2.2",
