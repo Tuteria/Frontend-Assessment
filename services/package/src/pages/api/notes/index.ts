@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (req.method !== "GET") throw new Error("Invalid request method")
 
 		// DB
-		const db = await DB;
+		const db = await DB.instance;
 
 		// Get notes
 		const data = await db.all("SELECT * FROM notes");

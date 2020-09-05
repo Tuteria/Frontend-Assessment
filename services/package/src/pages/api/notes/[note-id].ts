@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			throw new Error("Invalid request method");
 
 		// Get request info
-		const { description, title, ownerId } = req.body;
+		const { description, title, ownerid } = req.body;
 		const id = req.query["note-id"];
 
 		// Check empty fields
@@ -18,23 +18,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (!id) emptyFields.push("id");
 		if (!description && req.method === "PUT") emptyFields.push("description");
 		if (!title && req.method === "PUT") emptyFields.push("title");
-		if (!ownerId) emptyFields.push("owner");
+		if (!ownerid) emptyFields.push("owner");
 		if (emptyFields.length > 0)
 			throw new Error(`Your note requires a ${emptyFields[0]}`);
 
 		// DB
-		const db = await DB;
+		const db = await DB.instance;
 
 		// Check if user exists
 		const user = await db.get(
 			"SELECT * FROM users WHERE id=? LIMIT 1",
-			ownerId
+			ownerid
 		);
 
 		// Check if note belongs to user
 		const note = await db.get(
-			"SELECT * FROM notes WHERE id=?  AND ownerId = ? LIMIT 1",
-			[id, ownerId]
+			"SELECT * FROM notes WHERE id=?  AND ownerid = ? LIMIT 1",
+			[id, ownerid]
 		);
 
 		// Validations before creating note
@@ -54,14 +54,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
 			// If deleting note
 			if (type === "deleted")
-				await db.run("DELETE FROM notes WHERE id= ? AND ownerId=? ", [
+				await db.run("DELETE FROM notes WHERE id= ? AND ownerid=? ", [
 					id,
-					ownerId,
+					ownerid,
 				]);
 
 			// Response
 			res.json({
-				data: { id, title, description, ownerId },
+				data: { id, title, description, ownerid },
 				message: `Your note was ${type} successfully`,
 				error: false,
 			});

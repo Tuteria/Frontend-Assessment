@@ -15,11 +15,11 @@ model notes {
   description String?
   id          Int     @default(autoincrement()) @id
   title       String
-  ownerId     Int
+  ownerid     Int
 }
 
 model users {
-  username    String
-  id          Int     @default(autoincrement()) @id
-  name       String?
+  username String
+  id       Int     @default(autoincrement()) @id
+  name     String?
 }

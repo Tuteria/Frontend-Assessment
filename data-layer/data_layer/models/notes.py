@@ -7,7 +7,7 @@ class Notes(Base):
     id = sql.Column(sql.Integer, primary_key=True)
     title = sql.Column(sql.String)
     description = sql.Column(sql.Text)
+    ownerid = sql.Column(sql.Integer)
 
     def __repr__(self):
         return f"<Note (id={self.id}, title={self.title})>"
-

@@ -9,29 +9,29 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (req.method !== "POST") throw new Error("Invalid request method")
 
 		// Get request info
-		const { description, title, ownerId } = req.body;
+		const { description, title, ownerid } = req.body;
 
 		// Check empty fields
 		const emptyFields = [];
 		if (!description) emptyFields.push("description");
 		if (!title) emptyFields.push("title");
-		if (!ownerId) emptyFields.push("owner");
+		if (!ownerid) emptyFields.push("owner");
 		if (emptyFields.length > 0)
 			throw new Error(`Your note requires a ${emptyFields[0]}`);
 
 		// DB
-		const db = await DB;
+		const db = await DB.instance;
 
 		// Check if user exists
 		const user = await db.get(
 			"SELECT * FROM users WHERE id=? LIMIT 1",
-			ownerId
+			ownerid
 		);
 
 		// Check if note already exists
 		const note = await db.get(
-			"SELECT * FROM notes WHERE title=? AND ownerId=? LIMIT 1",
-			[title, ownerId]
+			"SELECT * FROM notes WHERE title=? AND ownerid=? LIMIT 1",
+			[title, ownerid]
 		);
 
 		// Validations before creating note
@@ -41,8 +41,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			throw new Error(`You already have a note with this title`);
 		} else {
 			await db.run(
-				"INSERT INTO notes(title, description, ownerId) VALUES(?, ?, ?)",
-				[title, description, ownerId]
+				"INSERT INTO notes(title, description, ownerid) VALUES(?, ?, ?)",
+				[title, description, ownerid]
 			);
 
 			res.json({

@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			throw new Error(`A ${emptyFields[0]} is required`);
 
 		// DB
-		const db = await DB;
+		const db = await DB.instance;
 
 		// Check if user exists
 		const user = await db.get(

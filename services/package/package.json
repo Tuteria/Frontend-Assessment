@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "db:setup": "node ./database-setup.js",
-    "dev": "npm run db:setup && next -p 8080",
     "build": "next build",
-    "start": "next start"
+    "db:dev": "cross-env NODE_ENV=development node ./database-setup.js",
+    "db:prod": "cross-env NODE_ENV=production node ./database-setup.js",
+    "dev": "npm run db:prod && next -p 8080",
+    "start": "npm run db:prod && next start"
   },
   "dependencies": {
+    "cross-env": "^7.0.2",
     "next": "9.5.3",
+    "pg-promise": "^10.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "sqlite": "^4.0.14",
