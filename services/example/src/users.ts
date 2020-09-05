@@ -1,97 +1,102 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import authenticate from "./middlewares/auth";
-import validate from "./middlewares/validate";
-import helper from "./helper/hash";
-import jwt from "jsonwebtoken";
+import authenticate from './middlewares/auth';
+import validate from './middlewares/validate';
+import helper from './helper/hash';
+import jwt from 'jsonwebtoken';
 
 const router = Router();
-const key = process.env.SECRET_KEY || "this∂®ƒ†®coulud%3be%-real man";
+const key = process.env.SECRET_KEY || 'this∂®ƒ†®coulud%3be%-real man';
 
-router.post(
-	"/create",
-	authenticate.isAdmin,
-	validate.createUser,
-	async (req, res) => {
-		const prisma: PrismaClient = req.app.locals.prisma;
-		const { username, password, email } = req.body;
-		const role = req.body.role ? req.body.role : "user";
-		const hassPassword = helper(password);
 
-		try {
-			const result = await prisma.users.create({
-				data: { username, password: hassPassword, email, role },
+router.post("/create", authenticate.isAdmin, validate.createUser, async (req, res) => {
+	const prisma: PrismaClient = req.app.locals.prisma;
+	const { username, password, email } = req.body;
+	const role = req.body.role? req.body.role : 'user';
+	const hassPassword = helper(password);
+
+	try {
+      const result = await prisma.users.create({
+        data: { username, password: hassPassword, email, role },
 			});
-			delete result.password;
+			delete result.password
 
-			return res
-				.status(201)
-				.json({ message: "User created succesfully", data: result });
-		} catch (e) {
-			return res.status(500).json({
-				error: "An error occured, pls try again later.",
-			});
-		}
+			return res.status(201).json({message: 'User created succesfully', data: result});
+
+	} catch(e) {
+		return res.status(500).json({
+			error: 'An error occured, pls try again later.',
+		});
 	}
-);
+});
+
 
 router.get("/:username/notes", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username } = req.params;
 
-	try {
+	try{
 		const result: any = await prisma.users.findOne({
 			where: { username: username },
 		});
 
 		if (result) {
-			delete result.password;
+			delete result.password
 
 			const userNotes = await prisma.notes.findMany({
 				where: { user: username },
 			});
-			result["notes"] = userNotes;
+			result['notes'] = userNotes;
 
-			return res.status(200).json({ data: result });
+			return res.status(200).json({data: result});
+
 		} else {
-			return res.status(404).json({ message: "Use not found" });
+			return res.status(404).json({message: 'Use not found'});
+
 		}
-	} catch (e) {
+
+	} catch(e) {
 		return res.status(500).json({
-			error: "An error occured, pls try again later.",
+			error: 'An error occured, pls try again later.'
 		});
 	}
 });
+
+
 
 router.post("/auth", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username, password, email } = req.body;
 
-	try {
-		const foundUser = await prisma.users.findOne({ where: { email: email } });
+	try{
 
-		if (foundUser) {
+		let foundUser = await prisma.users.findOne({ where: { email: email } });
+
+		if (foundUser){
 			const hassPassword = helper(password);
-			if (hassPassword == foundUser.password) {
-				delete foundUser.password;
+			if (hassPassword == foundUser.password){
+				delete foundUser.password
 
-				const token = jwt.sign({ foundUser }, key, {
-					expiresIn: "7d",
-				});
+				const token = jwt.sign({foundUser}, key,{
+					expiresIn: '7d'
+				})
 
-				return res.status(200).json({ message: "Login succesful", token });
+				return res.status(200).json({message: 'Login succesful', token });
 			} else {
-				return res.status(400).json({ error: "Invalid login credentials." });
+				return res.status(400).json({error: 'Invalid login credentials.'});
 			}
+			
 		} else {
-			return res.status(400).json({ error: "Invalid login credentials." });
+			return res.status(400).json({error: 'Invalid login credentials.'});
 		}
-	} catch (e) {
+	
+	} catch(e) {
 		return res.status(500).json({
-			error: "An error occured, pls try again later.",
-			e,
+			error: 'An error occured, pls try again later.',
+			e
 		});
 	}
 });
+
 
 export default router;

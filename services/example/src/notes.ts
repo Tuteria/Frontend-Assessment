@@ -67,7 +67,6 @@ router.put("/:noteId", async (req, res) => {
 
 router.delete("/:noteId", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
-	const { title, description, user } = req.body;
 	const noteId = parseInt(req.params.noteId);
 
 	try {

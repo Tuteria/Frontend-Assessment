@@ -28,7 +28,8 @@
     "test": "lerna run test",
     "service:common": "yarn workspace @tuteria/common",
     "service:example": "yarn workspace @tuteria/example-service",
-    "db:generate-all": "yarn service:example db:generate"
+    "db:generate-all": "yarn service:example db:generate",
+    "service:noteapp": "yarn workspace @tuteria/note-app"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
