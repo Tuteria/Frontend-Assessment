@@ -1,6 +1,6 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
-import DB from "../../../../db";
+import db from "../../../lib/db";
 
 // Endpoint to GET ALL NOTES
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -8,11 +8,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		// Check request method
 		if (req.method !== "GET") throw new Error("Invalid request method")
 
-		// DB
-		const db = await DB.instance;
-
 		// Get notes
-		const data = await db.all("SELECT * FROM notes");
+		const data = await db("notes")
 
 		res.json({
 			data,

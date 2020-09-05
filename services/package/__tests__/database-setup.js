@@ -1,5 +1,5 @@
 async function setup() {
-	const db = await require("./db").instance;
+	const db = await require("./db");
 
 	await db.migrate({ force: "last" });
 

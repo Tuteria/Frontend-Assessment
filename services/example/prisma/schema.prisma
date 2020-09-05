@@ -15,7 +15,7 @@ model notes {
   id          Int     @default(autoincrement()) @id
   title       String?
   description String?
-  ownerid     Int?
+  owner       String?
 }
 
 model users {

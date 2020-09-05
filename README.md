@@ -43,11 +43,12 @@ Once you've cloned the repo, simply run the below command to install all the dep
 The first task is to ensure that all tests pass when you run `yarn test` from the root package. In order for this to happen, the following steps need to occur:
 
 1. Navigate to the `data-layer` directory and run `poetry install` *(You should have installed poetry and python)*
-2. Run `poetry run alembic revision --autogenerate -m "Added notes table"` to create the database migration for the the table specified in `data-layer/data_layer/models/notes.py` (The ORM used is [SQLAlchemy](https://docs.sqlalchemy.org/en/13/orm/tutorial.html))
-3. Run `poetry run alembic upgrade head` to apply the migration to the database.
-4. Navigate back to the root of the project and run `yarn service:example db:update` to create [Prisma](https://www.prisma.io/docs/) model schema
-5. Run `yarn service:example db:generate` to generate [Prisma](https://www.prisma.io/docs/) definitions that would be used in the project.
-6. Finally run `yarn service:example test`. All the tests located in `services/example/tests` should pass.
+2. Run `poetry run alembic stamp head` to indicate that the current state of the database represents the application of all migrations.
+3. Run `poetry run alembic revision --autogenerate -m "Added notes table"` to create the database migration for the the table specified in `data-layer/data_layer/models/notes.py` (The ORM used is [SQLAlchemy](https://docs.sqlalchemy.org/en/13/orm/tutorial.html))
+4. Run `poetry run alembic upgrade head` to apply the migration to the database.
+5. Navigate back to the root of the project and run `yarn service:example db:update` to create [Prisma](https://www.prisma.io/docs/) model schema
+6. Run `yarn service:example db:generate` to generate [Prisma](https://www.prisma.io/docs/) definitions that would be used in the project.
+7. Finally run `yarn service:example test`. All the tests located in `services/example/tests` should pass.
 
 **You get bonus points if:**
 

@@ -1,6 +1,6 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
-import DB from "../../../../db";
+import db from "../../../lib/db";
 
 // Endpoint
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,22 +17,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (emptyFields.length > 0)
 			throw new Error(`A ${emptyFields[0]} is required`);
 
-		// DB
-		const db = await DB.instance;
-
 		// Check if user exists
-		const user = await db.get(
-			"SELECT * FROM users WHERE username=? LIMIT 1",
-			username)
+		const user = (await db("users").where({ username }))[0]
 
 		// Validations before creating note
 		if (user) {
 			throw new Error(`A user with this username already exists`);
 		} else {
-			await db.run(
-				"INSERT INTO users(name, username) VALUES(?, ?)",
-				[name, username]
-			);
+			await db("users").insert({ name, username })
 
 			res.json({
 				data: null,

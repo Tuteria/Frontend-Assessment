@@ -1,6 +1,6 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
-import DB from "../../../../db";
+import db from "../../../lib/db";
 
 // Endpoint to CREATE NOTE
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,30 +9,21 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (req.method !== "POST") throw new Error("Invalid request method")
 
 		// Get request info
-		const { description, title, ownerid } = req.body;
+		const { description, title, owner } = req.body;
 
 		// Check empty fields
 		const emptyFields = [];
 		if (!description) emptyFields.push("description");
 		if (!title) emptyFields.push("title");
-		if (!ownerid) emptyFields.push("owner");
+		if (!owner) emptyFields.push("owner");
 		if (emptyFields.length > 0)
 			throw new Error(`Your note requires a ${emptyFields[0]}`);
 
-		// DB
-		const db = await DB.instance;
-
 		// Check if user exists
-		const user = await db.get(
-			"SELECT * FROM users WHERE id=? LIMIT 1",
-			ownerid
-		);
+		const user = (await db("users").where({ username: owner }))[0];
 
 		// Check if note already exists
-		const note = await db.get(
-			"SELECT * FROM notes WHERE title=? AND ownerid=? LIMIT 1",
-			[title, ownerid]
-		);
+		const note = (await db("notes").where({ title, owner }))[0]
 
 		// Validations before creating note
 		if (!user) {
@@ -40,10 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		} else if (note) {
 			throw new Error(`You already have a note with this title`);
 		} else {
-			await db.run(
-				"INSERT INTO notes(title, description, ownerid) VALUES(?, ?, ?)",
-				[title, description, ownerid]
-			);
+			await db("notes").insert({ title, description, owner })
 
 			res.json({
 				data: null,

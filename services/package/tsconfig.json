@@ -21,7 +21,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx", "db-setup.js", "database-setup.js", "db.js"
+    "**/*.tsx", "db-setup.js", "database-setup.js", "src/lib/db.ts", "knexfile.js"
   ],
   "exclude": [
     "node_modules"

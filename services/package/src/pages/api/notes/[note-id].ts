@@ -1,6 +1,6 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
-import DB from "../../../../db";
+import db from "../../../lib/db";
 
 // Endpoint to UPDATE A NOTE
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			throw new Error("Invalid request method");
 
 		// Get request info
-		const { description, title, ownerid } = req.body;
+		const { description, title, owner } = req.body;
 		const id = req.query["note-id"];
 
 		// Check empty fields
@@ -18,24 +18,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (!id) emptyFields.push("id");
 		if (!description && req.method === "PUT") emptyFields.push("description");
 		if (!title && req.method === "PUT") emptyFields.push("title");
-		if (!ownerid) emptyFields.push("owner");
+		if (!owner) emptyFields.push("owner");
 		if (emptyFields.length > 0)
 			throw new Error(`Your note requires a ${emptyFields[0]}`);
 
-		// DB
-		const db = await DB.instance;
-
 		// Check if user exists
-		const user = await db.get(
-			"SELECT * FROM users WHERE id=? LIMIT 1",
-			ownerid
-		);
+		const user = (await db("users").where({ username: owner }))[0];
 
 		// Check if note belongs to user
-		const note = await db.get(
-			"SELECT * FROM notes WHERE id=?  AND ownerid = ? LIMIT 1",
-			[id, ownerid]
-		);
+		const note = (await db("notes").where({ id, owner }))[0];
 
 		// Validations before creating note
 		if (!user) {
@@ -45,23 +36,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		} else {
 			const type = req.method === "PUT" ? "updated" : "deleted";
 
-			// If updating note
-			if (type === "updated")
-				await db.run(
-					"UPDATE notes SET title = ?, description = ? WHERE id= ?",
-					[title, description, id]
-				);
-
-			// If deleting note
-			if (type === "deleted")
-				await db.run("DELETE FROM notes WHERE id= ? AND ownerid=? ", [
-					id,
-					ownerid,
-				]);
+			const data =
+				type === "updated"
+					? await db("notes")
+						.where({ id })
+						.update({ title, description })
+						.returning("*")
+					: await db("notes").where({ id, owner }).delete().returning("*");
 
 			// Response
 			res.json({
-				data: { id, title, description, ownerid },
+				data,
 				message: `Your note was ${type} successfully`,
 				error: false,
 			});

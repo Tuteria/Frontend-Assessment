@@ -2,8 +2,8 @@
 CREATE TABLE notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     description TEXT,
-    ownerid INTEGER REFERENCES users
-(id),
+    owner TEXT REFERENCES users
+(username),
     title TEXT
 );
 
@@ -14,23 +14,26 @@ CREATE TABLE users (
 );
 
 INSERT INTO users
-  (name, username)
+	(name, username)
 values
-  ('bruno', 'bruno_antunes');
+	('bruno', 'bruno_antunes');
 INSERT INTO users
-  (name, username)
+	(name, username)
 values
-  ('jack', 'jack_antunes');
+	('jack', 'jack_antunes');
 
 INSERT INTO notes
-  (description, title, ownerid)
+	(description, title, owner)
 values('This is note 1', 'Note 1', 1);
 INSERT INTO notes
-  (description, title, ownerid)
+	(description, title, owner)
 values('This is note 2', 'Note 2', 1);
 INSERT INTO notes
-  (description, title, ownerid)
+	(description, title, owner)
 values('This is note 3', 'Note 3', 2);
+INSERT INTO notes
+	(description, title, owner)
+values('This is note 4', 'Note 4', 2);
 
 -- Down
 DROP TABLE notes;

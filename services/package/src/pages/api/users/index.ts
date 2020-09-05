@@ -1,6 +1,6 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
-import DB from "../../../../db";
+import db from "../../../lib/db";
 
 // Endpoint
 export default async (req: NextApiRequest, res: NextApiResponse) => {
@@ -8,11 +8,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		// Check request method
 		if (req.method !== "GET") throw new Error("Invalid request method")
 
-		// DB
-		const db = await DB.instance;
-
 		// Get users
-		const data = await db.all("SELECT * FROM users");
+		const data = await db("users");
 
 		res.json({
 			data,

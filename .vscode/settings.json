@@ -9,7 +9,7 @@
   },
   "deepscan.enable": true,
   "files.exclude": {
-    "**/.git": false,
+    "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
