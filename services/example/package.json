@@ -3,6 +3,7 @@
   "name": "@tuteria/example-service",
   "scripts": {
     "dev": "nodemon src/app.ts",
+    "populate:db": "ts-node src/prePopulateDb.ts",
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
     "start:dev": "cross-env NODE_ENV=development nodemon src/app.ts",
