@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "name": "@tuteria/example-service",
   "scripts": {
-    "dev": "nodemon src/app.ts",
+    "start": "ts-node src/app.ts",
     "populate:db": "ts-node src/prePopulateDb.ts",
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",

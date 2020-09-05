@@ -1,6 +1,8 @@
 ### Getting Started
 
-- navigate to '/services/example' and run "npm run dev", server should be running on PORT 5000.
+- navigate to '/services/example' and run "npm run start:dev", server should be running on PORT 5000.
+
+- "npm run populate:db" populates the database with sample records.
 
 - open a new terminal and navigate to '/packages/www' and run "npm run dev" to start the front-end server. The server should run on PORT 3000. Open in browser and start creating notes.
 
