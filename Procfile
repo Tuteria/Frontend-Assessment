@@ -1,1 +1,0 @@
-web: ts-node services/example/src/app.ts
