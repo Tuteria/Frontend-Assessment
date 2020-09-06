@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { noteController } from "../../../service/controllers";
-import { validate } from "../../../service/middleware";
+import { validate } from "../../../service/middlewares";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;

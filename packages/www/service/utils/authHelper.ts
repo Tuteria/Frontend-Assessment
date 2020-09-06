@@ -1,6 +1,11 @@
 import { hash, compare } from 'bcrypt';
+import { sign, verify } from 'jsonwebtoken';
+import { JWT_SECRET } from '../../constants';
 
 const saltRound = 10;
+const options = {
+  expiresIn: '3d'
+}
 
 /**
  * Generates hash from a password
@@ -25,4 +30,27 @@ function comparePassword(password: string, hashedPassword: string): Promise<any>
     .catch((err) => err);
 }
 
-export { comparePassword, generateHash };
+async function signJwtToken(payload) {
+  return new Promise((resolve, reject) => {
+    sign(payload, JWT_SECRET, options, (err, token) => {
+      if (err) {
+        return reject (err);
+      }
+      resolve(token);
+    });
+  })
+}
+
+async function decodeJwtToken(token) {
+  return new Promise((resolve, reject) => {
+    verify(token, JWT_SECRET, options, (err, result) => {
+      if (err) {
+        return reject(err)
+      }
+      resolve(result)
+    });
+  
+  })
+}
+
+export { comparePassword, generateHash, signJwtToken, decodeJwtToken };

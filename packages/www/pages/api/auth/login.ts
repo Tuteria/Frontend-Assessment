@@ -1,12 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { userController } from "../../../service/controllers";
-import { jwtParser, checkAuth } from '../../../service/middlewares';
+import { authController } from "../../../service/controllers";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
 	switch (method) {
-		case "GET":
-			return userController.getUsers(req, res);
+		case "POST":
+			return authController.login(req, res);
 			break;
 		default:
 			return res.status(405).json({
@@ -17,4 +16,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default jwtParser(checkAuth.admin(handler));
+export default handler;

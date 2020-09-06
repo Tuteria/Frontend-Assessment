@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userController } from '../../../../../service/controllers';
+import { jwtParser, checkAuth } from '../../../../../service/middlewares';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
@@ -16,4 +17,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default handler;
+export default jwtParser(checkAuth.user(handler));

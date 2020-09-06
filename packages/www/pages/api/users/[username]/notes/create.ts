@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { userController } from '../../../../../service/controllers';
-import { validate } from '../../../../../service/middleware';
+import { validate, jwtParser, checkAuth } from '../../../../../service/middlewares';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	const { method } = req;
@@ -17,4 +17,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default validate.createNote(handler);
+export default jwtParser(checkAuth.user(validate.createNote(handler)));

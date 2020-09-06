@@ -61,9 +61,9 @@ async function getNotes(req, res) {
   try {
     const user = await userService.findByUsername(username);
     if (!user) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'User does not exit'
+        error: 'User does not exist'
       })
     }
     const notes = await noteService.getNotesByUserId(user.id)
@@ -84,16 +84,16 @@ async function getOneNote(req, res) {
   try {
     const user = await userService.findByUsername(username);
     if (!user) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'User does not exit'
+        error: 'User does not exist'
       })
     }
     const note = await noteService.findById(Number(noteId));
     if (!note) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'Note does not exit'
+        error: 'Note does not exist'
       })
     }
     if (note.user_id === user.id) {
@@ -122,16 +122,16 @@ async function updateOneNote(req, res) {
   try {
     const user = await userService.findByUsername(username);
     if (!user) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'User does not exit'
+        error: 'User does not exist'
       })
     }
     const note = await noteService.findById(Number(noteId));
     if (!note) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'Note does not exit'
+        error: 'Note does not exist'
       })
     }
     if (note.user_id === user.id) {
@@ -163,16 +163,16 @@ async function deleteOneNote(req, res) {
   try {
     const user = await userService.findByUsername(username);
     if (!user) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'User does not exit'
+        error: 'User does not exist'
       })
     }
     const note = await noteService.findById(Number(noteId));
     if (!note) {
       return res.status(409).json({
         status: 'error',
-        error: 'Note does not exit'
+        error: 'Note does not exist'
       })
     }
     if (note.user_id === user.id) {
@@ -205,9 +205,9 @@ async function createNote(req, res) {
   try {
     const user = await userService.findByUsername(username);
     if (!user) {
-      return res.status(409).json({
+      return res.status(404).json({
         status: 'error',
-        error: 'User does not exit'
+        error: 'User does not exist'
       })
     }
     const createdNote = await noteService.createUserNote(user.id, {description, title,});

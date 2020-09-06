@@ -43,11 +43,11 @@ export default function CreateUser() {
     let isUsernameValid = true;
     let isPasswordValid = true;
     let isEmailValid = true;
-    if (username.trim().length === 0) {
+    if (username.length === 0) {
       setIsUsernameValid(true);
       isUsernameValid = false;
     }
-    if (password.trim().length === 0) {
+    if (password.length === 0) {
       setIsPasswordValid(true);
       isPasswordValid = false;
     }
@@ -62,6 +62,9 @@ export default function CreateUser() {
   const submit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    setUsername(username.trim());
+    setPassword(password.trim());
+    setEmail(email.trim());
 
     if(!validateInput()) {
       setIsLoading(false)

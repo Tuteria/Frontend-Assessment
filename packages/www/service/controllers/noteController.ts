@@ -60,7 +60,7 @@ async function getOneNote(req, res) {
 	try {
 		const note = await noteService.findById(noteId);
 		if (!note) {
-			return res.status(409).json({
+			return res.status(404).json({
 				status: "error",
 				error: "Note does not exist",
 			});
@@ -97,7 +97,7 @@ async function updateNote(req, res) {
 	try {
 		const note = await noteService.findById(noteId);
 		if (!note) {
-			return res.status(409).json({
+			return res.status(404).json({
 				status: "error",
 				error: "Note does not exist",
 			});
@@ -138,7 +138,7 @@ async function deleteNote(req, res) {
 	try {
 		const note = await noteService.findById(noteId);
 		if (!note) {
-			return res.status(409).json({
+			return res.status(404).json({
 				status: "error",
 				error: "Note does not exist",
 			});
@@ -146,7 +146,7 @@ async function deleteNote(req, res) {
 		if (note.user_id) {
 			return res.status(403).json({
 				status: 'error',
-				error: "YYou are not authorized to perform this operation",
+				error: "You are not authorized to perform this operation",
 			});
 		}
 		const result = await noteService.deleteOne(noteId);
