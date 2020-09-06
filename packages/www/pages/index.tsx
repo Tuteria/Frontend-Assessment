@@ -37,7 +37,6 @@ export const getServerSideProps:GetServerSideProps = async () => {
       },
     }
   }
-
 }
 
 const Home: FunctionComponent<HomeProps> = ({status, notes}) => {
@@ -46,30 +45,30 @@ const Home: FunctionComponent<HomeProps> = ({status, notes}) => {
     <Layout>
       <Nav/>
       <Container>
-      <Button
-        leftIcon="add"
-        variantColor="teal"
-        marginBottom={4}
-        borderRadius={7}
-        fontSize={14}
-        ml={2} mr={2}
-      >
-        <a href="/notes/create">Add Note</a>
-      </Button>
-      {status === ERROR ?
-        toast({
-          title: "An error occurred.",
-          description: "Something went wrong. Try again",
-          status: "error",
-          position: "top",
-          duration: 9000,
-          isClosable: true
-        }) : 
-        notes.map(({id, title}) => (
-          <Note key={id} id={id} title={title} username={null}/>
-        ))
-      }
-      <Box mb={10}></Box>
+        <Button
+          leftIcon="add"
+          variantColor="teal"
+          marginBottom={4}
+          borderRadius={7}
+          fontSize={14}
+          ml={2} mr={2}
+        >
+          <a href="/notes/create">Add Note</a>
+        </Button>
+        {status === ERROR ?
+          toast({
+            title: "An error occurred.",
+            description: "Something went wrong. Try again",
+            status: "error",
+            position: "top",
+            duration: 9000,
+            isClosable: true
+          }) : 
+          notes.map(({id, title}) => (
+            <Note key={id} id={id} title={title} username={null}/>
+          ))
+        }
+        <Box mb={10}></Box>
       </Container>
     </Layout>
   )

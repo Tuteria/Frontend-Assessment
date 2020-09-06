@@ -1,4 +1,4 @@
-import { useState, FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios'
 import {
@@ -6,7 +6,6 @@ import {
   ModalCloseButton, ModalBody, ModalFooter, useDisclosure,
   useToast
 } from '@chakra-ui/core';
-import { HOST_URL } from '../constants';
 
 export interface DeleteNoteProps {
   noteId: string,
@@ -40,7 +39,7 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId, username}) => {
       })
       setTimeout(() => {
         router.push(redirectUrl);
-      })
+      }, 1500)
     } catch (err) {
       toast({
         title: "An error occurred.",

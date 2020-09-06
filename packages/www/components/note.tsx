@@ -6,12 +6,16 @@ interface NoteProps {
   id: string,
   username: string | null
   title: string
+  is_admin?: boolean
  }
 
-const Note: FunctionComponent<NoteProps> = ({id, title, username}) => {
+const Note: FunctionComponent<NoteProps> = ({id, title, username, is_admin=false}) => {
   let url = `/notes/${id}`
   if (username) {
     url = `/users/${username}/notes/${id}`
+  }
+  if (is_admin) {
+    url = `/admin/users/${username}/notes/${id}`
   }
   return (
     <Link href={url} as={url}>

@@ -4,8 +4,8 @@ import { noteService, userService } from '../db';
 async function createUser(req, res) {
   const { username, email, password } = req.body
   try {
-    const userById = await userService.findByUsername(username);
-    if (userById) {
+    const userByUsername = await userService.findByUsername(username);
+    if (userByUsername) {
       return res.status(409).json({
         status: 'error',
         error: 'Username already taken',
@@ -37,6 +37,21 @@ async function createUser(req, res) {
     return res.status(500).json({
       status: 'error',
       'error': 'Something went wrong'
+    })
+  }
+}
+
+async function getUsers(req, res) {
+  try {
+    const result = await userService.getUsers()
+    return res.status(200).json({
+      status: 'success',
+      data: result
+    })
+  } catch (error) {
+    return res.status(500).json({
+      status: 'error',
+      data: 'Something went wrong'
     })
   }
 }
@@ -211,4 +226,7 @@ async function createNote(req, res) {
   }
 }
 
-export { createUser, createNote, getNotes, getOneNote, updateOneNote, deleteOneNote };
+export { 
+  createUser, createNote, getNotes, getOneNote,
+  updateOneNote, deleteOneNote, getUsers 
+};

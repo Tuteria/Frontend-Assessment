@@ -68,4 +68,22 @@ async function createUser(user: User) {
   }
 }
 
-export {createUser, findByEmail, findById, findByUsername };
+/**
+ * Retrieves all users from the database
+ */
+async function getUsers() {
+  try {
+    const users = await prisma.users.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+      }
+    })
+    return users;
+  } catch (error) {
+    return error;
+  }
+}
+
+export {createUser, findByEmail, findById, findByUsername, getUsers };

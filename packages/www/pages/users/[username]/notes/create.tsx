@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import {
   Button, Flex, FormControl, FormLabel,
-  Input, Textarea, useToast
+  Input, Textarea, useToast, Heading
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav
@@ -61,7 +61,9 @@ export default function CreateUserNote({username}) {
         duration: 9000,
         isClosable: true
       });
-      router.push(`/users/${username}/notes`);
+      setTimeout(() => {
+        router.push(`/users/${username}/notes`);
+      }, 1500)
     } catch (err) {
       setIsSending(false);
       toast({
@@ -80,6 +82,10 @@ export default function CreateUserNote({username}) {
     <Layout>
       <Nav/>
       <Container>
+        <Heading textAlign="center" color="#3E576A" as="h3" size="lg" mt={2} mb={5}>
+          Add a new note
+        </Heading>
+
         <form>
           <FormControl>
             <FormLabel>Title</FormLabel>

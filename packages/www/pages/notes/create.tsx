@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import {
   Button, Flex, FormControl, FormLabel,
-  Input, Textarea, useToast
+  Input, Textarea, useToast, Heading
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav
@@ -72,6 +72,10 @@ export default function CreateNote() {
     <Layout>
       <Nav/>
       <Container>
+        <Heading textAlign="center" color="#3E576A" as="h3" size="lg" mt={2} mb={5}>
+          Add a new note
+        </Heading>
+
         <form>
           <FormControl>
             <FormLabel>Title</FormLabel>
