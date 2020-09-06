@@ -8,7 +8,7 @@ import {
 	InputRightElement,
 } from "@chakra-ui/core";
 import axios from "axios";
-import { host } from "../utils/environment";
+import { expressServer } from "../utils/environment";
 import Layout from "../components/Layout";
 import { useRouter } from "next/router";
 
@@ -40,7 +40,7 @@ export const Login = () => {
 
 		try {
 			setloading(true);
-			const res = await axios.post(`${host}/users/login`, payload);
+			const res = await axios.post(`${expressServer}/users/login`, payload);
 
 			if (res.data.token) {
 				setEmail("");

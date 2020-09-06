@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "./../components/Layout";
-import { host } from "./../utils/environment";
+import { nextApi } from "./../utils/environment";
 import axios from "axios";
 import { Spinner, useToast } from "@chakra-ui/core";
 import { ProtectAdmin } from "./../ProtectAdmin";
@@ -19,7 +19,7 @@ export const Admin = () => {
 
 	async function fetchUsers() {
 		try {
-			const res = await axios.get(`${host}/users`);
+			const res = await axios.get(`${nextApi}/users`);
 			if (res.data) {
 				setLoading(false);
 				setUsers(res.data);
@@ -31,7 +31,7 @@ export const Admin = () => {
 
 	async function fetchNotes() {
 		try {
-			const res = await axios.get(`${host}/notes`);
+			const res = await axios.get(`${nextApi}/notes`);
 			if (res.data) {
 				setLoading(false);
 				setNotes(res.data);

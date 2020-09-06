@@ -8,7 +8,7 @@ import {
 	InputRightElement,
 } from "@chakra-ui/core";
 import axios from "axios";
-import { host } from "../utils/environment";
+import { expressServer } from "../utils/environment";
 import Layout from "../components/Layout";
 
 export const Signup = () => {
@@ -36,7 +36,7 @@ export const Signup = () => {
 		setError("");
 		try {
 			setloading(true);
-			const res = await axios.post(`${host}/users/create`, payload);
+			const res = await axios.post(`${expressServer}/users/create`, payload);
 			if (res.data === "user successfully created") {
 				setEmail("");
 				setPassword("");

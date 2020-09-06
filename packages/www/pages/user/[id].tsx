@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import axios from "axios";
-import { host } from "../../utils/environment";
+import { nextApi, expressServer } from "../../utils/environment";
 import { Button, useToast } from "@chakra-ui/core";
 import Link from "next/link";
 import { ProtectRoute } from "./../../ProtectedRoute";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 export async function getServerSideProps({ params }) {
 	try {
-		const res = await axios.get(`${host}/users/${params.id}/notes`);
+		const res = await axios.get(`${nextApi}/users/${params.id}/notes`);
 		const data = res.data.reverse();
 		return {
 			props: {
@@ -41,7 +41,7 @@ export const User = ({ data, error }: Iprops) => {
 	//gets user email
 	async function getUser() {
 		try {
-			const res = await axios.get(`${host}/users/${data[0]?.authorId}`);
+			const res = await axios.get(`${nextApi}/users/${data[0]?.authorId}`);
 			setUser(res.data);
 		} catch (err) {
 			console.log(err);
@@ -64,7 +64,7 @@ export const User = ({ data, error }: Iprops) => {
 	async function handleDelete(id: number) {
 		if (window.confirm("Are you sure you want to Delete this note?")) {
 			try {
-				const res = await axios.delete(`${host}/notes/${id}`);
+				const res = await axios.delete(`${expressServer}/notes/${id}`);
 				if (res.data) {
 					router.reload();
 				}

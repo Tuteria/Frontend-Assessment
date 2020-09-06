@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/core";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { host } from "../../../utils/environment";
+import { expressServer, nextApi } from "../../../utils/environment";
 import Layout from "../../../components/Layout";
 import { Idata } from "../..";
 interface Iprops {
@@ -19,7 +19,7 @@ interface Iprops {
 
 export async function getServerSideProps({ params }) {
 	try {
-		const res = await axios.get(`${host}/notes/${params.id}`);
+		const res = await axios.get(`${nextApi}/notes/${params.id}`);
 		const data = res.data;
 		return {
 			props: {
@@ -81,7 +81,7 @@ export const Update = ({ data, error }: Iprops) => {
 
 		try {
 			const res = await instance.put(
-				`${host}/notes/${data.id}`,
+				`${expressServer}/notes/${data.id}`,
 				payload,
 				config
 			);

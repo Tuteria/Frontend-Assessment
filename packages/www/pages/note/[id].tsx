@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import { useToast } from "@chakra-ui/core";
 import axios from "axios";
 import Layout from "./../../components/Layout";
-import { host } from "../../utils/environment";
 
 import { Idata } from "../index";
 import { useRouter } from "next/router";
+import { nextApi } from "../../utils/environment";
 
 interface Iprops {
 	error: string;
@@ -14,7 +14,7 @@ interface Iprops {
 
 export async function getServerSideProps({ params }) {
 	try {
-		const res = await axios.get(`${host}/notes/${params.id}`);
+		const res = await axios.get(`${nextApi}/notes/${params.id}`);
 		const data = res.data;
 		return {
 			props: {

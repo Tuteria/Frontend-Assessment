@@ -3,6 +3,7 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/core";
 import Link from "next/link";
 import Layout from "../components/Layout";
+import { nextApi } from "../utils/environment";
 
 export interface Idata {
 	id: number;
@@ -18,7 +19,7 @@ export interface Iprops {
 export async function getServerSideProps() {
 	try {
 		//used nextjs api route here
-		const res = await axios.get(`http://localhost:3000/api/getnotes`);
+		const res = await axios.get(`${nextApi}/notes`);
 		const data = res.data.reverse();
 
 		return {

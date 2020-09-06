@@ -2,7 +2,7 @@
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
+//gets all notes
 export default async (req, res) => {
 	try {
 		const result = await prisma.notes.findMany();

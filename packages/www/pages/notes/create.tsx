@@ -9,7 +9,7 @@ import {
 	Textarea,
 } from "@chakra-ui/core";
 import axios from "axios";
-import { host } from "./../../utils/environment";
+import { expressServer } from "./../../utils/environment";
 
 export const Create = () => {
 	const toast = useToast();
@@ -45,7 +45,11 @@ export const Create = () => {
 		};
 
 		try {
-			const res = await instance.post(`${host}/notes/create`, payload, config);
+			const res = await instance.post(
+				`${expressServer}/notes/create`,
+				payload,
+				config
+			);
 
 			if (res.data) {
 				setLoading(false);
