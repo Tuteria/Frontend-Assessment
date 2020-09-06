@@ -13,3 +13,15 @@
 - "/user/[user-id]" to get all notes created by a user
 
 - "/admin" is a protected route, to gain access, navigate to "/admin-login" and login with: email - 'admin@mail.com' | password - 'admintuteria'. This page displays a list of users and the number of notes they have created.
+
+### Additions and what was done differently from the previous solution
+
+- A script to populate the database with notes was added
+
+- Nextjs "api" route to fetch all notes
+
+- Anonymous Notes can now be created with no sign up required
+
+**a few notes**
+
+- I ensured no dependency was installed in the Nextjs application directory, a few packages were installed in the back-end because my application could not read the installed packages from the root directory.
