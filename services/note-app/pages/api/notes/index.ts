@@ -10,7 +10,7 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
     try {
 
       res.statusCode = 200
-      const data = await prisma.notes.findMany();
+      const data = await prisma.notes.findMany({where: {user: null}});
       return res.json({ data })
 
     } catch(e) {

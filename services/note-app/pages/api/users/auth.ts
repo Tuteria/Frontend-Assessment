@@ -18,9 +18,16 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
   const { method } =  req;
   
   if (method === 'POST'){
-    const { username, password, email } = req.body;
+    const { password, email } = req.body;
 
     try{
+      if (!email) {
+        return res.status(400).json({error: 'Email field is required'});
+      }
+
+      if (!password) {
+        return res.status(400).json({error: 'Password field is required'});
+      }
 
       let foundUser = await prisma.users.findOne({ where: { email: email } });
   
@@ -44,7 +51,7 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
     
     } catch(e) {
       return res.status(500).json({
-        error: 'An error occured, pls try again later.',
+        error: 'An error occured, pls try again later.' + e,
         e
       });
     }

@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next build && next start",
     "db:update": "prisma introspect",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "seed": "ts-node seedDB.ts"
   },
   "dependencies": {
     "next": "9.5.3",

@@ -9,7 +9,23 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
   const { query: { noteId } } = req;
   const noteID = Number(noteId)
 
-  if (method === 'PUT') { 
+  if (method === 'GET') { 
+    try {
+      const noteResult = await prisma.notes.findOne({ where: { id: noteID } });
+  
+      if (noteResult) {
+        return res.status(200).json({ data: noteResult });
+      } else {
+        return res.status(404).json({ error: "Note not found!" });
+      }
+    } catch (e) {
+      return res.status(500).json({
+        error: "An error occured, pls try again later.",
+        e,
+      });
+    }
+  }
+  else if (method === 'PUT') { 
     try {
       const noteResult = await prisma.notes.findOne({ where: { id: noteID } });
   

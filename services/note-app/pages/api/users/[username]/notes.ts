@@ -5,19 +5,20 @@ const prisma = new PrismaClient()
 
 export default async  (req: NextApiRequest, res: NextApiResponse) => {
   const { method } =  req;
-  const { query: { username } } = req;
+  const { username } = req.query;
+  const user = String(username)
 
   if (method === 'GET'){
     try{
       const result: any = await prisma.users.findOne({
-        where: { username: username },
+        where: { username: user },
       });
   
       if (result) {
         delete result.password
   
         const userNotes = await prisma.notes.findMany({
-          where: { user: username },
+          where: { user },
         });
         result['notes'] = userNotes;
   
@@ -35,6 +36,6 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
     }
 
   }
-  res.setHeader('Allow', ['POST'])
+  res.setHeader('Allow', ['GET'])
   return res.status(405).end(`Method ${method} Not Allowed`)
 }
