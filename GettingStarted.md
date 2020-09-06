@@ -18,7 +18,7 @@
 
 - A script to populate the database with notes was added
 
-- Nextjs "api" route to fetch all notes
+- Housed an endpoint in Nextjs "api" route "/api/getnotes" to fetch all notes
 
 - Anonymous Notes can now be created with no sign up required
 
