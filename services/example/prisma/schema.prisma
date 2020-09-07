@@ -23,3 +23,9 @@ model users {
   name     String?
   username String?
 }
+
+model admins {
+  id   Int     @default(autoincrement()) @id
+  key  String?
+  hash String?
+}
