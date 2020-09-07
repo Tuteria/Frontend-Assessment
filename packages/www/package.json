@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "uvu -r ts-node/register test"
+    "test": "uvu -r ts-node/register tests",
+    "db:update": "prisma introspect",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "next": "9.4.4"
