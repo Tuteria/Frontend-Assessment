@@ -1,6 +1,7 @@
 import Head from "next/head";
 import NoteList from "../components/note/list";
 import { useState, useEffect } from "react";
+import Layout from "../components/layout";
 
 export default function Home({ notes }) {
 	const [list, setList] = useState(notes);
@@ -10,10 +11,10 @@ export default function Home({ notes }) {
 			setList(await fetchAllNotes());
 		}
 		if (!list || list.length < 1) loadData();
-	}, []);
+	}, null);
 
 	return (
-		<>
+		<Layout title="Home">
 			<Head>
 				<title>Home | All Notes</title>
 				<link rel="icon" href="/favicon.ico" />
@@ -24,7 +25,7 @@ export default function Home({ notes }) {
 			) : (
 				<NoteList notes={list} isOwner={false} isHome={true} />
 			)}
-		</>
+		</Layout>
 	);
 }
 

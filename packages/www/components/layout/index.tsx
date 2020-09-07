@@ -1,19 +1,20 @@
 import Head from "next/head";
-import Navbar from "./navbar";
 import { ReactNode } from "react";
+import Header from "./header";
 
-const Layout = ({ children }: LayoutProps) => (
-  <div>
-    <Head>
-      <title>NextJS</title>
-    </Head>
-    <Navbar />
-    {children}
-  </div>
+const Layout = ({ children, title }: LayoutProps) => (
+	<div>
+		<Head>
+			<title>{title} | Notes</title>
+		</Head>
+		<Header />
+		{children}
+	</div>
 );
 
 export interface LayoutProps {
-  children?: ReactNode;
+	children?: ReactNode;
+	title: string;
 }
 
 export default Layout;

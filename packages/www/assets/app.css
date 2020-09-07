@@ -1,0 +1,143 @@
+/* CSS Document */
+/*
+TODO: Obtain Color Palette from https://coolors.co/app
+* ! Use rem for responsive font-sizes
+* ! Replace all occurrences of #000000 with primary color
+*/
+
+html,
+body {
+	height: 100%;
+	font-size: 14px;
+}
+
+body {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+h1,
+.navbar-brand {
+	font-family: "Caveat", cursive;
+}
+
+a {
+	text-decoration: none;
+}
+
+a {
+	color: #000000;
+}
+
+a:hover,
+a.active {
+	font-weight: bold;
+	color: #7660cc;
+}
+
+p {
+	margin: 0;
+}
+
+.btn {
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.btn-white {
+	color: #7660cc;
+}
+
+.bg-light {
+	color: #f2f6fe;
+}
+
+.form-control {
+	padding-left: 0;
+}
+
+.form-control,
+body#body .form-control:-webkit-autofill,
+body#body .form-control:-webkit-autofill:hover,
+body#body .form-control:-webkit-autofill:focus,
+body#body .form-control:-webkit-autofill:active {
+	box-shadow: none;
+	-webkit-box-shadow: 0 0 0 100 #fff inset;
+	font-family: "Montserrat", sans-serif;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0;
+	outline: none;
+}
+
+body#body .form-control:focus,
+body#body .form-control:hover {
+	border-color: #7660cc;
+}
+
+body#body .has-error .form-control,
+body#body .has-error .form-control {
+	border-color: red;
+}
+
+.border-primary {
+	border-color: #7660cc;
+}
+
+.clear {
+	clear: both;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.v-parent {
+	position: relative;
+	width: 100%;
+}
+
+.v-child {
+	position: absolute;
+	top: 50%;
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	left: 0;
+	width: 100%;
+}
+
+.d-fixed {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+}
+
+.img-holder {
+	overflow: hidden;
+}
+
+.text-priamry {
+	color: #7660cc;
+}
+
+.bg-primary,
+.btn-primary {
+	background-color: #7660cc;
+}
+
+@media (min-width: 992px) {
+	html,
+	body {
+		font-size: 16px;
+	}
+}

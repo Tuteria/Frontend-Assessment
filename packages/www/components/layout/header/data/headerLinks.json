@@ -1,0 +1,10 @@
+[
+  {
+    "name": "home",
+    "path": "/"
+  },
+  {
+    "name": "login",
+    "path": "/admin"
+  }
+]

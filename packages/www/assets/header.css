@@ -1,0 +1,117 @@
+#header,
+#header nav.main-nav {
+	background: #7660cc;
+}
+
+#header .navbar-brand {
+	font-size: 1.5rem;
+	text-transform: uppercase;
+}
+
+#header #toggleDiv {
+	display: inline-block;
+	cursor: pointer;
+	z-index: 2;
+	position: relative;
+}
+
+#header #toggleDiv .bar1,
+#header #toggleDiv .bar2,
+#header #toggleDiv .bar3 {
+	width: 30px;
+	height: 2px;
+	margin: 4px 0;
+	transition: 0.4s;
+}
+
+#header #toggleDiv .bar2 {
+	width: 25px;
+}
+
+#header #toggleDiv .bar3 {
+	width: 20px;
+}
+
+#header #toggleDiv.change .bar1,
+#header #toggleDiv.change .bar2,
+#header #toggleDiv.change .bar3 {
+	width: 35px;
+}
+
+/* Rotate first bar */
+#header #toggleDiv.change .bar1 {
+	-webkit-transform: rotate(-45deg) translate(-8px, 4px);
+	transform: rotate(-45deg) translate(-8px, 4px);
+}
+
+/* Fade out the second bar */
+#header #toggleDiv.change .bar2 {
+	opacity: 0;
+}
+
+/* Rotate last bar */
+#header #toggleDiv.change .bar3 {
+	-webkit-transform: rotate(45deg) translate(-7px, -7px);
+	transform: rotate(45deg) translate(-7px, -7px);
+}
+
+#header .nav {
+	z-index: 1;
+	right: -100%;
+
+	-moz-transition: right 0.5s;
+	-o-transition: right 0.5s;
+	-webkit-transition: right 0.5s;
+	transition: right 0.5s;
+}
+
+#header .nav.nav-hide {
+	right: -100%;
+}
+
+#header .nav.nav-show {
+	right: 0%;
+}
+
+#header .nav .nav-transparent {
+	background: rgba(118, 96, 204, 0.3) !important;
+}
+
+#header .nav .nav-main ul li {
+	line-height: 1rem;
+	font-size: 1.9rem;
+	font-family: "Open Sans", sans-serif;
+	display: none;
+
+	transition: display 2s;
+}
+
+#header .nav.nav-show .nav-main ul li,
+#header .nav.nav-show .nav-main ul li a {
+	animation: slideInUp 0.5s 0.25s !important;
+	display: block;
+}
+
+#header .nav .nav-main ul.navbar-nav li:last-child {
+	line-height: 3rem;
+}
+
+#header .nav .nav-main ul li a:hover,
+#header .nav .nav-main ul li a:active {
+	font-size: 2rem;
+	font-weight: 600;
+	text-decoration: line-through;
+}
+
+#header .nav nav footer {
+	bottom: 25px;
+}
+
+#header .nav nav footer ul {
+	list-style: none;
+}
+
+#header .navbar-toggler {
+	border: none;
+	outline: none;
+}

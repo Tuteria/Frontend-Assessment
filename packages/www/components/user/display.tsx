@@ -1,9 +1,14 @@
-const UserDisplay = ({ user }: UserDisplayProps) => (
-	<div>
-		<p>{user?.name}</p>
-		<p>{user?.username}</p>
-	</div>
-);
+import Link from "next/link"
+
+const UserDisplay = ({ user, viewUserNotes }: UserDisplayProps) => {
+	return (
+		<div>
+			<p>{user?.name}</p>
+			<p><Link href="/[username]" as={`/${user?.username}`}><a>{user?.username}</a></Link></p>
+			<button onClick={() => viewUserNotes(user?.username)}>View Notes</button>
+		</div>
+	);
+};
 
 interface User {
 	id?: number;
@@ -13,6 +18,7 @@ interface User {
 
 interface UserDisplayProps {
 	user?: User;
+	viewUserNotes(username: string): void;
 }
 
 export default UserDisplay;

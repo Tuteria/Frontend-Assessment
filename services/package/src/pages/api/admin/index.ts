@@ -27,11 +27,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (emptyFields.length > 0)
 			throw new Error(`${emptyFields[0]} is required`);
 
-		// Bcrypt Hash
-		const bcryptHash = bcrypt.hashSync(hash, bcrypt.genSaltSync(10));
-
 		// Check if user exists
 		const data = (await db("admins").where({ key }))[0];
+
+		if (!data) throw new Error("user not found")
 
 		if (!bcrypt.compareSync(hash, data.hash)) throw new Error("Invalid login")
 

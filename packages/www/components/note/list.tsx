@@ -38,7 +38,6 @@ class NoteList extends React.Component<NoteListProps, NoteListState> {
 		snapShot.shouldUpdate ? this.setState({ array: this.props.notes }) : "";
 
 	render() {
-		console.log(this.state.array, this.props.notes);
 
 		return (
 			<>

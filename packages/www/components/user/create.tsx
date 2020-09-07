@@ -1,27 +1,29 @@
 import { useState } from "react";
-import NoteForm from "../form/note";
+import UserForm from "../form/user";
 
-export default ({ owner, updateNote }) => {
+export default function UserCreate({ updateUser }: UserCreateProps) {
 	const [isCollapsed, setIsCollapsed] = useState(true);
-	const [title, setTitle] = useState("");
-	const [description, setDescription] = useState("");
 
 	return (
 		<>
 			<button onClick={() => setIsCollapsed(!isCollapsed)}>
-				{isCollapsed ? "Create Note" : "Close Form"}
+				{isCollapsed ? "Create User" : "Close Form"}
 			</button>
 			{isCollapsed ? (
 				""
 			) : (
 				<div>
-					<NoteForm
-						owner={owner}
+					<UserForm
 						setIsCollapsed={setIsCollapsed}
-						updateNote={updateNote}
+						updateUser={updateUser}
 					/>
 				</div>
 			)}
 		</>
 	);
-};
+}
+
+
+interface UserCreateProps {
+	updateUser(user): void
+}

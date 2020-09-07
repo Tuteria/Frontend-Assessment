@@ -9,9 +9,12 @@
     "test": "uvu -r ts-node/register test"
   },
   "dependencies": {
+    "animate.css": "^4.1.0",
     "axios": "^0.20.0",
+    "bootstrap": "^4.5.2",
     "components": "^0.1.0",
     "next": "9.4.4",
-    "package": "^0.1.0"
+    "package": "^0.1.0",
+    "react-bootstrap": "^1.3.0"
   }
 }

@@ -1,9 +1,9 @@
 import UserDisplay from "./display";
 
-const UserList = ({ users }: UserListProps) => (
+const UserList = ({ users, viewUserNotes }: UserListProps) => (
 	<div>
 		{users.map((user, i) => (
-			<UserDisplay key={`user-display-${i}`} user={user} />
+			<UserDisplay key={`user-display-${i}`} user={user} viewUserNotes={viewUserNotes} />
 		))}
 	</div>
 );
@@ -16,6 +16,7 @@ interface User {
 
 interface UserListProps {
 	users?: User[];
+	viewUserNotes(username: string): void
 }
 
 export default UserList;

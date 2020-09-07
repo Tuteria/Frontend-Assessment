@@ -13,6 +13,10 @@ const knex = {
 			port: 5432,
 			ssl: { rejectUnauthorized: false },
 		},
+		pool: {
+			min: 0,
+			max: 10,
+		},
 	},
 
 	staging: {
@@ -23,7 +27,7 @@ const knex = {
 			password: "password",
 		},
 		pool: {
-			min: 2,
+			min: 0,
 			max: 10,
 		},
 		migrations: {
@@ -42,6 +46,10 @@ const knex = {
 			database: "dbekvrbcb0rauv",
 			port: 5432,
 			ssl: { rejectUnauthorized: false },
+		},
+		pool: {
+			min: 0,
+			max: 10,
 		},
 	},
 };
