@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "components": "^0.1.0",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "knex": "^0.21.5",
     "next": "9.5.3",

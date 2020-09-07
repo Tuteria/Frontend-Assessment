@@ -9,6 +9,9 @@
     "test": "uvu -r ts-node/register test"
   },
   "dependencies": {
-    "next": "9.4.4"
+    "axios": "^0.20.0",
+    "components": "^0.1.0",
+    "next": "9.4.4",
+    "package": "^0.1.0"
   }
 }

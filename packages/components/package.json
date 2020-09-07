@@ -24,6 +24,7 @@
     "build:cjs": "tsc --module commonjs --outDir dist/cjs --declaration false",
     "build:types": "tsc --emitDeclarationOnly --declaration true --declarationDir dist/types",
     "build": "npm-run-all build:esm build:cjs build:types",
+    "dev": "microbundle watch --jsx React.createElement",
     "lint:src": "eslint src --ext .ts,.tsx --config ../../.eslintrc",
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types",
@@ -37,5 +38,12 @@
   "peerDependencies": {
     "react": "16.13.1",
     "react-dom": "16.13.1"
+  },
+  "dependencies": {
+    "components": "^0.1.0",
+    "package": "^0.1.0"
+  },
+  "devDependencies": {
+    "microbundle": "^0.12.3"
   }
 }

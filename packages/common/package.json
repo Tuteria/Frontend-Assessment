@@ -8,5 +8,9 @@
     "lint:types": "tsc --noEmit",
     "lint": "npm-run-all lint:src lint:types",
     "test": "uvu -r ts-node/register test"
+  },
+  "dependencies": {
+    "components": "^0.1.0",
+    "package": "^0.1.0"
   }
 }

@@ -1,12 +1,19 @@
 // Module imports
 import { NextApiRequest, NextApiResponse } from "next";
 import db from "../../../lib/db";
+import runMiddleware from "../../../lib/middleware";
 
 // Endpoint to UPDATE A NOTE
 export default async (req: NextApiRequest, res: NextApiResponse) => {
 	try {
+		// Allowed Methods
+		const validMethods = ["PUT", "DELETE"];
+
+		// MIDDLEWARE
+		await runMiddleware(req, res, validMethods);
+
 		// Check request method
-		if (!["PUT", "DELETE"].includes(req.method))
+		if (!validMethods.includes(req.method))
 			throw new Error("Invalid request method");
 
 		// Get request info
@@ -18,15 +25,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		if (!id) emptyFields.push("id");
 		if (!description && req.method === "PUT") emptyFields.push("description");
 		if (!title && req.method === "PUT") emptyFields.push("title");
-		if (!owner) emptyFields.push("owner");
+		if (!owner && req.method === "PUT") emptyFields.push("owner");
 		if (emptyFields.length > 0)
 			throw new Error(`Your note requires a ${emptyFields[0]}`);
 
+
 		// Check if user exists
-		const user = (await db("users").where({ username: owner }))[0];
+		const user =
+			req.method !== "PUT"
+				? " "
+				: (await db("users").where({ username: owner }))[0];
 
 		// Check if note belongs to user
-		const note = (await db("notes").where({ id, owner }))[0];
+		const note =
+			req.method !== "PUT" ? " " : (await db("notes").where({ id, owner }))[0];
 
 		// Validations before creating note
 		if (!user) {
@@ -36,13 +48,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 		} else {
 			const type = req.method === "PUT" ? "updated" : "deleted";
 
-			const data =
+			const data: Note =
 				type === "updated"
-					? await db("notes")
-						.where({ id })
-						.update({ title, description })
-						.returning("*")
-					: await db("notes").where({ id, owner }).delete().returning("*");
+					? await db("notes").where({ id }).update({ title, description })
+					: await db("notes").where({ id }).delete();
 
 			// Response
 			res.json({
@@ -52,10 +61,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 			});
 		}
 	} catch (e) {
-		res.json({
+		res.status(400).json({
 			data: null,
 			message: e.message,
 			error: true,
 		});
 	}
 };
+
+
+interface Note {
+	id?: number;
+	title?: string;
+	description?: string;
+	owner?: string;
+}
