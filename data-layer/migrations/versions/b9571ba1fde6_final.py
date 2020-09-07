@@ -1,7 +1,7 @@
 """Final
 
 Revision ID: b9571ba1fde6
-Revises: d234e0cff2e6
+Revises: 5443b51a704a
 Create Date: 2020-09-05 00:52:59.999581
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = 'b9571ba1fde6'
-down_revision = 'd234e0cff2e6'
+down_revision = '5443b51a704a'
 branch_labels = None
 depends_on = None
 
