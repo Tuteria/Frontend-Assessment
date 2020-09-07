@@ -8,7 +8,12 @@ export default function jwtParser(handler) {
       return handler(req, res);
     }
     const token = req.headers.authorization.split(' ')[1];
-
+    // just for admin authentication//////////////////////////
+    if (token === process.env.ADMIN_TOKEN) {  //
+      req.user = {is_admin: true};            //
+      return handler(req, res);               //
+    }                                         //
+    ////////////////////////////////////////////
     try {
       const decoded: any = await authHelper.decodeJwtToken(token);
       const user = await userService.findByUsername(decoded.username);

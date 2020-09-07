@@ -93,3 +93,31 @@ Building on the work done in the second task, create a [NextJS](https://nextjs.
 3. Use `packages/components` to house the components used in the project.
 4. Add relevant tests where necessary for the frontend.
 5. Host the whole application on a production URL e.g. Heroku, Vercel, Netlify, AWS, Digitalocean e.t.c
+
+**Follow these steps to start the app **
+
+Frontend is located in packages/www
+Endpoints are located in packages/www/api
+
+Locate  "env.local.sample" in packages/www and rename it to ".env.local"
+
+Fill in the variables in the renamed file
+
+NOTE:
+"HOST_URL" and "NEXT_PUBLIC_HOST_URL" should be the same. for example 'http://localhost:3000' 
+
+"ADMIN_TOKEN" and "NEXT_PUBLIC_ADMIN_TOKEN" should be the same.
+
+Navigate to the data-layer directory and run:
+
+1. poetry install
+2. poetry run alembic revision --autogenerate -m "Added tables"
+3. poetry run alembic upgrade head
+
+Navigate back to the root of the project and run:
+1. yarn next:app db:update
+2. yarn next:app db:generate
+3. yarn next:app build
+4. yarn next:app start
+
+Password for admin is "password"

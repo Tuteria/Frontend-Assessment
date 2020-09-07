@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import cookies from 'react-cookies';
 import {
   Box, Button, Heading, Text, useToast, Flex, FormControl, FormLabel,
   Input, InputRightElement, InputGroup
@@ -11,19 +11,40 @@ import {
 
 export default function Admin() {
   const router = useRouter();
+  const toast = useToast();
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    const expectToken = process.env.NEXT_PUBLIC_ADMIN_TOKEN
+    const token = cookies.load('token')
+    if (expectToken === token) {
+      router.push('/admin/users')
+    }
+  })
+
   const handlePasswordChange = (event) => setPassword(event.target.value);
+
   const handlePasswordVisibility = () => setShow(!show);
 
   const signin = (event) => {
     event.preventDefault();
     setIsLoading(true);
-    
-    router.push('/admin/users');
-    
+    if (password === 'password') {
+      cookies.save('token', process.env.NEXT_PUBLIC_ADMIN_TOKEN, {path: '/'});
+      router.push('/admin/users');
+    } else {
+      setIsLoading(false);
+      toast({
+        title: "An error occurred.",
+        description: "Invalid credentials. Try again",
+        status: "error",
+        position: "top",
+        duration: 9000,
+        isClosable: true
+      })
+    }
   }
 
   return (

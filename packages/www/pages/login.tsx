@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import cookies from 'react-cookies';
@@ -8,38 +8,23 @@ import {
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav
-} from '../../../components'
+} from '../components';
 
-export default function CreateUser() {
+export default function Login() {
   const router = useRouter();
   const toast = useToast();
   const [show, setShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isUsernameValid, setIsUsernameValid] = useState(false);
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [userCreated, setUserCreated] = useState(false);
-
-  useEffect(() => {
-    const expectToken = process.env.NEXT_PUBLIC_ADMIN_TOKEN
-    const token = cookies.load('token')
-    if (expectToken !== token) {
-      router.push('/admin')
-    }
-  })
 
   const handleClick = () => setShow(!show);
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
     setIsUsernameValid(false);
-  }
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-    setIsEmailValid(false);
   }
 
   const handlePasswordChange = (event) => {
@@ -48,10 +33,8 @@ export default function CreateUser() {
   }
 
   const validateInput = () => {
-    const regExp = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
     let isUsernameValid = true;
     let isPasswordValid = true;
-    let isEmailValid = true;
     if (username.length === 0) {
       setIsUsernameValid(true);
       isUsernameValid = false;
@@ -60,12 +43,7 @@ export default function CreateUser() {
       setIsPasswordValid(true);
       isPasswordValid = false;
     }
-    if (!email.match(regExp)) {
-      setIsEmailValid(true);
-      isEmailValid = false
-    }
-    
-    return isUsernameValid && isPasswordValid && isEmailValid;
+    return isUsernameValid && isPasswordValid;
   }
 
   const submit = async (event) => {
@@ -73,30 +51,25 @@ export default function CreateUser() {
     setIsLoading(true);
     setUsername(username.trim());
     setPassword(password.trim());
-    setEmail(email.trim());
 
     if(!validateInput()) {
       setIsLoading(false)
-      return 
     }
     
     try {
-      const token = cookies.load('token');
-      const response = await axios.post(`/api/users/create`, {
+      const response = await axios.post(`/api/auth/login`, {
         username,
-        email,
         password
-      }, {
-        headers: {
-          authorization: `Bearer ${token}`
-        }
       })
-      setUserCreated(true);
+      const token = response.data.data.token;
+      const loggedInUsername = response.data.data.username;
+      cookies.save('token', token, { path: '/' });
+      router.push(`/users/${loggedInUsername}/notes`)
     } catch (err) {
       setIsLoading(false);
       toast({
         title: "An error occurred.",
-        description: `Username or email already registered. Try again`,
+        description: `Invalid credentials. Try again`,
         status: "error",
         position: "top",
         duration: 9000,
@@ -110,18 +83,10 @@ export default function CreateUser() {
     <Layout>
       <Nav/>
       <Container>
-        {userCreated && router.push('/admin/users') && toast({
-          title: "User created",
-          description: "User successfully created",
-          status: "success",
-          position: "top",
-          duration: 9000,
-          isClosable: true
-        })}
         <div style={{display: "flex", justifyContent:"center"}}>
         <form className="form">
           <Heading textAlign="center" color="#3E576A" as="h3" size="lg"  mb={5}>
-              Create User
+              Login
           </Heading>
           <FormControl isRequired mb={2}>
             <FormLabel htmlFor="username">Username</FormLabel>
@@ -129,13 +94,6 @@ export default function CreateUser() {
               id="username" placeholder="Username" isInvalid={isUsernameValid}
               value={username} onChange={handleUsernameChange}
               />
-          </FormControl>
-          <FormControl isRequired mb={2}>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              id="email" placeholder="Email" isInvalid={isEmailValid}
-              value={email} onChange={handleEmailChange}
-            />
           </FormControl>
           <FormControl isRequired mb={2}>
             <FormLabel htmlFor="email">Password</FormLabel>
@@ -162,9 +120,9 @@ export default function CreateUser() {
               fontSize={14}
               ml={1} mr={1}
               isLoading={isLoading}
-              loadingText="Submitting"
+              loadingText="Loggin in"
             >
-              Submit
+              Login
             </Button>
           </Flex>
         </form>
@@ -187,7 +145,7 @@ export default function CreateUser() {
 
         @media (min-width: 800px) {
           .form {
-            width: 600px;
+            width: 500px;
           }
         }
       `}</style>

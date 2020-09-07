@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import { Button, Box, useToast } from '@chakra-ui/core';
+import { Button, Box, useToast, Text } from '@chakra-ui/core';
 import {
-  Container, Layout, Nav, Note
+  Container, Layout, Nav, Note,
 } from '../components';
 import { HOST_URL, ERROR, SUCCESS } from '../constants';
 import { FunctionComponent } from 'react';
@@ -64,6 +64,11 @@ const Home: FunctionComponent<HomeProps> = ({status, notes}) => {
             duration: 9000,
             isClosable: true
           }) : 
+          notes.length === 0 ?
+          <Text fontSize={18} textAlign="center">
+           No notes available
+          </Text> 
+          :
           notes.map(({id, title}) => (
             <Note key={id} id={id} title={title} username={null}/>
           ))

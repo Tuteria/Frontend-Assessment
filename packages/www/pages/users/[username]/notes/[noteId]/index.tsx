@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import cookies from 'react-cookies';
 import {
   Button, Flex, FormControl, FormLabel,
   Input, Textarea, useToast
@@ -9,11 +10,26 @@ import {
   Container, Layout, Nav, DeleteNote
 } from '../../../../../components';
 import { HOST_URL, ERROR, SUCCESS } from '../../../../../constants';
+import retrieveToken from '../../../../../utils/retrieveToken';
 
-export const getServerSideProps = async ({params}) => {
+export const getServerSideProps = async ({req, params}) => {
+  const token = retrieveToken(req);
+  if (!token) {
+    return {
+      props: {
+        status: ERROR,
+        message: 'Please, log in',
+        note: [],
+      },
+    }
+  }
   try {
     const {username, noteId} = params;
-    const note = await axios.get(`${HOST_URL}/api/users/${username}/notes/${noteId}`)
+    const note = await axios.get(`${HOST_URL}/api/users/${username}/notes/${noteId}`, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    })
     return {
       props: {
         status: SUCCESS,
@@ -25,13 +41,14 @@ export const getServerSideProps = async ({params}) => {
     return {
       props: {
         status: ERROR,
+        message: 'Something went wrong. Try Again',
         note: [],
       },
     }
   }
 }
 
-export default function UserNote({status, note, username}) {
+export default function UserNote({status, message, note, username}) {
   const router = useRouter();
   const toast = useToast();
   const [title, setTitle] = useState(note.title);
@@ -40,6 +57,14 @@ export default function UserNote({status, note, username}) {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyDescription, setIsEmptyDescription] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const isLoggedIn = cookies.load('token');
+  const isAdmin = isLoggedIn === process.env.NEXT_PUBLIC_ADMIN_TOKEN
+  
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  })
 
   const handleTitleChange = event =>{
     setTitle(event.target.value)
@@ -69,12 +94,17 @@ export default function UserNote({status, note, username}) {
       setIsEmptyDescription(!isEmptyDescription);
       return;
     }
-    
     setIsSending(true);
+
+    const token = cookies.load('token'); 
     try {
       const response = await axios.put(`/api/users/${username}/notes/${note.id}`, {
         title,
         description
+      }, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
       })
       toast({
         title: "Note updated",
@@ -106,7 +136,7 @@ export default function UserNote({status, note, username}) {
       <>
         {toast({
           title: "An error occurred.",
-          description: "Something went wrong. Try again",
+          description: `${message}`,
           status: "error",
           position: "top",
           duration: 9000,
@@ -122,19 +152,22 @@ export default function UserNote({status, note, username}) {
       <Container>
         {notEditable ?
           (
-            <Flex justify="flex-end" >
-              <Button
-                onClick={edit}
-                leftIcon="edit"
-                variantColor="teal"
-                borderRadius={7}
-                fontSize={14}
-                ml={1} mr={1}
-              >
-                Edit
-              </Button>
-              <DeleteNote noteId={note.id} username={username}/>
-            </Flex>
+            !isAdmin ?
+              (
+                <Flex justify="flex-end" >
+                  <Button
+                    onClick={edit}
+                    leftIcon="edit"
+                    variantColor="teal"
+                    borderRadius={7}
+                    fontSize={14}
+                    ml={1} mr={1}
+                  >
+                    Edit
+                  </Button>
+                  <DeleteNote noteId={note.id} username={username}/>
+              </Flex>
+            ) : null
           ) : null
         }
         <form>

@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios'
+import cookies from 'react-cookies';
 import {
   Button, Modal, ModalOverlay, ModalContent, ModalHeader,
   ModalCloseButton, ModalBody, ModalFooter, useDisclosure,
@@ -26,9 +27,13 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId, username}) => {
 
   const deleteNote = async () => {
     onClose()
-    
+    const token = cookies.load('token');
     try {
-      const response = await axios.delete(requestUrl)
+      const response = await axios.delete(requestUrl, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      })
       toast({
         title: "Note deleted",
         description: "Note successfully deleted",

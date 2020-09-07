@@ -1,23 +1,44 @@
 import React, { FunctionComponent } from 'react';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Flex, Text } from '@chakra-ui/core';
-import Login from './login';
+import { Flex, Button } from '@chakra-ui/core';
+import cookies from 'react-cookies';
 
 interface NavProps {
   showLogin: boolean,
  }
 
-const Nav: FunctionComponent = () => (
+const Nav: FunctionComponent = () => {
+  const router = useRouter();
+  const isUserLoggedIn = cookies.load('token');
+
+  const logout = () => {
+    cookies.remove('token', { path: '/' });
+    router.push('/');
+  }
+
+  return (
     <Flex w="100%" p={4} justify="center" boxShadow="md">
       <div className="block">
         <Link href="/">
             <a className="heading">Notes</a>
         </Link>
-          <div className="login">
-            <Link href="/login">
-              <a >Login</a>
-            </Link>
-          </div>
+          {!isUserLoggedIn ?
+            (
+              <div className="login">
+                <Link href="/login">
+                  <a >Login</a>
+                </Link>
+              </div>
+            ) :
+            (
+              <div className="login">
+                <Button bg="transparent" onClick={logout}>
+                  Logout
+                </Button>
+              </div>
+            )
+          }
       </div>
       <style jsx>{`
         .heading {
@@ -36,7 +57,7 @@ const Nav: FunctionComponent = () => (
         .login {
           padding-top: 1rem;
           color: #3E576A;
-          font-size: 1.2rem;
+          font-weight: bold
         }
 
         .login a:hover {
@@ -50,6 +71,7 @@ const Nav: FunctionComponent = () => (
         }
       `}</style>
     </Flex>
-);
+  );
+}
 
 export default Nav;

@@ -11,19 +11,17 @@ model alembic_version {
   version_num String @id
 }
 
+model notes {
+  id          Int     @default(autoincrement()) @id
+  title       String?
+  description String?
+  user_id     Int?
+}
+
 model users {
   id       Int      @default(autoincrement()) @id
   username String?  @unique
   email    String?  @unique
   is_admin Boolean?
   password String?
-  notes    notes[]
-}
-
-model notes {
-  id          Int     @default(autoincrement()) @id
-  title       String?
-  description String?
-  user_id     Int?
-  users       users?  @relation(fields: [user_id], references: [id])
 }

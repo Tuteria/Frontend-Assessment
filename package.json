@@ -28,8 +28,8 @@
     "test": "lerna run test",
     "service:common": "yarn workspace @tuteria/common",
     "service:example": "yarn workspace @tuteria/example-service",
-    "service:web": "yarn workspace @tuteria/www",
-    "db:generate-all": "yarn service:example db:generate"
+    "db:generate-all": "yarn service:example db:generate",
+    "next:app": "yarn workspace @tuteria/www"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
@@ -83,6 +83,7 @@
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "cookies": "^0.8.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
@@ -93,6 +94,7 @@
     "npm-run-all": "^4.1.5",
     "pluralize": "^8.0.0",
     "react": "^16.13.1",
+    "react-cookies": "^0.1.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "typescript": "3.9.6",

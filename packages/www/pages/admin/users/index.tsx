@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import cookies from 'react-cookies';
 import {
   Button, Heading, Text, Flex, Link
 } from '@chakra-ui/core';
@@ -8,10 +9,16 @@ import {
   Container, Layout, Nav
 } from '../../../components'
 import { HOST_URL, SUCCESS, ERROR } from '../../../constants';
+import retrieveToken from '../../../utils/retrieveToken';
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async ({req}) => {
+  const token = retrieveToken(req);
   try {
-    const res = await axios.get(`${HOST_URL}/api/users`);
+    const res = await axios.get(`${HOST_URL}/api/users`, {
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    });
     return {
       props: {
         status: SUCCESS,
@@ -29,6 +36,15 @@ export const getServerSideProps = async () => {
 }
 
 export default function UserLists({status, users}) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const expectToken = process.env.NEXT_PUBLIC_ADMIN_TOKEN
+    const token = cookies.load('token')
+    if (expectToken !== token) {
+      router.push('/admin')
+    }
+  })
 
   return (
     <Layout>
@@ -57,7 +73,7 @@ export default function UserLists({status, users}) {
             <Text width="50%" pl={5}>Email</Text>
           </Flex>
             {users.map((user) => (
-              <Link href={`/admin/users/${user.username}/notes`} mb={3}  key={user.id}>
+              <Link href={`/users/${user.username}/notes`} mb={3}  key={user.id}>
                 <Flex
                   bg="#FFFFFF" boxShadow="md" minHeight="3rem"
                   pt={5} pb={5} borderRadius={5}

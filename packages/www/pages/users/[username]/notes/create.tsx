@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import cookies from 'react-cookies';
 import {
   Button, Flex, FormControl, FormLabel,
   Input, Textarea, useToast, Heading
@@ -25,6 +26,13 @@ export default function CreateUserNote({username}) {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyDescription, setIsEmptyDescription] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const isLoggedIn = cookies.load('token');
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/login');
+    }
+  })
 
   const handleTitleChange = event =>{
     setTitle(event.target.value)
@@ -47,11 +55,15 @@ export default function CreateUserNote({username}) {
       return;
     }
     setIsSending(true);
-
+    const token = cookies.load('token');
     try {
       const response = await axios.post(`/api/users/${username}/notes/create`, {
         title,
         description
+      }, {
+        headers: {
+          authorization: `Bearer ${token}`
+        }
       })
       toast({
         title: "Note added",
@@ -75,7 +87,6 @@ export default function CreateUserNote({username}) {
         isClosable: true
       })
     }
-
   }
 
   return (

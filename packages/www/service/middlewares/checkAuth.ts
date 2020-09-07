@@ -16,12 +16,12 @@ function admin(handler) {
 function user(handler) {
   return async (req, res) => {
     if (!req.user) {
-      res.status(401).json({
+      return res.status(401).json({
         status: 'error',
         error: 'User must be looged in' 
       })
     }
-    if (req.user.is_admin) {
+    if (req.user && req.user.is_admin) {
       return handler(req, res)
     }
     if (req.user.username === req.query.username) {
