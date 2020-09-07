@@ -2,22 +2,23 @@ import Link from "next/link";
 
 const UserDisplay = ({ user, viewUserNotes }: UserDisplayProps) => {
 	return (
-		<div
-			onClick={() => viewUserNotes(user?.username)}
-			className="border border-left-0 border-primary border-right-0 border-top-0 d-flex p-3 align-items-center"
-		>
+		<div className="border border-left-0 border-primary border-right-0 border-top-0 p-3 align-items-center mb-0">
 			<hgroup className="flex-grow-1">
 				<h5 className="text-dark">{user?.name}</h5>
 				<h6 className="text-uppercase">
 					<Link href="/[username]" as={`/${user?.username}`}>
-						<a className="text-dark flex-grow-1">{user?.username}</a>
+						<a className="text-dark flex-grow-1">{`Visit ${user?.username}'s page`}</a>
 					</Link>
 				</h6>
 			</hgroup>
-			<button className="btn mr-0 pr-0">
+			<button
+				className="btn pl-0"
+				onClick={() => viewUserNotes(user?.username)}
+			>
+				View Notes{" "}
 				<svg
 					viewBox="0 0 16 16"
-					className="bi bi-caret-right-fill mr-0 pr-0"
+					className="bi bi-caret-right-fill"
 					fill="currentColor"
 					xmlns="http://www.w3.org/2000/svg"
 				>

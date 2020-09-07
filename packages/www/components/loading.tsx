@@ -6,17 +6,7 @@ import ContainerDimensions from "react-container-dimensions";
 
 export default class Loading extends Component {
 	render = () => (
-		// <ContainerDimensions>
-		// 	{({ height, width }) => (
-		// 		<div className="v-align border border-danger" style={{ height: height * 0.8, width }}>
-		// 			<FontAwesomeIcon
-		// 				icon={faSpinner}
-		// 				className="text-primary fa-3x fa-pulse load-icon"
-		// 			/>
-		// 		</div>
-		// 	)}
-		// </ContainerDimensions>
-		<div className="text-primary v-parent h-75">
+		<div className="text-primary v-parent h-100">
 			<div className="v-child text-center">
 				<FontAwesomeIcon
 					icon={faSpinner}

@@ -99,7 +99,7 @@ export default class Header extends Component<HeaderProps, HeaderState> {
 			<div className="navbar navbar-dark">
 				<Container className="px-0">
 					<Link href="/">
-						<a className="navbar-brand px-0">Notes</a>
+						<a className="navbar-brand px-0">Scribble</a>
 					</Link>
 					{this.renderToggleButton()}
 				</Container>
