@@ -1,7 +1,7 @@
-import Head from "next/head";
 import NoteList from "../components/note/list";
 import { useState, useEffect } from "react";
 import Layout from "../components/layout";
+import Loading from "../components/loading";
 
 export default function Home({ notes }) {
 	const [list, setList] = useState(notes);
@@ -11,21 +11,20 @@ export default function Home({ notes }) {
 			setList(await fetchAllNotes());
 		}
 		if (!list || list.length < 1) loadData();
-	}, null);
+	}, []);
 
 	return (
-		<Layout title="Home">
-			<Head>
-				<title>Home | All Notes</title>
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-
-			{!list || list.length < 1 ? (
-				<div>loading notes...</div>
-			) : (
-				<NoteList notes={list} isOwner={false} isHome={true} />
-			)}
-		</Layout>
+		<Layout
+			title="Home"
+			content={{
+				main:
+					!list || list.length < 1 ? (
+						<Loading />
+					) : (
+						<NoteList notes={list} isOwner={false} isHome={true} />
+					)
+			}}
+		/>
 	);
 }
 

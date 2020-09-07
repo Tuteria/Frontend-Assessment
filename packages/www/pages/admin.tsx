@@ -5,6 +5,7 @@ import api from "./api";
 import NoteList from "../components/note/list";
 import Link from "next/link";
 import UserCreate from "../components/user/create";
+import Layout from "../components/layout";
 
 export default class Admin extends React.Component<AdminProps, AdminState> {
 	state: AdminState = {
@@ -37,47 +38,74 @@ export default class Admin extends React.Component<AdminProps, AdminState> {
 
 	renderHelper = () =>
 		this.state.isAuthed ? (
-			<>
-				{this.state.adminUser?.key}
-				<button onClick={() => this.setState({ isAuthed: false })}>
-					Logout
-				</button>
+			<Layout
+				title="Admin"
+				content={{
+					main: (
+						<>
+							{this.state.adminUser?.key}
+							<button
+								className="btn text-danger btn-create"
+								onClick={() => this.setState({ isAuthed: false })}
+							>
+								<svg
+									width="1em"
+									height="1em"
+									viewBox="0 0 16 16"
+									className="bi bi-power"
+									fill="currentColor"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										fillRule="evenodd"
+										d="M5.578 4.437a5 5 0 1 0 4.922.044l.5-.866a6 6 0 1 1-5.908-.053l.486.875z"
+									/>
+									<path fill-rule="evenodd" d="M7.5 8V1h1v7h-1z" />
+								</svg>
+							</button>
 
-				<p>
-					<UserCreate
-						updateUser={(user) =>
-							this.setState({ users: [...this.state.users, user] })
-						}
-					/>
-				</p>
+							<div>
+								<UserCreate
+									updateUser={(user) =>
+										this.setState({ users: [...this.state.users, user] })
+									}
+								/>
+							</div>
 
-				<UserList
-					users={this.state.users}
-					viewUserNotes={(username) => this.setState({ username })}
-				/>
-				<NoteList isHome={false} isOwner={true} notes={this.state.notes} />
-			</>
+							<NoteList
+								isHome={false}
+								isOwner={true}
+								notes={this.state.notes}
+							/>
+						</>
+					),
+					aside: (
+						<UserList
+							users={this.state.users}
+							viewUserNotes={(username) => this.setState({ username })}
+						/>
+					),
+				}}
+			/>
 		) : (
-			<AuthForm
-				authAdmin={(user) =>
-					this.setState({
-						isAuthed: true,
-						adminUser: user,
-					})
-				}
+			<Layout
+				title="Admin"
+				content={{
+					main: (
+						<AuthForm
+							authAdmin={(user) =>
+								this.setState({
+									isAuthed: true,
+									adminUser: user,
+								})
+							}
+						/>
+					),
+				}}
 			/>
 		);
 
-	render() {
-		return (
-			<>
-				<Link href="/">
-					<a>Home</a>
-				</Link>
-				{this.renderHelper()}
-			</>
-		);
-	}
+	render = () => this.renderHelper();
 }
 
 interface AdminUser {

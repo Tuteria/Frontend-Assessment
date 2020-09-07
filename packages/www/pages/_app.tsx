@@ -5,6 +5,7 @@ import "animate.css/animate.min.css";
 
 import "../assets/app.css"
 import "../assets/header.css"
+import "../assets/body.css"
 
 function MyApp({ Component, pageProps }) {
 	return <Component {...pageProps} />;

@@ -1,0 +1,54 @@
+#body {
+	padding: 80px 0;
+	height: 100%;
+}
+
+#body aside,
+#body main {
+	flex: 0 1 100%;
+	padding: 10px 0;
+	margin: 0 20px;
+	margin-bottom: 40px;
+	height: fit-content;
+}
+
+#body aside svg {
+	display: none;
+}
+
+#body aside h4 {
+	text-align: center;
+	text-transform: capitalize;
+	margin: 0;
+}
+
+@media (min-width: 1198px) {
+	#body {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	#body aside,
+	#body main {
+		margin: 0 5%;
+	}
+
+	#body aside {
+		flex: 1 1 25%;
+		/* position: fixed; */
+	}
+
+	#body aside svg {
+		display: block;
+		width: 10em;
+		height: 2em;
+		text-align: center;
+		margin: 0;
+		padding: 0;
+	}
+
+	#body main {
+		flex: 1 1 75%;
+		height: 100%;
+	}
+}

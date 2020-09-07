@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import NoteList from "../components/note/list";
 import Create from "../components/note/create";
-import Link from "next/link";
+import Layout from "../components/layout";
+import Loading from "../components/loading";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function User({ notes }) {
 	const router = useRouter();
@@ -16,29 +19,33 @@ export default function User({ notes }) {
 	}, []);
 
 	return (
-		<>
-			<p>
-				<Link href="/" as="/">
-					<a>Home</a>
-				</Link>
-			</p>
-			{!list || list.length < 1 ? (
-				<div>loading notes...</div>
-			) : (
-				<>
-					<NoteList
-						username={router.query.username}
-						notes={list}
-						isHome={false}
-						isOwner={true}
-					/>
-					<Create
-						owner={router.query.username}
-						updateNote={(n) => setList(n)}
-					/>
-				</>
-			)}
-		</>
+		<Layout
+			title={`${router.query.username}'s Notes`}
+			content={{
+				aside: (
+					<div className="p-4 text-dark">
+						<h4>{`Notes from ${router.query.username}`}</h4>
+					</div>
+				),
+				main:
+					!list || list.length < 1 ? (
+						<Loading />
+					) : (
+						<>
+							<NoteList
+								username={router.query.username}
+								notes={list}
+								isHome={false}
+								isOwner={true}
+							/>
+							<Create
+								owner={router.query.username}
+								updateNote={(n) => setList(n)}
+							/>
+						</>
+					),
+			}}
+		></Layout>
 	);
 }
 

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "components": "^0.1.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",

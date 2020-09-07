@@ -1,5 +1,5 @@
 // Module imports
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 import Link from "next/link";
 import { Container, Row, Col } from "react-bootstrap";
 
@@ -20,9 +20,25 @@ export default class Header extends Component<HeaderProps, HeaderState> {
 				className={`animate__animated nav-item ${i === 0 ? "active" : ""}`}
 				onClick={() => this.toggleHeaderMenu()}
 			>
-				<Link href={path}>
-					<a className="nav-link text-white">{name}</a>
-				</Link>
+				{name == "login" && this.props.aside && this.props.title === "Admin" ? (
+					<>
+						<Link href="/admin">
+							<a className="nav-link text-white">Admin</a>
+						</Link>
+						<Link href="/">
+							<a
+								className="nav-link btn btn-danger px-3 mt-3"
+								style={{ width: "fit-content" }}
+							>
+								Logout
+							</a>
+						</Link>
+					</>
+				) : (
+					<Link href={path}>
+						<a className="nav-link text-white">{name}</a>
+					</Link>
+				)}
 			</li>
 		));
 
@@ -56,7 +72,7 @@ export default class Header extends Component<HeaderProps, HeaderState> {
 	);
 
 	render = () => (
-		<header id="header">
+		<header id="header" className="fixed-top">
 			<Container
 				className={`h-100 px-0 nav position-fixed ${
 					this.state.navIsHidden ? "nav-hide" : "nav-show"
@@ -92,7 +108,10 @@ export default class Header extends Component<HeaderProps, HeaderState> {
 	);
 }
 
-interface HeaderProps {}
+interface HeaderProps {
+	aside: ReactNode;
+	title: string;
+}
 
 interface HeaderState {
 	toggleIsAnimated: boolean;

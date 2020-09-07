@@ -1,30 +1,6 @@
 import NoteDisplay from "./display";
 import React from "react";
 
-// const NoteList = ({ username, notes, isOwner, isHome }: NoteListProps) => {
-// 	const [array, setArray] = useState(notes);
-
-// 	console.log(array, notes);
-
-// 	return (
-// 		<>
-// 			{array.length > 0 ? (
-// 				array.map((note, i) => (
-// 					<NoteDisplay
-// 						key={`note-display-${i}`}
-// 						note={note}
-// 						isOwner={isOwner}
-// 						isHome={isHome}
-// 						updateNote={(n) => setArray(n)}
-// 					/>
-// 				))
-// 			) : (
-// 				<p>No notes</p>
-// 			)}
-// 		</>
-// 	);
-// };
-
 class NoteList extends React.Component<NoteListProps, NoteListState> {
 	state: NoteListState = {
 		array: this.props.notes,
@@ -38,7 +14,6 @@ class NoteList extends React.Component<NoteListProps, NoteListState> {
 		snapShot.shouldUpdate ? this.setState({ array: this.props.notes }) : "";
 
 	render() {
-
 		return (
 			<>
 				{this.state.array.length > 0 ? (
@@ -56,7 +31,19 @@ class NoteList extends React.Component<NoteListProps, NoteListState> {
 						/>
 					))
 				) : (
-					<p>No notes</p>
+					<div className="my-5 py-5">
+						<svg
+							viewBox="0 0 16 16"
+							className="bi bi-file-code-fill"
+							fill="currentColor"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								fillRule="evenodd"
+								d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM6.646 5.646a.5.5 0 1 1 .708.708L5.707 8l1.647 1.646a.5.5 0 0 1-.708.708l-2-2a.5.5 0 0 1 0-.708l2-2zm2.708 0a.5.5 0 1 0-.708.708L10.293 8 8.646 9.646a.5.5 0 0 0 .708.708l2-2a.5.5 0 0 0 0-.708l-2-2z"
+							/>
+						</svg>
+					</div>
 				)}
 			</>
 		);

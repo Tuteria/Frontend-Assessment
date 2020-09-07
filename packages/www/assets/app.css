@@ -6,7 +6,8 @@ TODO: Obtain Color Palette from https://coolors.co/app
 */
 
 html,
-body {
+body,
+#__next {
 	height: 100%;
 	font-size: 14px;
 }
@@ -18,6 +19,33 @@ body {
 	font-family: "Montserrat", -apple-system, BlinkMacSystemFont, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	--scrollbarBG: rgba(0, 0, 0, 0);
+	--thumbBG: #7660cc;
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+
+body::-webkit-scrollbar {
+	width: 10px;
+	height: 5px;
+}
+
+#body main::-webkit-scrollbar-track {
+	background: var(--scrollbarBG);
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+#body main::-webkit-scrollbar-thumb {
+	background-color: var(--thumbBG);
+	border-radius: 6px;
+	border: 3px solid var(--scrollbarBG);
+}
+
+* {
+	font-size: 97.5%;
+	box-sizing: border-box;
 }
 
 *,
@@ -32,13 +60,14 @@ h1,
 }
 
 a {
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a {
 	color: #000000;
 }
 
+a,
 a:hover,
 a.active {
 	font-weight: bold;
@@ -49,6 +78,11 @@ p {
 	margin: 0;
 }
 
+svg {
+	width: 1.3em;
+	height: 1.3em;
+}
+
 .btn {
 	text-transform: uppercase;
 	font-weight: bold;
@@ -56,6 +90,22 @@ p {
 
 .btn-white {
 	color: #7660cc;
+}
+
+button.btn-create {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	z-index: 2;
+}
+
+button.btn-create.btn-create--2 {
+	bottom: 55px;
+}
+
+button.btn-create svg {
+	width: 2.5em;
+	height: 2.5em;
 }
 
 .bg-light {
@@ -71,18 +121,22 @@ body#body .form-control:-webkit-autofill,
 body#body .form-control:-webkit-autofill:hover,
 body#body .form-control:-webkit-autofill:focus,
 body#body .form-control:-webkit-autofill:active {
-	box-shadow: none;
+	box-shadow: none !important;
 	-webkit-box-shadow: 0 0 0 100 #fff inset;
 	font-family: "Montserrat", sans-serif;
 	border: none;
 	border-bottom: 1px solid #ccc;
 	border-radius: 0;
-	outline: none;
+	outline: none !important;
+	margin-bottom: 20px;
 }
 
 body#body .form-control:focus,
 body#body .form-control:hover {
-	border-color: #7660cc;
+	border-color: #7660cc !important;
+	box-shadow: none !important;
+	outline: none !important;
+	border-width: 20px !important;
 }
 
 body#body .has-error .form-control,
@@ -91,7 +145,7 @@ body#body .has-error .form-control {
 }
 
 .border-primary {
-	border-color: #7660cc;
+	border-color: #7660cc !important;
 }
 
 .clear {
@@ -116,6 +170,22 @@ body#body .has-error .form-control {
 	width: 100%;
 }
 
+form .v-child {
+	display: flex;
+	justify-content: center;
+}
+
+form .v-child > div {
+	width: 75%;
+	padding: 20px;
+}
+
+.v-align {
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
 .d-fixed {
 	position: fixed;
 	bottom: 0;
@@ -126,18 +196,43 @@ body#body .has-error .form-control {
 	overflow: hidden;
 }
 
-.text-priamry {
-	color: #7660cc;
+.text-primary {
+	color: #7660cc !important;
 }
 
 .bg-primary,
-.btn-primary {
-	background-color: #7660cc;
+.btn-primary,
+.badge-primary {
+	background-color: #7660cc !important;
+}
+
+.create-form {
+	background: rgba(118, 96, 204, 0.7);
+	background: #fff;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	padding: 100px 5%;
 }
 
 @media (min-width: 992px) {
 	html,
 	body {
 		font-size: 16px;
+	}
+
+	button.btn-create {
+		bottom: 30px;
+	}
+
+	button.btn-create.btn-create--2 {
+		bottom: 90px;
+	}
+
+	button.btn-create svg {
+		width: 3em;
+		height: 3em;
 	}
 }
