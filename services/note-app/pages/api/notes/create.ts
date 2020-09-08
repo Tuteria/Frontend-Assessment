@@ -9,6 +9,24 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
 
   if (method === 'POST'){
     try {
+      const error = {}
+      const requredMsg = 'this field is required!';
+
+      // validate user input
+      if (!title) {
+        error['title'] = requredMsg;
+      }
+
+      if (!description) {
+        error['description'] = requredMsg;
+      }
+
+      if (Object.keys(error).length !== 0 && error.constructor === Object) {
+        return res.status(400).json(error);
+      }
+
+      // create note
+
       const result = await prisma.notes.create({
         data: { description, title, user },
       });

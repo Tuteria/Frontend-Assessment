@@ -69,6 +69,7 @@
     "lerna": "^3.20.2",
     "lint-staged": "^10.2.11",
     "next-transpile-modules": "^4.0.2",
+    "node-mocks-http": "^1.9.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",
     "supertest": "^4.0.2",

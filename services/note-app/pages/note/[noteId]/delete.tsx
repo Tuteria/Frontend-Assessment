@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Heading, Text, Box, Button } from "@chakra-ui/core";
+import axios from 'axios'
+import { Heading, Box, Button } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import Layout from '../../../components/Layout'
 import jwtDecode from 'jwt-decode'
@@ -20,6 +21,18 @@ export default function Feature({ id, title, desc, isAdminOrMine, ...rest }) {
     }
   }, [])
 
+  const deleteNote = async () =>  {
+    let username
+    const { noteId } = router.query
+    const token = localStorage.getItem("isLoggedIn");
+    if(token) {
+      const decode = jwtDecode(token)
+      username = decode.username;
+    }
+    const res = await axios.delete(`/api/notes/${noteId}`);
+    router.push(`/users/${username}/notes`);
+  }
+
   return (
     <Layout>
       <div style={{width: '30%', margin: '5% auto'}}>
@@ -33,7 +46,7 @@ export default function Feature({ id, title, desc, isAdminOrMine, ...rest }) {
             </Button>
             </Link>
             &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
-            <Button variantColor="red" variant="outline">
+            <Button variantColor="red" onClick={() => deleteNote()} variant="outline">
               Yes
             </Button>
           </div>

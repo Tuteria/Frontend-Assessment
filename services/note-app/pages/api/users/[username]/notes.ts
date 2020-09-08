@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from "@prisma/client";
+import isAdmin from "../../../../utils/isAdmin";
 
 const prisma = new PrismaClient()
 
 export default async  (req: NextApiRequest, res: NextApiResponse) => {
+  isAdmin(req, res);
+
   const { method } =  req;
   const { username } = req.query;
   const user = String(username)

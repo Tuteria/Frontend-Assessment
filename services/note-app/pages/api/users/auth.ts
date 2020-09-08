@@ -30,7 +30,7 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
       }
 
       let foundUser = await prisma.users.findOne({ where: { email: email } });
-  
+
       if (foundUser){
         const hassPassword = hashPass(password);
         if (hassPassword == foundUser.password){
