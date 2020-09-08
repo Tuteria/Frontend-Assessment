@@ -43,3 +43,11 @@ export async function getNotes(req: Request, res: Response) {
 	});
 	res.json(notes);
 }
+
+export async function getNote(req: Request, res: Response) {
+	const { id } = req.params;
+	const note = await prisma.notes.findOne({
+		where: { id: Number(id) }
+	});
+	res.json(note);
+}
