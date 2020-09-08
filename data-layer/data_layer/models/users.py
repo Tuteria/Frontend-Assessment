@@ -6,7 +6,7 @@ class User(Base):
 	__tablename__ = "users"
 	id = sql.Column(sql.Integer, primary_key=True)
 	username = sql.Column(sql.String(50), nullable=False, unique=True)
-	password = sql.Column(sql.String(50), nullable=False)
+	password = sql.Column(sql.String(500), nullable=False)
 	admin = sql.Column(sql.Boolean, nullable=False, default=False)
 
 	def __repr__(self):
