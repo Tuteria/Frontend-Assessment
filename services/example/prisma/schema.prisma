@@ -15,4 +15,14 @@ model notes {
   id          Int     @default(autoincrement()) @id
   title       String?
   description String?
+  user_id     Int?
+  users       users?  @relation(fields: [user_id], references: [id])
+}
+
+model users {
+  id       Int      @default(autoincrement()) @id
+  username String?  @unique
+  password String?
+  is_admin Boolean?
+  notes    notes[]
 }
