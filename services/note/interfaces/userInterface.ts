@@ -1,6 +1,12 @@
-export interface NoteInterface {
-	id?: number;
+export interface RegisterUserInterface {
+	id?: string;
 	username: string;
 	email: string;
-	notes?: any;
+	password: string;
+}
+
+export interface LoginUserInterface {
+	id?: string;
+	email: string;
+	password: string;
 }

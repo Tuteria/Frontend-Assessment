@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["connectOrCreate", "fluentApi"]
+  previewFeatures = ["connectOrCreate"]
 }
 
 datasource db {
@@ -13,21 +13,20 @@ model alembic_version {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
+  id        Int      @default(autoincrement()) @id
   username  String   @unique
   email     String   @unique
+  password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  notes     Note[]
 }
 
 model Note {
-  id        Int      @id @default(autoincrement())
+  id        Int      @default(autoincrement()) @id
   title     String
   category  String?
   body      String?
+  username  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
 }

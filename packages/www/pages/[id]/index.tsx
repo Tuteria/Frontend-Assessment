@@ -17,6 +17,7 @@ import {
 	PopoverFooter,
 	ButtonGroup,
 	Spinner,
+	useToast,
 } from "@chakra-ui/core";
 
 const Note = ({ note }) => {
@@ -25,6 +26,7 @@ const Note = ({ note }) => {
 	const open = () => setIsOpen(!isOpen);
 	const close = () => setIsOpen(false);
 	const router = useRouter();
+	const toast = useToast();
 
 	useEffect(() => {
 		if (isDeleting) {
@@ -45,6 +47,13 @@ const Note = ({ note }) => {
 			});
 
 			router.push("/");
+			toast({
+				title: "Note Deleted.",
+				description: "Note Deleted successfully",
+				status: "success",
+				duration: 9000,
+				isClosable: true,
+			});
 		} catch (error) {
 			console.log(error);
 		}

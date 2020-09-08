@@ -3,6 +3,5 @@ export interface NoteInterface {
 	title: string;
 	category?: string;
 	body?: string;
-	authorId?: number;
-	author?: any;
+	username?: string;
 }

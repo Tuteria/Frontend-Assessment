@@ -17,6 +17,17 @@ export const createNotes = async (req: Request, res: Response) => {
 				},
 			});
 			res.status(200).json(note);
+		} else if (body.username) {
+			const note = await prisma.note.create({
+				data: {
+					username: body.username,
+					title: body.title,
+					body: body.body,
+				},
+			});
+			res
+				.status(200)
+				.json({ message: "Note created successfully", newNote: note });
 		} else {
 			const note = await prisma.note.create({
 				data: {
