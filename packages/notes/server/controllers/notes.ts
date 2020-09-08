@@ -1,13 +1,10 @@
 import { Request, Response } from "express";
-import Joi, { ValidationError } from "joi";
+import { ValidationError } from "joi";
 import { notesCreateInput } from "@prisma/client";
 import { CustomRequest } from "../types";
 import { prisma } from "../lib";
+import { noteSchema as schema } from "../schema";
 
-const schema = Joi.object({
-	title: Joi.string(),
-	description: Joi.string()
-});
 
 export async function createNote(req: CustomRequest, res: Response) {
 	try {
