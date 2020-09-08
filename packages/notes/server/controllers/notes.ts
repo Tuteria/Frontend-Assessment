@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Joi, { ValidationError } from "joi";
+import { notesCreateInput } from "@prisma/client";
 import { CustomRequest } from "../types";
 import { prisma } from "../lib";
 
@@ -10,10 +11,15 @@ const schema = Joi.object({
 
 export async function createNote(req: CustomRequest, res: Response) {
 	try {
+		const { user } = req;
 		const { title, description } = await schema.validateAsync(req.body);
-		const note = await prisma.notes.create({
-			data: { title, description }
-		});
+		const data: notesCreateInput = { title, description }
+		if (user) {
+			data.author = {
+				connect: { id: user.id }
+			}
+		}
+		const note = await prisma.notes.create({ data });
 		res.status(200).json(note);
 	} catch (e) {
 		if (e instanceof ValidationError) {
