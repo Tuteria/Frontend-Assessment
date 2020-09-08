@@ -67,3 +67,11 @@ export async function updateNote(req: Request, res: Response) {
 		} else throw e;
 	}
 }
+
+export async function deleteNote(req: Request, res: Response) {
+	const { id } = req.params;
+	const note = await prisma.notes.delete({
+		where: { id: Number(id) }
+	});
+	res.json(note);
+}
