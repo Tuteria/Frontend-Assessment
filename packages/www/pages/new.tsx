@@ -13,12 +13,14 @@ import {
 	Select,
 	CircularProgress,
 	FormErrorMessage,
+	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import url from "../src/appUrl";
 
 const NewNote = () => {
 	const router = useRouter();
+	const toast = useToast();
 	function validateTitle(value) {
 		let error;
 		if (!value) {
@@ -50,6 +52,13 @@ const NewNote = () => {
 					});
 					actions.setSubmitting(false);
 					router.push("/");
+					toast({
+						title: "Note Created.",
+						description: "Note Created successfully",
+						status: "success",
+						duration: 9000,
+						isClosable: true,
+					});
 				} catch (error) {
 					console.log(error);
 				}

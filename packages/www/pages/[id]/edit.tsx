@@ -13,6 +13,7 @@ import {
 	Select,
 	CircularProgress,
 	FormErrorMessage,
+	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import url from "../../src/appUrl";
@@ -20,6 +21,7 @@ import Note from ".";
 
 const EditNote = ({ note }) => {
 	const router = useRouter();
+	const toast = useToast();
 	function validateTitle(value) {
 		let error;
 		if (!value) {
@@ -45,16 +47,27 @@ const EditNote = ({ note }) => {
 			}}
 			onSubmit={async (values, actions) => {
 				try {
-					const response = await fetch(url.noteEndpointDev, {
-						method: "POST",
-						headers: {
-							Accept: "application/json",
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(values),
-					});
+					const response = await fetch(
+						`${url.noteEndpointDev}/${router.query.id}`,
+						{
+							method: "PUT",
+							headers: {
+								Accept: "application/json",
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(values),
+						}
+					);
 					actions.setSubmitting(false);
 					router.push("/");
+
+					toast({
+						title: "Note Updated.",
+						description: "Note Updated Successfuly",
+						status: "success",
+						duration: 9000,
+						isClosable: true,
+					});
 				} catch (error) {
 					console.log(error);
 				}
