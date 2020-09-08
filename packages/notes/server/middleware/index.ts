@@ -48,7 +48,7 @@ export default {
 			next();
 		} else {
 			const user = req.user;
-			if (note.author_id !== user.id) {
+			if (!user || note.author_id !== user.id) {
 				res
 					.status(400)
 					.json({ message: "This note can only be modified by its author." });

@@ -51,3 +51,19 @@ export async function getNote(req: Request, res: Response) {
 	});
 	res.json(note);
 }
+
+export async function updateNote(req: Request, res: Response) {
+	try {
+		const { id } = req.params;
+		const { title, description } = await schema.validateAsync(req.body);
+		const note = await prisma.notes.update({
+			where: { id: Number(id) },
+			data: { title, description }
+		});
+		res.json(note);
+	} catch (e) {
+		if (e instanceof ValidationError) {
+			res.status(400).json({ message: e.message });
+		} else throw e;
+	}
+}
