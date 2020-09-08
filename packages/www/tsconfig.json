@@ -7,6 +7,14 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "commonjs",
+      "sourceMap": true
+    },
+    "include": ["tests/**/*"]
+  },
   "exclude": ["node_modules", "**/**/*.stories.tsx", "src/stories"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
