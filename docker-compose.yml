@@ -21,10 +21,8 @@ services:
       - postgres_backup_dev:/backups
     restart: always
     environment:
-      DB_USER: test_db
-      DB_PASS: test_db
-      DB_NAME: test_db
+      DB_USER: test_user
+      DB_PASS: test_pass
+      DB_NAME: "test_db, core_db"
     ports:
       - "5529:5432"
-
-  
