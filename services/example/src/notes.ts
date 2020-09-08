@@ -6,8 +6,19 @@ const router = Router();
 router.post("/create", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { description, title, user_id } = req.body;
+	const data = user_id
+		? {
+				description,
+				title,
+				users: {
+					connect: {
+						id: user_id,
+					},
+				},
+		  }
+		: { description, title };
 	const result = await prisma.notes.create({
-		data: { description, title, user_id },
+		data,
 	});
 	res.status(200).json(result);
 });
