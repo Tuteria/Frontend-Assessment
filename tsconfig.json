@@ -1,5 +1,5 @@
 {
-  
+
   "compilerOptions": {
     "target": "es5",
     "module": "esnext",
@@ -13,5 +13,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "esModuleInterop": true
   },
+  "files": ["./services/example/src/custom-express.d.ts"],
   "exclude": ["node_modules"]
 }
