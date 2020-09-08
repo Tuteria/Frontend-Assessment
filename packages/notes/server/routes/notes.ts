@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { createNote } from "../controllers/notes";
+import { createNote, getNotes } from "../controllers/notes";
 
 const router = Router();
 
-router.route("/").post(createNote);
+router.route("/").get(getNotes).post(createNote);
 export default router;

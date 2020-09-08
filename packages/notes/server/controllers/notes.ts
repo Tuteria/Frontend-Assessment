@@ -21,3 +21,19 @@ export async function createNote(req: CustomRequest, res: Response) {
 		} else throw e;
 	}
 }
+
+export async function getNotes(req: Request, res: Response) {
+	const notes = await prisma.notes.findMany({
+		where: {
+			author_id: {
+				equals: null
+			}
+		},
+		select: {
+			id: true,
+			title: true,
+			description: true
+		}
+	});
+	res.json(notes);
+}
