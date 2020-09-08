@@ -1,27 +1,26 @@
 import { NextFunction, Response } from "express";
-import jwt, { VerifyErrors } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { prisma } from "../lib";
 import { CustomRequest } from "../types";
 
 export default {
-	authenticateRequest(req: CustomRequest, res: Response, next: NextFunction) {
+	async authenticateRequest(
+		req: CustomRequest,
+		res: Response,
+		next: NextFunction
+	) {
 		const { token } = req.cookies;
 		if (!token) req.user = null;
 		else {
-			jwt.verify(
-				token,
-				process.env.JWT_SECRET,
-				async (err: VerifyErrors, decoded) => {
-					if (err) {
-						req.user = null
-					} else {
-						const user = await prisma.users.findOne({
-							where: { id: decoded.id },
-						});
-						req.user = user;
-					}
-				}
-			);
+			try {
+				const decoded = jwt.verify(token, process.env.JWT_SECRET);
+				const user = await prisma.users.findOne({
+					where: { id: decoded.id },
+				});
+				req.user = user;
+			} catch (e) {
+				req.user = null;
+			}
 		}
 		next();
 	},
