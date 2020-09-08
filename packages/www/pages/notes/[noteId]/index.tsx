@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import absoluteUrl from 'next-absolute-url';
 import {
-  Button, Flex, FormControl, FormLabel,
-  Input, Textarea, useToast
+  Button, Flex, FormControl,
+  FormLabel, Input, Textarea, useToast
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, DeleteNote
 } from '../../../components';
-import { HOST_URL, ERROR, SUCCESS } from '../../../constants';
+import {  ERROR, SUCCESS } from '../../../constants';
 
-export const getServerSideProps = async ({params}) => {
+export const getServerSideProps = async ({req, params}) => {
+  const { origin } = absoluteUrl(req);
+
   try {
-    const note = await axios.get(`${HOST_URL}/api/notes/${params.noteId}`)
+    const note = await axios.get(`${origin}/api/notes/${params.noteId}`)
     return {
       props: {
         status: SUCCESS,

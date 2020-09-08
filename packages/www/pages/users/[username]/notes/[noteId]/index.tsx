@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import absoluteUrl from 'next-absolute-url';
 import cookies from 'react-cookies';
 import {
   Button, Flex, FormControl, FormLabel,
@@ -9,10 +10,12 @@ import {
 import {
   Container, Layout, Nav, DeleteNote
 } from '../../../../../components';
-import { HOST_URL, ERROR, SUCCESS } from '../../../../../constants';
+import { ERROR, SUCCESS, COOKIE_TOKEN } from '../../../../../constants';
 import retrieveToken from '../../../../../utils/retrieveToken';
+import isAdminUser from '../../../../../utils/isAdminUser';
 
 export const getServerSideProps = async ({req, params}) => {
+  const { origin } = absoluteUrl(req);
   const token = retrieveToken(req);
   if (!token) {
     return {
@@ -25,7 +28,7 @@ export const getServerSideProps = async ({req, params}) => {
   }
   try {
     const {username, noteId} = params;
-    const note = await axios.get(`${HOST_URL}/api/users/${username}/notes/${noteId}`, {
+    const note = await axios.get(`${origin}/api/users/${username}/notes/${noteId}`, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -57,14 +60,7 @@ export default function UserNote({status, message, note, username}) {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyDescription, setIsEmptyDescription] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const isLoggedIn = cookies.load('token');
-  const isAdmin = isLoggedIn === process.env.NEXT_PUBLIC_ADMIN_TOKEN
-  
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push('/login');
-    }
-  })
+  const isAdmin = isAdminUser();
 
   const handleTitleChange = event =>{
     setTitle(event.target.value)
@@ -96,7 +92,7 @@ export default function UserNote({status, message, note, username}) {
     }
     setIsSending(true);
 
-    const token = cookies.load('token'); 
+    const token = cookies.load(COOKIE_TOKEN); 
     try {
       const response = await axios.put(`/api/users/${username}/notes/${note.id}`, {
         title,

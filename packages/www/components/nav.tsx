@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Flex, Button } from '@chakra-ui/core';
 import cookies from 'react-cookies';
+import { COOKIE_USER, COOKIE_TOKEN } from '../constants';
 
 interface NavProps {
   showLogin: boolean,
@@ -10,19 +11,35 @@ interface NavProps {
 
 const Nav: FunctionComponent = () => {
   const router = useRouter();
-  const isUserLoggedIn = cookies.load('token');
+  const isUserLoggedIn = cookies.load(COOKIE_TOKEN);
+  const username = cookies.load(COOKIE_USER);
 
   const logout = () => {
-    cookies.remove('token', { path: '/' });
+    cookies.remove(COOKIE_TOKEN, { path: '/' });
+    cookies.remove(COOKIE_USER, { path: '/' });
     router.push('/');
   }
 
+  const gotoNotes = () => router.push(`/users/${username}/notes`)
+
   return (
-    <Flex w="100%" p={4} justify="center" boxShadow="md">
+    <Flex w="100%" p={3} justify="center" boxShadow="md">
       <div className="block">
         <Link href="/">
             <a className="heading">Notes</a>
         </Link>
+          {username ?
+            <div className="login">
+              <Button
+                bg="transparent" onClick={gotoNotes} p={2}
+                variant="outline" variantColor="#3E576A"
+                leftIcon="chevron-left" rightIcon="chevron-right" 
+              >
+                Your notes
+              </Button>
+            </div>
+            : null
+          }
           {!isUserLoggedIn ?
             (
               <div className="login">
@@ -42,10 +59,11 @@ const Nav: FunctionComponent = () => {
       </div>
       <style jsx>{`
         .heading {
-            font-size: 2rem;
+            font-size: 1rem;
             color: #3E576A;
             font-weight: bold;
             text-decoration: none;
+            align-self: center
         }
 
         .block {
@@ -55,9 +73,9 @@ const Nav: FunctionComponent = () => {
         }
 
         .login {
-          padding-top: 1rem;
           color: #3E576A;
-          font-weight: bold
+          font-weight: bold;
+          align-self: center
         }
 
         .login a:hover {
@@ -67,6 +85,10 @@ const Nav: FunctionComponent = () => {
         @media (min-width: 800px) {
           .block {
             width: 800px;
+          }
+
+          .heading {
+            font-size: 2rem;
           }
         }
       `}</style>

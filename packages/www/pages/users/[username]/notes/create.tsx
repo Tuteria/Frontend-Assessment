@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import cookies from 'react-cookies';
@@ -9,6 +9,7 @@ import {
 import {
   Container, Layout, Nav
 } from '../../../../components';
+import { COOKIE_TOKEN } from '../../../../constants';
 
 export const getServerSideProps = async ({params}) => {
   return {
@@ -26,13 +27,6 @@ export default function CreateUserNote({username}) {
   const [isEmptyTitle, setIsEmptyTitle] = useState(false);
   const [isEmptyDescription, setIsEmptyDescription] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const isLoggedIn = cookies.load('token');
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push('/login');
-    }
-  })
 
   const handleTitleChange = event =>{
     setTitle(event.target.value)
@@ -55,7 +49,7 @@ export default function CreateUserNote({username}) {
       return;
     }
     setIsSending(true);
-    const token = cookies.load('token');
+    const token = cookies.load(COOKIE_TOKEN);
     try {
       const response = await axios.post(`/api/users/${username}/notes/create`, {
         title,

@@ -7,6 +7,7 @@ import {
   ModalCloseButton, ModalBody, ModalFooter, useDisclosure,
   useToast
 } from '@chakra-ui/core';
+import { COOKIE_TOKEN } from '../constants';
 
 export interface DeleteNoteProps {
   noteId: string,
@@ -27,7 +28,7 @@ const DeleteNote: FunctionComponent<DeleteNoteProps> = ({noteId, username}) => {
 
   const deleteNote = async () => {
     onClose()
-    const token = cookies.load('token');
+    const token = cookies.load(COOKIE_TOKEN);
     try {
       const response = await axios.delete(requestUrl, {
         headers: {

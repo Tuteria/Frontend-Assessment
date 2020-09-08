@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import cookies from 'react-cookies';
@@ -9,6 +9,7 @@ import {
 import {
   Container, Layout, Nav
 } from '../../../components'
+import { COOKIE_TOKEN } from '../../../constants';
 
 export default function CreateUser() {
   const router = useRouter();
@@ -22,14 +23,6 @@ export default function CreateUser() {
   const [isPasswordValid, setIsPasswordValid] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-
-  useEffect(() => {
-    const expectToken = process.env.NEXT_PUBLIC_ADMIN_TOKEN
-    const token = cookies.load('token')
-    if (expectToken !== token) {
-      router.push('/admin')
-    }
-  })
 
   const handleClick = () => setShow(!show);
   const handleUsernameChange = (event) => {
@@ -81,7 +74,7 @@ export default function CreateUser() {
     }
     
     try {
-      const token = cookies.load('token');
+      const token = cookies.load(COOKIE_TOKEN);
       const response = await axios.post(`/api/users/create`, {
         username,
         email,
@@ -96,7 +89,7 @@ export default function CreateUser() {
       setIsLoading(false);
       toast({
         title: "An error occurred.",
-        description: `Username or email already registered. Try again`,
+        description: `Something went wrong. Try again`,
         status: "error",
         position: "top",
         duration: 9000,

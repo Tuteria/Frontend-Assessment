@@ -1,14 +1,16 @@
-import { FunctionComponent, useEffect } from 'react';
+import { FunctionComponent } from 'react';
 import { GetServerSideProps } from 'next';
 import cookies from 'react-cookies';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import absoluteUrl from 'next-absolute-url';
 import { Button, Box, Heading, useToast, Text } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, Note
 } from '../../../../components';
-import { HOST_URL, ERROR, SUCCESS } from '../../../../constants';
+import { ERROR, SUCCESS, COOKIE_TOKEN } from '../../../../constants';
 import retrieveToken from '../../../../utils/retrieveToken';
+import isAdminUser from '../../../../utils/isAdminUser';
 
 type Note = {
   id: string
@@ -25,6 +27,7 @@ export interface UserNotesProps {
 }
 
 export const getServerSideProps:GetServerSideProps = async ({req, params}) => {
+  const { origin } = absoluteUrl(req);
   const token = retrieveToken(req);
   if (!token) {
     return {
@@ -36,7 +39,7 @@ export const getServerSideProps:GetServerSideProps = async ({req, params}) => {
     }
   }
   try {
-    const res = await axios.get(`${HOST_URL}/api/users/${params.username}/notes`, {
+    const res = await axios.get(`${origin}/api/users/${params.username}/notes`, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -63,21 +66,13 @@ export const getServerSideProps:GetServerSideProps = async ({req, params}) => {
 
 const UserNotes: FunctionComponent<UserNotesProps> = ({status, message, username, notes}) => {
   const toast = useToast();
-  const router = useRouter();
-  const isLoggedIn = cookies.load('token');
-  const isAdmin = isLoggedIn === process.env.NEXT_PUBLIC_ADMIN_TOKEN
+  const isAdmin = isAdminUser()
   
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push('/login')
-    }
-  })
-
   return (
     <Layout>
       <Nav/>
       <Container>
-      {!isAdmin && 
+      {!isAdmin ? 
         <Button
           leftIcon="add"
           variantColor="teal"
@@ -86,7 +81,7 @@ const UserNotes: FunctionComponent<UserNotesProps> = ({status, message, username
           ml={2} mr={2} mb={3}
         >
           <a href={`/users/${username}/notes/create`}>Add Note</a>
-        </Button>
+        </Button> : null
       }
       {status === ERROR ?
         toast({

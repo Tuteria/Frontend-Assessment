@@ -9,6 +9,7 @@ import {
 import {
   Container, Layout, Nav
 } from '../components';
+import { COOKIE_TOKEN, COOKIE_USER } from '../constants';
 
 export default function Login() {
   const router = useRouter();
@@ -54,6 +55,7 @@ export default function Login() {
 
     if(!validateInput()) {
       setIsLoading(false)
+      return;
     }
     
     try {
@@ -63,7 +65,8 @@ export default function Login() {
       })
       const token = response.data.data.token;
       const loggedInUsername = response.data.data.username;
-      cookies.save('token', token, { path: '/' });
+      cookies.save(COOKIE_TOKEN, token, { path: '/' });
+      cookies.save(COOKIE_USER, loggedInUsername, { path: '/' });
       router.push(`/users/${loggedInUsername}/notes`)
     } catch (err) {
       setIsLoading(false);

@@ -1,10 +1,11 @@
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
+import absoluteUrl from 'next-absolute-url';
 import { Button, Box, useToast, Text } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, Note,
 } from '../components';
-import { HOST_URL, ERROR, SUCCESS } from '../constants';
+import { ERROR, SUCCESS } from '../constants';
 import { FunctionComponent } from 'react';
 
 type Note = {
@@ -19,9 +20,10 @@ export interface HomeProps {
   notes: Note[]
 }
 
-export const getServerSideProps:GetServerSideProps = async () => {
+export const getServerSideProps:GetServerSideProps = async ({req}) => {
+  const { origin } = absoluteUrl(req);
   try {
-    const res = await axios.get(`${HOST_URL}/api/notes`)
+    const res = await axios.get(`${origin}/api/notes`)
     const notes = res.data.data.sort((a, b) => b.id - a.id)
     return {
       props: {
@@ -66,7 +68,7 @@ const Home: FunctionComponent<HomeProps> = ({status, notes}) => {
           }) : 
           notes.length === 0 ?
           <Text fontSize={18} textAlign="center">
-           No notes available
+           No notes available. Click on the Add Note button to add a note.
           </Text> 
           :
           notes.map(({id, title}) => (

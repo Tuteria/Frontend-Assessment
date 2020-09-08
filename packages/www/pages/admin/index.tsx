@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import cookies from 'react-cookies';
 import {
-  Box, Button, Heading, Text, useToast, Flex, FormControl, FormLabel,
-  Input, InputRightElement, InputGroup
+  Box, Button, Heading, Flex, FormControl, FormLabel,
+  Input, InputRightElement, InputGroup, Text, useToast,
 } from '@chakra-ui/core';
 import {
-  Container, Layout, Nav, Note
+  Container, Layout, Nav
 } from '../../components';
+import { COOKIE_TOKEN, ADMIN_TOKEN } from '../../constants';
 
 export default function Admin() {
   const router = useRouter();
@@ -15,14 +16,6 @@ export default function Admin() {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    const expectToken = process.env.NEXT_PUBLIC_ADMIN_TOKEN
-    const token = cookies.load('token')
-    if (expectToken === token) {
-      router.push('/admin/users')
-    }
-  })
 
   const handlePasswordChange = (event) => setPassword(event.target.value);
 
@@ -32,7 +25,7 @@ export default function Admin() {
     event.preventDefault();
     setIsLoading(true);
     if (password === 'password') {
-      cookies.save('token', process.env.NEXT_PUBLIC_ADMIN_TOKEN, {path: '/'});
+      cookies.save(COOKIE_TOKEN, ADMIN_TOKEN, {path: '/'});
       router.push('/admin/users');
     } else {
       setIsLoading(false);
