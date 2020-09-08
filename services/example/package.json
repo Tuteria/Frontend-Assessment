@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc --module commonjs --outDir dist --declaration false",
     "watch": "tsc --module commonjs --outDir dist --declaration false --watch",
-    "start:dev": "cross-env NODE_ENV=development nodemon dist/app.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon --exec ts-node src/app.ts --watch src/",
     "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL uvu -r ts-node/register tests",
     "test:raw": "uvu -r ts-node/register",
     "test:debug": "node --inspect ../../node_modules/uvu/bin.js -r ts-node/register tests",
