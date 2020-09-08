@@ -6,9 +6,10 @@ import {
   Input, InputRightElement, InputGroup, Text, useToast,
 } from '@chakra-ui/core';
 import {
-  Container, Layout, Nav
+  Container, Layout, Nav, Redirect
 } from '../../components';
 import { COOKIE_TOKEN, ADMIN_TOKEN } from '../../constants';
+import isAdminUser from '../../utils/isAdminUser';
 
 export default function Admin() {
   const router = useRouter();
@@ -38,6 +39,10 @@ export default function Admin() {
         isClosable: true
       })
     }
+  }
+
+  if (isAdminUser()) {
+    return <Redirect redirectPath="/admin/users" />
   }
 
   return (

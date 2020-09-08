@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import absoluteUrl from 'next-absolute-url';
 import {
-  Button, Flex, FormControl,
+  Button, Flex, FormControl, Text,
   FormLabel, Input, Textarea, useToast
 } from '@chakra-ui/core';
 import {
@@ -141,24 +141,28 @@ export default function Note({status, note}) {
         <form>
           <FormControl>
             <FormLabel>Title</FormLabel>
-            <Input
-              isDisabled={notEditable}
-              variant={notEditable ? "unstyled" : "outline"}
-              value={title}
-              onChange={handleTitleChange}
-              isInvalid={isEmptyTitle}
-            />
+             {notEditable ?
+              <Text>{title}</Text> :
+                 <Textarea
+                  variant="outline"
+                  value={title}
+                  onChange={handleTitleChange}
+                  isInvalid={isEmptyTitle}
+               /> 
+            }
           </FormControl>
           <hr className="line"/>
           <FormControl mt={4}>
             <FormLabel>Description</FormLabel>
-            <Textarea
-              variant={notEditable ? "unstyled" : "outline"}
-              isDisabled={notEditable}
-              onChange={handleDescriptionChange}
-              value={description}
-              isInvalid={isEmptyDescription}
-            />
+            {notEditable ?
+              <Text>{description}</Text> :
+                <Textarea
+                variant= "outline"
+                onChange={handleDescriptionChange}
+                value={description}
+                isInvalid={isEmptyDescription}
+              /> 
+            }
           </FormControl>
           {!notEditable ? 
             (

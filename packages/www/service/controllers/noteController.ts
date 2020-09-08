@@ -49,14 +49,13 @@ async function createNote(req, res) {
 }
 
 /**
- * Updates an anonymous note
+ * Retrieves an anonymous note
  * @param req - The Request object
  * @param res - The Response object
  */
 async function getOneNote(req, res) {
-  let { noteId } = req.query;
+	let { noteId } = req.query;
 	noteId = Number(noteId);
-  const { description, title } = req.body;
 	try {
 		const note = await noteService.findById(noteId);
 		if (!note) {
@@ -72,7 +71,7 @@ async function getOneNote(req, res) {
 			});
 		}
 		return res.status(200).json({
-			status: 'error',
+			status: 'success',
 			data: {
 				...note
 			}
@@ -116,7 +115,7 @@ async function updateNote(req, res) {
 			status: "success",
 			data: {
 				message: "Notes successfully updated",
-				title: result.title,
+				...result
 			},
 		});
 	} catch (error) {
@@ -154,7 +153,7 @@ async function deleteNote(req, res) {
 			status: "success",
 			data: {
 				message: "Notes successfully deleted",
-				title: result.title,
+				...result
 			},
 		});
 	} catch (error) {

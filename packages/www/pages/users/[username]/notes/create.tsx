@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import cookies from 'react-cookies';
 import {
-  Button, Flex, FormControl, FormLabel,
-  Input, Textarea, useToast, Heading
+  Button, Flex, FormControl, Heading,
+  FormLabel, Textarea, useToast
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav
@@ -94,7 +94,7 @@ export default function CreateUserNote({username}) {
         <form>
           <FormControl>
             <FormLabel>Title</FormLabel>
-            <Input
+            <Textarea
               placeholder="Enter note title here"
               variant={isEmptyTitle ? "outline" : "unstyled"}
               value={title}

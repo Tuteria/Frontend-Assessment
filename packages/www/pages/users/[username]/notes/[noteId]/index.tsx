@@ -5,7 +5,7 @@ import absoluteUrl from 'next-absolute-url';
 import cookies from 'react-cookies';
 import {
   Button, Flex, FormControl, FormLabel,
-  Input, Textarea, useToast
+  Textarea, Text, useToast
 } from '@chakra-ui/core';
 import {
   Container, Layout, Nav, DeleteNote
@@ -167,26 +167,30 @@ export default function UserNote({status, message, note, username}) {
           ) : null
         }
         <form>
-          <FormControl>
+        <FormControl>
             <FormLabel>Title</FormLabel>
-            <Input
-              isDisabled={notEditable}
-              variant={notEditable ? "unstyled" : "outline"}
-              value={title}
-              onChange={handleTitleChange}
-              isInvalid={isEmptyTitle}
-            />
+             {notEditable ?
+              <Text>{title}</Text> :
+                 <Textarea
+                  variant="outline"
+                  value={title}
+                  onChange={handleTitleChange}
+                  isInvalid={isEmptyTitle}
+               /> 
+              }
           </FormControl>
           <hr className="line"/>
           <FormControl mt={4}>
             <FormLabel>Description</FormLabel>
-            <Textarea
-              variant={notEditable ? "unstyled" : "outline"}
-              isDisabled={notEditable}
-              onChange={handleDescriptionChange}
-              value={description}
-              isInvalid={isEmptyDescription}
-            />
+            {notEditable ?
+              <Text>{description}</Text> :
+                <Textarea
+                variant= "outline"
+                onChange={handleDescriptionChange}
+                value={description}
+                isInvalid={isEmptyDescription}
+              /> 
+            }
           </FormControl>
           {!notEditable ? 
             (

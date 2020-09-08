@@ -7,9 +7,10 @@ import {
   InputRightElement, Heading, Flex, useToast 
 } from '@chakra-ui/core';
 import {
-  Container, Layout, Nav
+  Container, Layout, Nav, Redirect
 } from '../components';
 import { COOKIE_TOKEN, COOKIE_USER } from '../constants';
+import isAdminUser from '../utils/isAdminUser';
 
 export default function Login() {
   const router = useRouter();
@@ -80,6 +81,14 @@ export default function Login() {
       })
     }
 
+  }
+
+  if (isAdminUser()) {
+    return <Redirect redirectPath="/admin/users"/>
+  }
+
+  if (cookies.load(COOKIE_TOKEN) && cookies.load(COOKIE_USER)) {
+    return <Redirect redirectPath={`/users/${cookies.load(COOKIE_USER)}/notes`}/>
   }
 
   return (

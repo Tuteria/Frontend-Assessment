@@ -5,10 +5,10 @@ const validate = (data: any, rules: any) => {
 	return validation.fails()
 }
 
-const isValidNoteId = (noteId: string): boolean =>
-	validate({ noteId: noteId },{ noteId: 'string|integer'})
+const isInValidNoteId = (noteId: string): boolean =>
+	validate({ noteId: noteId }, { noteId: 'string|integer'})
 
-const isValidNoteData = (title, description) => {
+const isInValidNoteData = (title, description) => {
 	const noteData = {
 		title: title,
 		description: description
@@ -27,7 +27,7 @@ const isValidNoteData = (title, description) => {
 function createNote(handler: Function) {
 	return async (req, res) => {
 		const { title, description } = req.body
-		if (isValidNoteData(title, description)) {
+		if (isInValidNoteData(title, description)) {
 			return res.status(409).json({
 				status: "error",
 				error: "Invalid values were supplied",
@@ -49,7 +49,8 @@ function notesNoteId(handler: Function) {
 		
 		switch (method) {
 			case 'GET':
-				if (isValidNoteId(noteId)) {
+				if (isInValidNoteId(noteId)) {
+					console.log(typeof noteId)
 					return res.status(409).json({
 						status: "error",
 						error: "Invalid note id",
@@ -57,13 +58,13 @@ function notesNoteId(handler: Function) {
 				}
 				break;
 			case 'PUT':
-				if (isValidNoteId(noteId)) {
+				if (isInValidNoteId(noteId)) {
 					return res.status(409).json({
 						status: "error",
 						error: "Invalid note id",
 					});
 				}
-				if (isValidNoteData(title, description)) {
+				if (isInValidNoteData(title, description)) {
 					return res.status(409).json({
 						status: "error",
 						error: "Invalid values were supplied",
@@ -71,7 +72,7 @@ function notesNoteId(handler: Function) {
 				}
 				break;
 			case 'DELETE':
-				if (isValidNoteId(noteId)) {
+				if (isInValidNoteId(noteId)) {
 					return res.status(409).json({
 						status: "error",
 						error: "Invalid note id",
@@ -112,4 +113,4 @@ function createUser(handler: Function) {
 	};
 }
 
-export { createNote, notesNoteId, createUser, isValidNoteId };
+export { createNote, notesNoteId, createUser, isInValidNoteId };
