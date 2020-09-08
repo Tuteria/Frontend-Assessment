@@ -1,5 +1,4 @@
-import { NextFunction, Request, Response } from "express";
-import { users as User } from "@prisma/client";
+import { NextFunction, Response } from "express";
 import jwt, { VerifyErrors } from "jsonwebtoken";
 import { prisma } from "../lib";
 import { CustomRequest } from "../types";
@@ -35,6 +34,25 @@ export default {
 					}
 				}
 			);
+		}
+	},
+
+	async verifyNoteOwnership(
+		req: CustomRequest,
+		res: Response,
+		next: NextFunction
+	) {
+		const { id } = req.params;
+		const note = await prisma.notes.findOne({ where: { id: +id } });
+		if (!note.author_id) {
+			next();
+		} else {
+			const user = req.user;
+			if (note.author_id !== user.id) {
+				res
+					.status(400)
+					.json({ message: "This note can only be modified by its author." });
+			} else next();
 		}
 	},
 };
