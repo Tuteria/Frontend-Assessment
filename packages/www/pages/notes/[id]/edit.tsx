@@ -1,23 +1,18 @@
-import Link from "next/link";
-import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import { Formik, Field } from "formik";
 import {
 	Button,
 	Stack,
 	FormControl,
-	FormLabel,
 	Input,
 	Text,
 	Textarea,
 	Select,
-	CircularProgress,
 	FormErrorMessage,
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../../src/appUrl";
-import Note from ".";
+import url from "../../../src/appUrl";
 
 const EditNote = ({ note }) => {
 	const router = useRouter();
@@ -46,18 +41,17 @@ const EditNote = ({ note }) => {
 				category: note.category,
 			}}
 			onSubmit={async (values, actions) => {
+				const noteId = router.query.id;
+
 				try {
-					const response = await fetch(
-						`${url.noteEndpointDev}/${router.query.id}`,
-						{
-							method: "PUT",
-							headers: {
-								Accept: "application/json",
-								"Content-Type": "application/json",
-							},
-							body: JSON.stringify(values),
-						}
-					);
+					const response = await fetch(`${url.noteEndpointDev}/${noteId}`, {
+						method: "PUT",
+						headers: {
+							Accept: "application/json",
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(values),
+					});
 					actions.setSubmitting(false);
 					router.push("/");
 

@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
 import { Formik, Field } from "formik";
 import {
@@ -11,12 +9,11 @@ import {
 	Text,
 	Textarea,
 	Select,
-	CircularProgress,
 	FormErrorMessage,
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../src/appUrl";
+import url from "../../src/appUrl";
 
 const NewNote = () => {
 	const router = useRouter();

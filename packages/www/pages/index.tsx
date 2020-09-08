@@ -21,7 +21,7 @@ const IndexPage = ({ notes }) => {
 										textTransform="uppercase"
 										ml="2"
 									>
-										<Link href={`/${note.id}`}>
+										<Link href={`/notes/${note.id}`}>
 											<a> {note.title} </a>
 										</Link>
 									</Box>
@@ -47,13 +47,13 @@ const IndexPage = ({ notes }) => {
 								<br />
 								<Box>
 									<ButtonGroup spacing={4}>
-										<Link href={`/${note.id}`}>
+										<Link href={`/notes/${note.id}`}>
 											<Button variantColor="teal" variant="solid" size="sm">
 												View
 											</Button>
 										</Link>
 										<span className="space-out"></span>
-										<Link href={`/${note.id}/edit`}>
+										<Link href={`/notes/${note.id}/edit`}>
 											<Button variantColor="teal" variant="outline" size="sm">
 												Edit
 											</Button>

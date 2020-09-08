@@ -1,13 +1,12 @@
 import fetch from "isomorphic-unfetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import url from "../../src/appUrl";
+import url from "../../../src/appUrl";
 import {
 	Stack,
 	Text,
 	Box,
 	Button,
-	CircularProgress,
 	Popover,
 	PopoverContent,
 	PopoverHeader,
