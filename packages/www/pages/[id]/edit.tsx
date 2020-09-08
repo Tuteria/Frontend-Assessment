@@ -15,9 +15,10 @@ import {
 	FormErrorMessage,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../src/appUrl";
+import url from "../../src/appUrl";
+import Note from ".";
 
-const NewNote = () => {
+const EditNote = ({ note }) => {
 	const router = useRouter();
 	function validateTitle(value) {
 		let error;
@@ -37,7 +38,11 @@ const NewNote = () => {
 
 	return (
 		<Formik
-			initialValues={{ title: "", body: "", category: "Others" }}
+			initialValues={{
+				title: note.title,
+				body: note.body,
+				category: note.category,
+			}}
 			onSubmit={async (values, actions) => {
 				try {
 					const response = await fetch(url.noteEndpointDev, {
@@ -58,7 +63,7 @@ const NewNote = () => {
 			{(props) => (
 				<form onSubmit={props.handleSubmit}>
 					<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
-						<Text>Create New Post</Text>
+						<Text>Update Post</Text>
 						<Field name="title" validate={validateTitle}>
 							{({ field, form }) => (
 								<FormControl isInvalid={form.errors.title}>
@@ -108,7 +113,7 @@ const NewNote = () => {
 							isLoading={props.isSubmitting}
 							type="submit"
 						>
-							Create Note
+							Update Note
 						</Button>
 					</Stack>
 				</form>
@@ -117,4 +122,10 @@ const NewNote = () => {
 	);
 };
 
-export default NewNote;
+EditNote.getInitialProps = async (ctx) => {
+	const note = await fetch(`${url.noteEndpointDev}/${ctx.query.id}`);
+	const data = await note.json();
+	return { note: data };
+};
+
+export default EditNote;

@@ -59,12 +59,6 @@ const IndexPage = ({ notes }) => {
 											</Button>
 										</Link>
 										<span className="space-out"></span>
-										<Link href={`/${note.id}`}>
-											<Button variantColor="red" variant="outline" size="sm">
-												Delete
-											</Button>
-										</Link>
-										<span className="space-out"></span>
 									</ButtonGroup>
 								</Box>
 							</Box>
