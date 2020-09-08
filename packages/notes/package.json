@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_ENV=development babel-node -r dotenv/config server/index.ts --extensions \".ts\"",
     "build": "next build",
     "start": "next start",
     "test": "uvu -r ts-node/register test",
