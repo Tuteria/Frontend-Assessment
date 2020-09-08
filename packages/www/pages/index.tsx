@@ -2,6 +2,7 @@ import Link from "next/link";
 import fetch from "isomorphic-unfetch";
 import { Button, Badge, ButtonGroup } from "@chakra-ui/core";
 import { Box } from "@chakra-ui/core";
+import url from "../src/appUrl";
 
 const IndexPage = ({ notes }) => {
 	return (
@@ -76,7 +77,7 @@ const IndexPage = ({ notes }) => {
 };
 
 IndexPage.getInitialProps = async () => {
-	const notes = await fetch("http://localhost:4000/notes");
+	const notes = await fetch(url.noteEndpointDev);
 	const data = await notes.json();
 	return { notes: data };
 };

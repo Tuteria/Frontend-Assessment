@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import fetch from "isomorphic-unfetch";
+import { Formik, Field } from "formik";
 import {
 	Button,
 	Stack,
@@ -15,122 +16,106 @@ import {
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import ErrorMessage from "../components/ErrorMessage";
+import url from "../src/appUrl";
 
 const NewNote = () => {
-	// const [title, setTitle] = useState("");
-	// const [body, setBody] = useState("");
-	// const [category, setCategory] = useState("");
-	// const [isSubmitting, setIsSubmitting] = useState(false);
-	// const [isLoading, setIsLoading] = useState(false);
-	// const router = useRouter();
-	// const handleCreateNote = async (event) => {
-	// 	event.preventDefault();
-	// 	setIsSubmitting(true);
-	// };
-	// const validate = () => {
-	// 	let err: any = {};
-	// 	if (title === "") {
-	// 		err.title = "Title is required";
-	// 	}
-	// 	return err;
-	// };
-	// return (
-	// 	<form method="POST" onSubmit={handleCreateNote}>
-	// 		<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
-	// 			<Text>Create New Post</Text>
-	// 			<FormControl>
-	// 				<Input
-	// 					variant="flushed"
-	// 					type="text"
-	// 					id="title"
-	// 					placeholder="Note Title"
-	// 					value={title}
-	// 					onChange={({ target }) => setTitle(target.value)}
-	// 				/>
-	// 			</FormControl>
-	// 			<FormControl>
-	// 				<Select
-	// 					value={category}
-	// 					variant="flushed"
-	// 					placeholder="Select Category"
-	// 					onChange={({ target }) => setCategory(target.value)}
-	// 				>
-	// 					<option value="others">Others</option>
-	// 					<option value="work">Work</option>
-	// 					<option value="study">Study</option>
-	// 					<option value="personal">Personal</option>
-	// 				</Select>
-	// 			</FormControl>
-	// 			<FormControl>
-	// 				<Textarea
-	// 					value={body}
-	// 					variant="flushed"
-	// 					placeholder="Note Body"
-	// 					onChange={({ target }) => setBody(target.value)}
-	// 				/>
-	// 			</FormControl>
-	// 			<FormControl>
-	// 				<Button
-	// 					type="submit"
-	// 					variantColor="blue"
-	// 					width="full"
-	// 					variant="outline"
-	// 					size="md"
-	// 				>
-	// 					{isSubmitting ? (
-	// 						<CircularProgress isIndeterminate size="24px" color="teal" />
-	// 					) : (
-	// 						"Create Note"
-	// 					)}
-	// 				</Button>
-	// 			</FormControl>
-	// 		</Stack>
-	// 	</form>
-	// );
-	// TODO: Build form using formic
-	// 	function validateName(value) {
-	//     let error;
-	//     if (!value) {
-	//       error = "Name is required";
-	//     } else if (value !== "Naruto") {
-	//       error = "Jeez! You're not a fan 😱";
-	//     }
-	//     return error;
-	//   }
-	//   return (
-	//     <Formik
-	//       initialValues={{ name: "Sasuke" }}
-	//       onSubmit={(values, actions) => {
-	//         setTimeout(() => {
-	//           alert(JSON.stringify(values, null, 2));
-	//           actions.setSubmitting(false);
-	//         }, 1000);
-	//       }}
-	//     >
-	//       {props => (
-	//         <form onSubmit={props.handleSubmit}>
-	//           <Field name="name" validate={validateName}>
-	//             {({ field, form }) => (
-	//               <FormControl isInvalid={form.errors.name && form.touched.name}>
-	//                 <FormLabel htmlFor="name">First name</FormLabel>
-	//                 <Input {...field} id="name" placeholder="name" />
-	//                 <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-	//               </FormControl>
-	//             )}
-	//           </Field>
-	//           <Button
-	//             mt={4}
-	//             variantColor="teal"
-	//             isLoading={props.isSubmitting}
-	//             type="submit"
-	//           >
-	//             Submit
-	//           </Button>
-	//         </form>
-	//       )}
-	//     </Formik>
-	//   );
-	// }
+	const router = useRouter();
+	function validateTitle(value) {
+		let error;
+		if (!value) {
+			error = "Title is required";
+		}
+		return error;
+	}
+
+	function validateBody(value) {
+		let error;
+		if (!value) {
+			error = "Note Body is required";
+		}
+		return error;
+	}
+
+	return (
+		<Formik
+			initialValues={{ title: "", body: "", category: "Others" }}
+			onSubmit={async (values, actions) => {
+				try {
+					const response = await fetch(url.noteEndpointDev, {
+						method: "POST",
+						headers: {
+							Accept: "application/json",
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(values),
+					});
+					actions.setSubmitting(false);
+					router.push("/");
+				} catch (error) {
+					console.log(error);
+				}
+			}}
+		>
+			{(props) => (
+				<form onSubmit={props.handleSubmit}>
+					<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
+						<Text>Create New Post</Text>
+						<Field name="title" validate={validateTitle}>
+							{({ field, form }) => (
+								<FormControl isInvalid={form.errors.title}>
+									<Input
+										{...field}
+										id="title"
+										placeholder="Note Title"
+										variant="flushed"
+									/>
+									<FormErrorMessage>{form.errors.title}</FormErrorMessage>
+								</FormControl>
+							)}
+						</Field>
+
+						<Field name="category">
+							{({ field, form }) => (
+								<FormControl>
+									<Select
+										variant="flushed"
+										placeholder="Select Category"
+										{...field}
+									>
+										<option value="others">Others</option>
+										<option value="work">Work</option>
+										<option value="study">Study</option>
+										<option value="personal">Personal</option>
+									</Select>
+								</FormControl>
+							)}
+						</Field>
+
+						<Field name="body" validate={validateBody}>
+							{({ field, form }) => (
+								<FormControl isInvalid={form.errors.body}>
+									<Textarea
+										{...field}
+										variant="flushed"
+										placeholder="Note Body"
+									/>
+									<FormErrorMessage>{form.errors.body}</FormErrorMessage>
+								</FormControl>
+							)}
+						</Field>
+						<Button
+							mt={4}
+							variantColor="teal"
+							isLoading={props.isSubmitting}
+							type="submit"
+						>
+							Submit
+						</Button>
+					</Stack>
+				</form>
+			)}
+		</Formik>
+	);
 };
 
 export default NewNote;

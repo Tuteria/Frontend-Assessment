@@ -6,7 +6,9 @@ const prisma = new PrismaClient();
 
 export const getNotes = async (req: Request, res: Response) => {
 	try {
-		const notes = await prisma.note.findMany();
+		const notes = await prisma.note.findMany({
+			orderBy: [{ createdAt: "desc" }],
+		});
 		res.status(200).json(notes);
 	} catch (error) {
 		res.status(500).json();
