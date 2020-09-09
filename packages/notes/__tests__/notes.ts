@@ -75,3 +75,48 @@ describe("POST /api/notes", () => {
 		expect(response.body).toHaveProperty("message", '"title" must be a string');
 	});
 });
+
+describe("PUT /api/notes/:id", () => {
+	it("should allows users to edit anonymous notes", async () => {
+		const anonymousNote = await request(app)
+			.post("/api/notes")
+			.send({ title: "Note", description: "Random Note" });
+		const {
+			body: { id },
+		} = anonymousNote;
+		const response = await request(app)
+			.put(`/api/notes/${id}`)
+			.send({ description: "This is still a random note" });
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("id", id);
+		expect(response.body).toHaveProperty(
+			"description",
+			"This is still a random note"
+		);
+	});
+	let noteId: number;
+	it("should allow users to edit their own notes", async () => {
+		const note = await userSession.post("/api/notes").send({
+			title: "Author's note",
+			description: "This is not an anonymous note",
+		});
+		noteId = note.body.id;
+		const response = await userSession
+			.put(`/api/notes/${noteId}`)
+			.send({ title: "My note" });
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("id", noteId);
+		expect(response.body).toHaveProperty("title", "My note");
+	});
+
+	it("should prevent a user from editing another user's note", async () => {
+		const response = await request(app)
+			.put(`/api/notes/${noteId}`)
+			.send({ title: "sabotage" });
+		expect(response.status).toBe(400);
+		expect(response.body).toHaveProperty(
+			"message",
+			"This note can only be modified by its author."
+		);
+	});
+});
