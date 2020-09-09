@@ -15,7 +15,7 @@ router.get("/", getUsers);
 router.get("/:username", getOneUser);
 
 // send a get request to the notes endpoint to get note by a user
-router.get("/:username/notes", checkAuth, getUserNotes);
+router.get("/:username/notes" /*, checkAuth*/, getUserNotes);
 
 // send a post request to the notes endpoint to create a user
 router.post("/", createUser);

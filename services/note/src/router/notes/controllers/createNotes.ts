@@ -8,16 +8,7 @@ const prisma = new PrismaClient();
 export const createNotes = async (req: Request, res: Response) => {
 	const body: NoteInterface = req.body;
 	try {
-		if (body.category) {
-			const note = await prisma.note.create({
-				data: {
-					title: body.title,
-					category: body.category,
-					body: body.body,
-				},
-			});
-			res.status(200).json(note);
-		} else if (body.username) {
+		if (body.username) {
 			const note = await prisma.note.create({
 				data: {
 					username: body.username,
@@ -33,7 +24,6 @@ export const createNotes = async (req: Request, res: Response) => {
 				data: {
 					title: body.title,
 					body: body.body,
-					category: "Others",
 				},
 			});
 			res

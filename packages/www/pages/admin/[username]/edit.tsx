@@ -4,7 +4,6 @@ import {
 	Button,
 	Stack,
 	FormControl,
-	FormLabel,
 	Input,
 	Text,
 	Textarea,
@@ -13,9 +12,9 @@ import {
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../../src/appUrl";
+import url from "../../../src/appUrl";
 
-const NewNote = ({ users }) => {
+const EditNote = ({ note }) => {
 	const router = useRouter();
 	const toast = useToast();
 	function validateTitle(value) {
@@ -36,11 +35,17 @@ const NewNote = ({ users }) => {
 
 	return (
 		<Formik
-			initialValues={{ title: "", body: "", category: "Others", username: "" }}
+			initialValues={{
+				title: note.title,
+				body: note.body,
+				category: note.category,
+			}}
 			onSubmit={async (values, actions) => {
+				const noteId = router.query.id;
+
 				try {
-					const response = await fetch(url.noteEndpointDev, {
-						method: "POST",
+					const response = await fetch(`${url.noteEndpointDev}/${noteId}`, {
+						method: "PUT",
 						headers: {
 							Accept: "application/json",
 							"Content-Type": "application/json",
@@ -49,14 +54,14 @@ const NewNote = ({ users }) => {
 					});
 					actions.setSubmitting(false);
 					router.push("/");
+
 					toast({
-						title: "Note Created.",
-						description: "Note Created successfully",
+						title: "Note Updated.",
+						description: "Note Updated Successfuly",
 						status: "success",
 						duration: 9000,
 						isClosable: true,
 					});
-					console.log(values);
 				} catch (error) {
 					console.log(error);
 				}
@@ -65,7 +70,7 @@ const NewNote = ({ users }) => {
 			{(props) => (
 				<form onSubmit={props.handleSubmit}>
 					<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
-						<Text>Create New Post</Text>
+						<Text>Update Post</Text>
 						<Field name="title" validate={validateTitle}>
 							{({ field, form }) => (
 								<FormControl isInvalid={form.errors.title}>
@@ -79,21 +84,7 @@ const NewNote = ({ users }) => {
 								</FormControl>
 							)}
 						</Field>
-						<Field name="username">
-							{({ field, form }) => (
-								<FormControl>
-									<Select
-										variant="flushed"
-										placeholder="Select User"
-										{...field}
-									>
-										{users.map((user) => {
-											return <option>{user.username}</option>;
-										})}
-									</Select>
-								</FormControl>
-							)}
-						</Field>
+
 						<Field name="category">
 							{({ field, form }) => (
 								<FormControl>
@@ -129,7 +120,7 @@ const NewNote = ({ users }) => {
 							isLoading={props.isSubmitting}
 							type="submit"
 						>
-							Create Note
+							Update Note
 						</Button>
 					</Stack>
 				</form>
@@ -138,11 +129,10 @@ const NewNote = ({ users }) => {
 	);
 };
 
-NewNote.getInitialProps = async (ctx) => {
-	const users = await fetch(`${url.userEndpointDev}`);
-	const data = await users.json();
-
-	return { users: data };
+EditNote.getInitialProps = async (ctx) => {
+	const note = await fetch(`${url.noteEndpointDev}/${ctx.query.id}`);
+	const data = await note.json();
+	return { note: data };
 };
 
-export default NewNote;
+export default EditNote;

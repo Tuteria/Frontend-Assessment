@@ -32,6 +32,10 @@ h1 {
 	color: #fff;
 }
 
+.mt-top {
+	margin-top: 10px;
+}
+
 .note-container {
 	text-align: center;
 	margin-top: 20px;

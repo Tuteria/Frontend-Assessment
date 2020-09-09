@@ -6,7 +6,9 @@ const Navbar = () => {
 			<Link href="/">
 				<a className="navbar-brand">Notes App</a>
 			</Link>
-
+			<Link href="/admin/">
+				<a className="create">Admin</a>
+			</Link>
 			<Link href="/notes/new">
 				<a className="create">Create Note</a>
 			</Link>
