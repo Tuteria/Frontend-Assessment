@@ -27,9 +27,9 @@ export default function jwtParser(handler) {
       return handler(req, res);
     } catch (error) {
       console.log(error)
-      return res.status(500).json({
+      return res.status(401).json({
         status: "error",
-        error: 'Something went ',
+        error: 'Invalid token',
       });
     }
     

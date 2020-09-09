@@ -211,7 +211,7 @@ async function createNote(req, res) {
       })
     }
     const createdNote = await noteService.createUserNote(user.id, {description, title,});
-    return res.status(200).json({
+    return res.status(201).json({
       status: 'success',
       data: {
         message: 'Note successfully updated',

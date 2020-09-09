@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://test_db:test_db@localhost:5432/test_db"
+  url      = env("DATABASE_URL")
 }
 
 model alembic_version {

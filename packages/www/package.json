@@ -8,7 +8,8 @@
     "start": "next start",
     "test": "uvu -r ts-node/register tests",
     "db:update": "prisma introspect",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "db:seed": "ts-node seedDB.ts"
   },
   "dependencies": {
     "next": "9.4.4"

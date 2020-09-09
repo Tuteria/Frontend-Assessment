@@ -94,30 +94,55 @@ Building on the work done in the second task, create a [NextJS](https://nextjs.
 4. Add relevant tests where necessary for the frontend.
 5. Host the whole application on a production URL e.g. Heroku, Vercel, Netlify, AWS, Digitalocean e.t.c
 
-**Follow these steps to start the app **
+***Follow these steps to start the app***
+
+To get the project up and running, you need to have Node, Lerna, and npm or yarn installed globally. Python3 and poetry which is the package manager used by python also need to be installed globally.
+
+Once you've cloned the repo, simply run the below command to install all the dependencies
+
+> yarn bootstrap or npm run bootstrap (yarn preferably)
 
 Frontend is located in packages/www
 Endpoints are located in packages/www/api
 
+Locate "settings.py" in  "data-layer/data-layer/" and include the database url
+
+
 Locate  "env.local.sample" in packages/www and rename it to ".env.local"
-
 Fill in the variables in the renamed file
-
-NOTE:
-"HOST_URL" and "NEXT_PUBLIC_HOST_URL" should be the same. for example 'http://localhost:3000' 
-
+*NOTE:*
+".env.local" is how NextJs load env variables
 "ADMIN_TOKEN" and "NEXT_PUBLIC_ADMIN_TOKEN" should be the same.
 
-Navigate to the data-layer directory and run:
 
-1. poetry install
-2. poetry run alembic revision --autogenerate -m "Added tables"
-3. poetry run alembic upgrade head
+Locate  "env.sample" in packages/www/prisma and rename it to ".env"
+Fill in the variables in the renamed file
+*NOTE:*
+prisma client couldn't load env outside prisma/ folder
 
-Navigate back to the root of the project and run:
+
+**Navigate to the data-layer directory and run:**
+poetry install
+poetry run alembic revision --autogenerate -m "Added tables"
+poetry run alembic upgrade head
+
+**Navigate back to the root of the project and run:**
 1. yarn next:app db:update
 2. yarn next:app db:generate
-3. yarn next:app build
-4. yarn next:app start
 
-Password for admin is "password"
+**While in the root of the project, to ensure databse has been correctly setup run:*
+yarn next:app test
+
+*Note:*
+Tests will fail if database has not been correctly set up.
+
+**To get sample records in db run:**
+yarn next:app db:seed
+
+**Finally run:**
+1. yarn next:app build
+2. yarn next:app start
+
+App will be ready on : *http://localhost:3000*
+
+Password for admin is "password".

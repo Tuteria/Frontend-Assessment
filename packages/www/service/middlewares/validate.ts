@@ -50,7 +50,6 @@ function notesNoteId(handler: Function) {
 		switch (method) {
 			case 'GET':
 				if (isInValidNoteId(noteId)) {
-					console.log(typeof noteId)
 					return res.status(409).json({
 						status: "error",
 						error: "Invalid note id",

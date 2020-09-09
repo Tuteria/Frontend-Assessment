@@ -3,9 +3,9 @@ import "hard-rejection/register";
 import { suite } from "uvu";
 import nextRequest from '../../utils/nextRequest';
 import notes from '../../pages/api/notes/index';
-import notes_create from '../../pages/api/notes/create';
-import notes_noteId from '../../pages/api/notes/[noteId]';
-import { clearNotes, loadNotes }from '../../utils/seedDB';
+import notesCreate from '../../pages/api/notes/create';
+import notesNoteId from '../../pages/api/notes/[noteId]';
+import { clearNotes, loadNotes }from '../../utils/seedTestDB';
 
 const Notes = suite("/notes endpoints");
 
@@ -40,7 +40,7 @@ Notes("POST /notes/create should add a new note",
       title: "Sample title",
       description: 'Sample description'
     }
-    const req = await nextRequest(notes_create);
+    const req = await nextRequest(notesCreate);
     await req.post('/')
       .send(note)
       .set('Accept', 'application/json')
@@ -56,7 +56,7 @@ Notes("GET /notes/:noteId should fetch a note",
   async () => {
     const loadedNotes = await loadNotes();
     const noteId = loadedNotes[0].id;
-    const req = await nextRequest(notes_noteId, {
+    const req = await nextRequest(notesNoteId, {
       noteId : String(noteId)
     });
     await req.get('/')
@@ -73,7 +73,7 @@ Notes("PUT /notes/:noteId should update a note",
   async () => {
     const loadedNotes = await loadNotes(2);
     const noteId = loadedNotes[0].id
-    const req = await nextRequest(notes_noteId, {
+    const req = await nextRequest(notesNoteId, {
       noteId: String(noteId)
     })
     await req.put(`/`)
@@ -95,7 +95,7 @@ Notes("DELETE /notes/:noteId should delete a note",
   async () => {
     const loadedNotes = await loadNotes(3);
     const noteId = loadedNotes[0].id
-    const req = await nextRequest(notes_noteId, {
+    const req = await nextRequest(notesNoteId, {
       noteId: String(noteId)
     })
     await req.delete(`/`)
