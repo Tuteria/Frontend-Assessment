@@ -6,7 +6,7 @@
     "dev": "cross-env NODE_ENV=development babel-node -r dotenv/config server/index.ts --extensions \".ts\"",
     "build": "next build",
     "start": "next start",
-    "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL jest --setupFiles dotenv/config",
+    "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL jest --runInBand --setupFiles dotenv/config",
     "db:update": "prisma introspect",
     "db:generate": "prisma generate"
   },

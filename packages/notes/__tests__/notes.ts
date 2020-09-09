@@ -67,7 +67,7 @@ describe("POST /api/notes", () => {
 		expect(response.body).toHaveProperty("author_id", user.body.id);
 	});
 
-	it("should not create a user with malformed input", async () => {
+	it("should not create a note with malformed input", async () => {
 		const response = await request(app)
 			.post("/api/notes")
 			.send({ title: 1, description: "Sample post" });
