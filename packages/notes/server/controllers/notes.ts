@@ -5,16 +5,15 @@ import { CustomRequest } from "../types";
 import { prisma } from "../lib";
 import { noteSchema as schema } from "../schema";
 
-
 export async function createNote(req: CustomRequest, res: Response) {
 	try {
 		const { user } = req;
 		const { title, description } = await schema.validateAsync(req.body);
-		const data: notesCreateInput = { title, description }
+		const data: notesCreateInput = { title, description };
 		if (user) {
 			data.author = {
-				connect: { id: user.id }
-			}
+				connect: { id: user.id },
+			};
 		}
 		const note = await prisma.notes.create({ data });
 		res.status(200).json(note);
@@ -29,14 +28,9 @@ export async function getNotes(req: Request, res: Response) {
 	const notes = await prisma.notes.findMany({
 		where: {
 			author_id: {
-				equals: null
-			}
+				equals: null,
+			},
 		},
-		select: {
-			id: true,
-			title: true,
-			description: true
-		}
 	});
 	res.json(notes);
 }
@@ -44,7 +38,7 @@ export async function getNotes(req: Request, res: Response) {
 export async function getNote(req: Request, res: Response) {
 	const { id } = req.params;
 	const note = await prisma.notes.findOne({
-		where: { id: Number(id) }
+		where: { id: Number(id) },
 	});
 	res.json(note);
 }
@@ -55,7 +49,7 @@ export async function updateNote(req: Request, res: Response) {
 		const { title, description } = await schema.validateAsync(req.body);
 		const note = await prisma.notes.update({
 			where: { id: Number(id) },
-			data: { title, description }
+			data: { title, description },
 		});
 		res.json(note);
 	} catch (e) {
@@ -68,7 +62,7 @@ export async function updateNote(req: Request, res: Response) {
 export async function deleteNote(req: Request, res: Response) {
 	const { id } = req.params;
 	const note = await prisma.notes.delete({
-		where: { id: Number(id) }
+		where: { id: Number(id) },
 	});
 	res.json(note);
 }
