@@ -11,6 +11,8 @@ export const getNotes = async (req: Request, res: Response) => {
 		});
 		res.status(200).json(notes);
 	} catch (error) {
+		console.log(error);
+
 		res.status(500).json();
 	} finally {
 		await prisma.$disconnect();

@@ -11,8 +11,3 @@ This saves the migration file
 
 `yarn service:note prisma migrate up --experimental`
 This runs the migration file
-
-#### For testing, Jest and Supertest was used.
-
-To run the test, enter the following command
-`yarn service:note run jest:test`
