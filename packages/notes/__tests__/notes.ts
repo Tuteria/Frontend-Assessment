@@ -78,12 +78,9 @@ describe("POST /api/notes", () => {
 
 describe("PUT /api/notes/:id", () => {
 	it("should allows users to edit anonymous notes", async () => {
-		const anonymousNote = await request(app)
-			.post("/api/notes")
-			.send({ title: "Note", description: "Random Note" });
-		const {
-			body: { id },
-		} = anonymousNote;
+		const { id } = await prisma.notes.create({
+			data: { title: "Note", description: "Random Note" },
+		});
 		const response = await request(app)
 			.put(`/api/notes/${id}`)
 			.send({ description: "This is still a random note" });
@@ -118,5 +115,42 @@ describe("PUT /api/notes/:id", () => {
 			"message",
 			"This note can only be modified by its author."
 		);
+	});
+});
+
+describe("DELETE /api/notes/:id", () => {
+	it("should allow users to delete anonymous notes", async () => {
+		const note = await prisma.notes.create({
+			data: {
+				title: "Sample note",
+				description: "This is a sample note",
+			},
+		});
+		const response = await request(app).delete(`/api/notes/${note.id}`);
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("id", note.id);
+		const deletedNote = await prisma.notes.findOne({ where: { id: note.id } });
+		expect(deletedNote).toBeNull();
+	});
+	let noteId: number;
+	it("should prevent a user from deleting another user's note", async () => {
+		const note = await userSession
+			.post("/api/notes/")
+			.send({ title: "Note", description: "These titles are getting lazy." });
+		noteId = note.body.id;
+		const response = await request(app).delete(`/api/notes/${noteId}`);
+		expect(response.status).toBe(400);
+		expect(response.body).toHaveProperty(
+			"message",
+			"This note can only be modified by its author."
+		);
+	});
+
+	it("should allow users to delete their own notes", async() => {
+		const response = await userSession.delete(`/api/notes/${noteId}`);
+		expect(response.status).toBe(200);
+		expect(response.body).toHaveProperty("id", noteId);
+		const deletedNote = await prisma.notes.findOne({ where: { id: noteId } });
+		expect(deletedNote).toBeNull();
 	});
 });
