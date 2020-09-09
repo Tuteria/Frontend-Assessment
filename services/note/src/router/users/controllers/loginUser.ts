@@ -11,15 +11,17 @@ const prisma = new PrismaClient();
 export const loginUser = async (req: Request, res: Response) => {
 	const { body }: { body: LoginUserInterface } = req;
 	try {
-		const user: any = await prisma.user.findOne({
+		const result = await prisma.user.findMany({
 			where: { email: body.email },
 		});
+		const user = result[0];
+
 		const { error } = LoginValidation(body);
 		if (!user) {
-			return { message: "email does not exists" };
+			res.status(400).json({ message: "Email doesn't exist" });
 		} else if (error) {
 			const message = "Email or password is invalid";
-			return { message };
+			res.status(400).json({ message: message });
 		} else {
 			const validUser = await bcrypt.compare(body.password, user.password);
 
@@ -31,16 +33,8 @@ export const loginUser = async (req: Request, res: Response) => {
 					email: user.email,
 				});
 
-				const loggedInUser = {
-					email: user.email,
-					password: user.password,
-					username: user.username,
-					token: token,
-				};
-
-				res.status(200).send({
-					success: true,
-					data: loggedInUser,
+				res.status(200).json({
+					authToken: token,
 				});
 			} else {
 				res.status(500).json({ message: "Invalid email or password" });

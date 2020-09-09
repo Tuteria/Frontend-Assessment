@@ -43,7 +43,6 @@ export const createUser = async (req: Request, res: Response) => {
 				username: body.username,
 				email: body.email,
 			});
-			console.log(token);
 
 			const result = await prisma.user.create({
 				data: {
