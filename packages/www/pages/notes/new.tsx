@@ -13,11 +13,12 @@ import {
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../../src/appUrl";
+import url from "../../src/appEnv";
 
 const NewNote = ({ users }) => {
 	const router = useRouter();
 	const toast = useToast();
+	const base_url = url.BASE_URL;
 	function validateTitle(value) {
 		let error;
 		if (!value) {
@@ -39,7 +40,7 @@ const NewNote = ({ users }) => {
 			initialValues={{ title: "", body: "", category: "Others", username: "" }}
 			onSubmit={async (values, actions) => {
 				try {
-					const response = await fetch(url.noteEndpointDev, {
+					const response = await fetch(`${base_url}/notes`, {
 						method: "POST",
 						headers: {
 							Accept: "application/json",
@@ -139,7 +140,8 @@ const NewNote = ({ users }) => {
 };
 
 NewNote.getInitialProps = async (ctx) => {
-	const users = await fetch(`${url.userEndpointDev}`);
+	const base_url = url.BASE_URL;
+	const users = await fetch(`${base_url}/users`);
 	const data = await users.json();
 
 	return { users: data };

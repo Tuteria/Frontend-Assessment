@@ -1,7 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import url from "../../../src/appUrl";
+import url from "../../../src/appEnv";
 import {
 	Stack,
 	Text,
@@ -89,7 +89,7 @@ const UserNotes = ({ notes }) => {
 
 UserNotes.getInitialProps = async (ctx) => {
 	const notes = await fetch(
-		`${url.userEndpointDev}/${ctx.query.username}/notes`
+		`${url.BASE_URL}/users/${ctx.query.username}/notes`
 	);
 	const data = await notes.json();
 	console.log(data);

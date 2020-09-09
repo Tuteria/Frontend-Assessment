@@ -9,7 +9,7 @@ import {
 	ListItem,
 	ListIcon,
 } from "@chakra-ui/core";
-import url from "../../src/appUrl";
+import url from "../../src/appEnv";
 
 const AdminPage = ({ users }) => {
 	return (
@@ -56,7 +56,7 @@ const AdminPage = ({ users }) => {
 };
 
 AdminPage.getInitialProps = async () => {
-	const users = await fetch(url.userEndpointDev);
+	const users = await fetch(`${url.BASE_URL}/users`);
 	const data = await users.json();
 	return { users: data };
 };

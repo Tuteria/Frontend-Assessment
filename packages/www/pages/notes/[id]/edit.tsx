@@ -12,7 +12,7 @@ import {
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
-import url from "../../../src/appUrl";
+import url from "../../../src/appEnv";
 
 const EditNote = ({ note }) => {
 	const router = useRouter();
@@ -44,7 +44,7 @@ const EditNote = ({ note }) => {
 				const noteId = router.query.id;
 
 				try {
-					const response = await fetch(`${url.noteEndpointDev}/${noteId}`, {
+					const response = await fetch(`${url.BASE_URL}/notes/${noteId}`, {
 						method: "PUT",
 						headers: {
 							Accept: "application/json",
@@ -130,7 +130,7 @@ const EditNote = ({ note }) => {
 };
 
 EditNote.getInitialProps = async (ctx) => {
-	const note = await fetch(`${url.noteEndpointDev}/${ctx.query.id}`);
+	const note = await fetch(`${url.BASE_URL}/notes/${ctx.query.id}`);
 	const data = await note.json();
 	return { note: data };
 };

@@ -4,27 +4,19 @@ import {
 	Button,
 	Stack,
 	FormControl,
-	FormLabel,
 	Input,
 	Text,
-	Textarea,
-	Select,
 	FormErrorMessage,
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import url from "../../src/appEnv";
+import jwt from "jsonwebtoken";
+import { adminToken } from "../../src/appEnv";
 
-const Register = () => {
+const Login = () => {
 	const router = useRouter();
 	const toast = useToast();
-	function validateUsername(value) {
-		let error;
-		if (!value) {
-			error = "Username is required";
-		}
-		return error;
-	}
 
 	function validateEmail(value) {
 		let error;
@@ -44,10 +36,10 @@ const Register = () => {
 
 	return (
 		<Formik
-			initialValues={{ username: "", email: "", password: "" }}
+			initialValues={{ email: "", password: "" }}
 			onSubmit={async (values, actions) => {
 				try {
-					const response = await fetch(`${url.BASE_URL}/users`, {
+					const response = await fetch(`${url.BASE_URL}/users/login`, {
 						method: "POST",
 						headers: {
 							Accept: "application/json",
@@ -55,16 +47,33 @@ const Register = () => {
 						},
 						body: JSON.stringify(values),
 					});
-					actions.setSubmitting(false);
-					router.push("/admin");
-					toast({
-						title: "User Created.",
-						description: "User Created successfully",
-						status: "success",
-						duration: 9000,
-						isClosable: true,
-					});
 					console.log(values);
+					const data = await response.json();
+					const message = data.message;
+					const token = data.token;
+					console.log(message);
+					console.log(token);
+					jwt.verify(token, adminToken.SECRET, function (err, decoded) {
+						if (err) {
+							toast({
+								title: "User Login Failed.",
+								description: "Invalid Email or password",
+								status: "error",
+								duration: 9000,
+								isClosable: true,
+							});
+						} else {
+							actions.setSubmitting(false);
+							router.push("/admin");
+							toast({
+								title: "User Login.",
+								description: "User Logged in successfully",
+								status: "success",
+								duration: 9000,
+								isClosable: true,
+							});
+						}
+					});
 				} catch (error) {
 					console.log(error);
 				}
@@ -72,21 +81,8 @@ const Register = () => {
 		>
 			{(props) => (
 				<form onSubmit={props.handleSubmit}>
-					<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
-						<Text>Register New User</Text>
-						<Field name="username" validate={validateUsername}>
-							{({ field, form }) => (
-								<FormControl isInvalid={form.errors.username}>
-									<Input
-										{...field}
-										id="username"
-										placeholder="Username"
-										variant="flushed"
-									/>
-									<FormErrorMessage>{form.errors.username}</FormErrorMessage>
-								</FormControl>
-							)}
-						</Field>
+					<Stack maxWidth={400} margin="auto" spacing={5} marginTop={5}>
+						<Text>Login</Text>
 
 						<Field name="email" validate={validateEmail}>
 							{({ field, form }) => (
@@ -124,7 +120,7 @@ const Register = () => {
 							isLoading={props.isSubmitting}
 							type="submit"
 						>
-							Register User
+							Login User
 						</Button>
 					</Stack>
 				</form>
@@ -133,4 +129,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default Login;

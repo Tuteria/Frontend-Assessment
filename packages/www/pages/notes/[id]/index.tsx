@@ -1,7 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import url from "../../../src/appUrl";
+import url from "../../../src/appEnv";
 import {
 	Stack,
 	Text,
@@ -41,7 +41,7 @@ const Note = ({ note }) => {
 	const deleteNote = async () => {
 		const noteId = router.query.id;
 		try {
-			const deleted = await fetch(`${url.noteEndpointDev}/${noteId}`, {
+			const deleted = await fetch(`${url.BASE_URL}/notes/${noteId}`, {
 				method: "Delete",
 			});
 
@@ -133,7 +133,7 @@ const Note = ({ note }) => {
 };
 
 Note.getInitialProps = async (ctx) => {
-	const note = await fetch(`${url.noteEndpointDev}/${ctx.query.id}`);
+	const note = await fetch(`${url.BASE_URL}/notes/${ctx.query.id}`);
 	const data = await note.json();
 	return { note: data };
 };

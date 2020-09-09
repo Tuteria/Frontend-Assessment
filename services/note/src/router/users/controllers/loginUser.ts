@@ -34,10 +34,13 @@ export const loginUser = async (req: Request, res: Response) => {
 				});
 
 				res.status(200).json({
-					authToken: token,
+					token: token,
+					message: "User Logged in Successfully",
 				});
 			} else {
-				res.status(500).json({ message: "Invalid email or password" });
+				res
+					.status(500)
+					.json({ token: "invalid", message: "Invalid email or password" });
 			}
 		}
 	} catch (error) {
