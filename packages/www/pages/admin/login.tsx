@@ -51,8 +51,6 @@ const Login = () => {
 					const data = await response.json();
 					const message = data.message;
 					const token = data.token;
-					console.log(message);
-					console.log(token);
 					jwt.verify(token, adminToken.SECRET, function (err, decoded) {
 						if (err) {
 							toast({

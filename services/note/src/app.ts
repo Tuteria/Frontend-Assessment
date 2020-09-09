@@ -5,7 +5,7 @@ import app from ".";
 const prisma = new PrismaClient();
 
 app.locals.prisma = prisma;
-let PORT = 4000;
+let PORT = process.env.PORT || 4000;
 if (process.env.PORT !== undefined) {
 	PORT = parseInt(process.env.PORT, 10);
 }

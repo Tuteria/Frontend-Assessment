@@ -14,6 +14,12 @@ import url from "../../src/appEnv";
 const AdminPage = ({ users }) => {
 	return (
 		<div className="space-between">
+			<Link href={`/admin/register`}>
+				<Button variantColor="teal" variant="solid" size="sm" mb="3">
+					Register Users
+				</Button>
+			</Link>
+			<hr />
 			{users.map((user) => {
 				return (
 					<List spacing={3}>
