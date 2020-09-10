@@ -17,16 +17,15 @@ export async function authRequired(
 	const decoded: any = jwt.verify(token, process.env.SECRET_KEY || "");
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const user = await prisma.users.findOne({
-		where: { username: decoded?.user?.username },
+		where: { username: decoded?.user?.username }
 	});
-	console.log(user, ">>>>>>");
 	if (!user) {
 		return res.status(400).json({ message: "Invalid credentials" });
 	}
 	req.user = {
 		id: user.id,
 		username: user?.username ?? "",
-		is_admin: user?.is_admin ?? false,
+		is_admin: user?.is_admin ?? false
 	};
 	next();
 }
@@ -56,7 +55,7 @@ export async function noteOr404(
 		return res.status(404).json({ message: "Note does not exist" });
 	}
 	req.note = {
-		...note,
+		...note
 	};
 	next();
 }
