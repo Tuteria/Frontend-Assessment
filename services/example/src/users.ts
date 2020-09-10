@@ -26,8 +26,8 @@ router.post("/create", async (req, res) => {
 		const user = await prisma.users.create({
 			data: {
 				username,
-				password: hashedPassword,
-			},
+				password: hashedPassword
+			}
 		});
 		return res.status(201).json(user);
 	} catch (err) {
@@ -49,7 +49,7 @@ router.post("/login", async (req, res) => {
 		return res.status(401).json({ message: "Invalid login credentials" });
 	}
 	const token = jwt.sign(
-		{ user: { username: user?.username } },
+		{ user: { username: user?.username, id: user.id } },
 		process.env?.SECRET_KEY || ""
 	);
 	return res.status(200).json({ message: "success", user, token });
@@ -60,7 +60,7 @@ router.get("/:username/notes", authRequired, async (req, res) => {
 	const { username } = req.params;
 	const user = await prisma.users.findOne({
 		where: { username },
-		include: { notes: true },
+		include: { notes: true }
 	});
 	if (!user) {
 		return res.status(404).json({ message: "username does not exist" });
@@ -82,22 +82,24 @@ router.post("/admin/login", async (req, res) => {
 				data: {
 					username,
 					password: hashedPassword,
-					is_admin: true,
-				},
+					is_admin: true
+				}
 			});
 		}
 		const token = jwt.sign(
-			{ user: { username: user.username, is_admin: user.is_admin } },
+			{
+				user: { id: user.id, username: user.username, is_admin: user.is_admin }
+			},
 			process.env.SECRET_KEY || ""
 		);
 		return res.status(200).json({
 			message: "successful",
 			user,
-			token,
+			token
 		});
 	}
 	return res.status(401).json({
-		message: "Hmmm... It seems you are not an admin user",
+		message: "Hmmm... It seems you are not an admin user"
 	});
 });
 export default router;
