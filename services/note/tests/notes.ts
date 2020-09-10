@@ -10,7 +10,7 @@ import { suite } from "uvu";
 console.log(env.TEST_DATABASE_URL);
 
 const Notes = suite("Notes API");
-
+const token = null;
 Notes.before(async (context) => {
 	// context.prisma = await beforeCallback();
 	context.prisma = new PrismaClient();
@@ -40,7 +40,9 @@ Notes("Create endpoint works as expected", async (context) => {
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/)
 		.then((response) => {
-			assert.is(response.body.title, "Sample notes");
+			console.log(response.body);
+
+			assert.is(response.body.newNote.title, "Sample notes");
 		});
 	const count = await context.prisma.note.count();
 	assert.is(count, 1);
@@ -49,10 +51,14 @@ Notes("Create endpoint works as expected", async (context) => {
 Notes("Get endpoint works as expected", async () => {
 	await request(App)
 		.get("/notes")
+		.set("Authorization", `Bearer ${token}`)
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/)
 		.then((response) => {
-			assert.instance(response.body, Array);
+			const { status } = response;
+			console.log(status);
+
+			assert.is(status, 200);
 		});
 });
 
