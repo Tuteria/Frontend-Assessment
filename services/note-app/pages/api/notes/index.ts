@@ -14,6 +14,7 @@ export default async  (req: NextApiRequest, res: NextApiResponse) => {
       return res.json({ data })
 
     } catch(e) {
+      console.log(e)
       return res.status(500).json({
         error: "An error occured, pls try again later.",
       });
