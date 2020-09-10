@@ -62,4 +62,38 @@ Notes("Get endpoint works as expected", async () => {
 		});
 });
 
+Notes("Delete endpoint works as expected", async (context) => {
+	// Creates the note
+	const response = await request(App)
+		.post("/notes")
+		.send({
+			title: "Sample Note to be deleted",
+			body: "Sample note to be deleted body",
+		})
+		.set("Accept", "application/json")
+		.set("Authorization", `Bearer ${token}`)
+
+		.expect("Content-Type", /json/);
+
+	assert.is(response.body.newNote.title, "Sample Note to be deleted");
+	assert.ok(response.body.newNote.id);
+
+	// deletes the note
+	const deleteNoteResponse = await request(App)
+		.delete(`/notes/${response.body.newNote.id}`)
+		.set("Accept", "application/json")
+		.set("Authorization", `Bearer ${token}`)
+
+		.expect("Content-Type", /json/);
+
+	console.log(deleteNoteResponse);
+
+	assert.is(deleteNoteResponse.status, 200);
+	assert.is(
+		deleteNoteResponse.body.deletedNote.body,
+		"Sample note to be deleted body"
+	);
+	assert.is(deleteNoteResponse.body.message, "Note Deleted successfully");
+});
+
 Notes.run();
