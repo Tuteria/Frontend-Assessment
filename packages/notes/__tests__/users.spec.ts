@@ -6,7 +6,6 @@ import { prisma } from "../server/lib";
 const userSession = session(app);
 let username: string;
 let id: number;
-let createdUserId: number;
 
 beforeAll(async () => {
 	// create an admin user

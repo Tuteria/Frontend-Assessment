@@ -1,5 +1,6 @@
 import React from "react";
 import { Flex, Image, Link } from "@chakra-ui/core";
+import NavLink from "./NavLink";
 
 type Props = {
 	user?: {
@@ -31,18 +32,18 @@ const Header: React.FC<Props> = ({ user }: Props) => (
 			/>
 		</Link>
 		<Flex as="nav" direction={["column", "row"]}>
-			{!user && <Link href="/login">login</Link>}
+			{!user && <NavLink isLast href="/login">login</NavLink>}
 			{user && user.admin && (
-				<Link mr={["0", "1", "2"]} href="/admin">
+				<NavLink href="/admin">
 					dashboard
-				</Link>
+				</NavLink>
 			)}
 			{user && (
 				<React.Fragment>
-					<Link mr={["0", "1", "2"]} href={`users/${user.username}`}>
+					<NavLink href={`users/${user.username}`}>
 						my notes
-					</Link>
-					<Link href="#">logout</Link>
+					</NavLink>
+					<NavLink href="#" isLast>logout</NavLink>
 				</React.Fragment>
 			)}
 		</Flex>
