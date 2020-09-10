@@ -18,6 +18,7 @@ const Header: React.FC<Props> = ({ user }: Props) => (
 		direction="row"
 		justify="space-between"
 		p={["2"]}
+		position="relative"
 		px={["2", "3"]}
 		shadow="0px 1px 5px 0px rgba(0,0,0,0.25)"
 	>
@@ -25,8 +26,8 @@ const Header: React.FC<Props> = ({ user }: Props) => (
 			<Image
 				src="/logo.svg"
 				alt=""
-				height={["60px", "80px"]}
-				width={["60px", "80px"]}
+				height="60px"
+				width="60px"
 				maxWidth="100%"
 				aria-hidden="true"
 			/>
