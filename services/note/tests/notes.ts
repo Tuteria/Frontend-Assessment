@@ -10,21 +10,27 @@ import { suite } from "uvu";
 console.log(env.TEST_DATABASE_URL);
 
 const Notes = suite("Notes API");
-const prisma = new PrismaClient();
 
-Notes.before(async () => {
+Notes.before(async (context) => {
 	// context.prisma = await beforeCallback();
-
-	await prisma.$queryRaw("DELETE from notes;");
+	context.prisma = new PrismaClient();
+	App.locals.prisma = context.prisma;
+	await context.prisma.$queryRaw('DELETE from "public"."Note";');
 });
 
-Notes.after(async () => {
-	await prisma.$queryRaw("DELETE from notes;");
-	const count = await prisma.note.count();
+Notes.after(async (context) => {
+	context.prisma = new PrismaClient();
+	App.locals.prisma = context.prisma;
+	await context.prisma.$queryRaw('DELETE from "public"."Note";');
+	const count = await context.prisma.note.count();
+	console.log(count);
+
 	assert.is(count, 0);
 });
 
-Notes("Create endpoint works as expected", async () => {
+Notes("Create endpoint works as expected", async (context) => {
+	context.prisma = new PrismaClient();
+	App.locals.prisma = context.prisma;
 	await request(App)
 		.post("/notes")
 		.send({
@@ -36,7 +42,7 @@ Notes("Create endpoint works as expected", async () => {
 		.then((response) => {
 			assert.is(response.body.title, "Sample notes");
 		});
-	const count = await prisma.note.count();
+	const count = await context.prisma.note.count();
 	assert.is(count, 1);
 });
 
