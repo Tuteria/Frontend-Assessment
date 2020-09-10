@@ -47,7 +47,6 @@ const Login = () => {
 						},
 						body: JSON.stringify(values),
 					});
-					console.log(values);
 					const data = await response.json();
 					const message = data.message;
 					const token = data.token;

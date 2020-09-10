@@ -57,7 +57,6 @@ const NewNote = ({ users }) => {
 						duration: 9000,
 						isClosable: true,
 					});
-					console.log(values);
 				} catch (error) {
 					console.log(error);
 				}

@@ -92,7 +92,6 @@ UserNotes.getInitialProps = async (ctx) => {
 		`${url.BASE_URL}/users/${ctx.query.username}/notes`
 	);
 	const data = await notes.json();
-	console.log(data);
 
 	return { notes: data };
 };
