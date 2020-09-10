@@ -5,7 +5,7 @@
 cd into the folder and run
 `yarn bootstrap`
 
-#### Running the prisma commands
+#### Running the prisma commands (optional)
 
 `yarn service:note prisma introspect`
 This introspects and updates the models
