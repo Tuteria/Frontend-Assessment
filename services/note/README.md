@@ -1,5 +1,5 @@
-
 #### clone the repo
+
 `git clone https://github.com/chidibede/Frontend-Assessment.git`
 
 cd into the folder and run
@@ -31,3 +31,7 @@ This runs the frontend client
 Admin login details
 Email: admin@yahoo.com
 Password: adminpassword
+
+#### Running tests
+
+`yarn service:note test`
