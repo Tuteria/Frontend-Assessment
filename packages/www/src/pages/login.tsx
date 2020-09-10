@@ -15,7 +15,7 @@ export default () => {
 			setAuthToken(res.data.token);
 			router.push(`/${res.data.user.username}`);
 		} catch (err) {
-			if (err.response.status >= 400) {
+			if (err?.response?.status >= 400) {
 				setApiError(err.response.data.message);
 			}
 		}
