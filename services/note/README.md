@@ -15,5 +15,10 @@ This runs the migration file
 `yarn service:note run dev`
 This runs the dev server for the backend
 
-`cd into packages/www and run yarn dev`
+cd into packages/www and run
+`yarn dev`
 This runs the frontend client
+
+Admin login details
+Email: admin@yahoo.com
+Password: adminpassword
