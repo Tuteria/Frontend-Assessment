@@ -12,6 +12,8 @@ This saves the migration file
 `yarn service:note prisma migrate up --experimental`
 This runs the migration file
 
+### Running the dev servers
+
 `yarn service:note run dev`
 This runs the dev server for the backend
 
