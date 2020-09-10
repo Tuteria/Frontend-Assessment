@@ -9,7 +9,7 @@ FROM base AS builder
 
 # Install production dependencies
 ADD package.json ./package.json
-COPY tsconfig.json service-tsconfig.json lerna.json yarn.lock ./
+COPY tsconfig.json service-tsconfig.json lerna.json ./
 COPY packages/common/*.json ./packages/common/
 COPY services/example/*.json ./packages/example/
 
