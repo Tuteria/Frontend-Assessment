@@ -6,6 +6,7 @@ on:
     branches:
       - develop
       - release/*
+      - proxiex-samuel-longshak
 
 jobs:
   test:
@@ -62,7 +63,7 @@ jobs:
       - name: Test all Services and components
         run: |
           yarn db:generate-all
-          nyc yarn test
+          nyc yarn service:noteapp test
         env:
           DATABASE_URL: postgresql://qa_user:qa_password@localhost:5432/ci_db?schema=public
           DB_PROVIDER: postgresql
