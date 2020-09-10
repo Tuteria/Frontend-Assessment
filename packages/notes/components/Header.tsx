@@ -18,7 +18,7 @@ const Header: React.FC<Props> = ({ user }: Props) => (
 		justify="space-between"
 		p={["2"]}
 		px={["2", "3"]}
-		shadow="0px 2px 5px 0px rgba(0,0,0,0.25)"
+		shadow="0px 1px 5px 0px rgba(0,0,0,0.25)"
 	>
 		<Link href="/" aria-label="homepage">
 			<Image
