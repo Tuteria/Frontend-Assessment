@@ -1,3 +1,10 @@
+
+#### clone the repo
+`git clone https://github.com/chidibede/Frontend-Assessment.git`
+
+cd into the folder and run
+`yarn bootstrap`
+
 #### Running the prisma commands
 
 `yarn service:note prisma introspect`
