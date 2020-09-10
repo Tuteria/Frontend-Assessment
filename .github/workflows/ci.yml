@@ -66,6 +66,7 @@ jobs:
           nyc yarn service:noteapp test
         env:
           DATABASE_URL: postgresql://qa_user:qa_password@localhost:5432/ci_db?schema=public
+          TEST_DATABASE_URL: postgresql://qa_user:qa_password@localhost:5432/ci_db?schema=public
           DB_PROVIDER: postgresql
     # - name: Report
     #   if: matrix.nodejs >= 14
