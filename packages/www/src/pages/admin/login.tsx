@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 
 import LoginForm from "../../components/LoginForm";
 import client from "../../api/client";
 import { setAuthToken } from "../../libs/cookie";
-import { isObject } from "util";
+import { storeContext } from "../../store";
 
 const AdminLogin = () => {
+	const { handleLogin } = useContext(storeContext);
 	const [hasError, setHasError] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
@@ -16,6 +17,7 @@ const AdminLogin = () => {
 		try {
 			const res = await client.post("/users/admin/login", user);
 			setAuthToken(res.data.token);
+			handleLogin(res.data.user);
 			router.push(`/admin`);
 		} catch (err) {
 			setHasError(true);

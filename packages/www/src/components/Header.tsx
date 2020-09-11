@@ -36,7 +36,7 @@ const Header = () => {
 	const gotoMyNotes = (e) => {
 		e.preventDefault();
 		const username = state.currentUser.username;
-		router.push(`/${username}`, undefined, { shallow: true });
+		router.push("/[username]", `/${username}`, { shallow: true });
 	};
 
 	return (
