@@ -1,13 +1,18 @@
-import { Box, Text } from "@chakra-ui/core";
-import { useContext } from "react";
+import { Text } from "@chakra-ui/core";
+import { useContext, FunctionComponent } from "react";
 import { storeContext, setEditedUser } from "../../store";
 
-const User = ({ user }) => {
+interface UserProps {
+	user: NoteUser;
+}
+
+const User: FunctionComponent<UserProps> = ({ user }) => {
 	const { dispatch } = useContext(storeContext);
 
 	const handleClick = () => {
 		dispatch(setEditedUser(user));
 	};
+
 	return (
 		<Text
 			pl="1"

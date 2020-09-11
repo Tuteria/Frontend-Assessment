@@ -1,21 +1,14 @@
-import { Box, Flex, Text, Spinner } from "@chakra-ui/core";
+import { Box, Flex, Spinner } from "@chakra-ui/core";
+import { FunctionComponent } from "react";
 
 import User from "./User";
 import { useFetcher } from "../../hooks";
 
-interface UserDetail {
-	id?: number;
-	username: string;
-	password: string;
-	notes?: INote[];
-	is_admin?: boolean;
-}
-
 interface UserProps {
-	users?: UserDetail[];
+	users?: NoteUser[];
 }
 
-const Users = ({}: UserProps) => {
+const Users: FunctionComponent<UserProps> = () => {
 	const { data: users, error } = useFetcher("/users");
 	if (error) {
 		return <div>Could note fetch users</div>;
