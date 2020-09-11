@@ -11,7 +11,7 @@ cd into packages/www and run
 `yarn dev`
 This runs the frontend client
 
-## The Backend Server
+## The Backend Service hosting
 
 The backend is hosted on heroku.The url is `https://chidibede-tuteria-backend.herokuapp.com/`
 
