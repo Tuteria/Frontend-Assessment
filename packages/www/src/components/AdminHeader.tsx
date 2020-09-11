@@ -12,8 +12,12 @@ import {
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
-import { storeContext, setNoteView } from "../store";
-import { NOTE_CREATE_VIEW, NOTE_LIST_VIEW } from "../store/constants";
+import { storeContext, setNoteView, setUserView } from "../store";
+import {
+	NOTE_CREATE_VIEW,
+	NOTE_LIST_VIEW,
+	USER_LIST_VIEW,
+} from "../store/constants";
 
 const AdminHeader = () => {
 	const { handleLogout } = useContext(storeContext);
@@ -26,6 +30,11 @@ const AdminHeader = () => {
 		router.push("/");
 	};
 
+	const gotoAdminHome = (e) => {
+		dispatch(setNoteView(NOTE_LIST_VIEW));
+		dispatch(setUserView(USER_LIST_VIEW));
+	};
+
 	return (
 		<Box width="100%" mt={[2, 5, 10]}>
 			<Flex justifyContent="space-between" alignItems="center">
@@ -34,7 +43,7 @@ const AdminHeader = () => {
 					mb="3"
 					fontSize="2rem"
 					cursor="pointer"
-					onClick={() => dispatch(setNoteView(NOTE_LIST_VIEW))}
+					onClick={gotoAdminHome}
 				>
 					Notes Admin
 				</Text>

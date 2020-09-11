@@ -52,7 +52,7 @@ const Header = () => {
 				>
 					{state.currentUser?.username &&
 						username &&
-						state.currentUser.username}
+						state.currentUser.username}{" "}
 					Notes
 				</Text>
 				<Flex>
