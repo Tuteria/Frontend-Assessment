@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 import "./env";
 import { authRequired, adminOnly } from "./middlewares";
+import { toLower } from "./helpers";
 
 const SALT = 10;
 
@@ -14,7 +15,9 @@ router.post("/create", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username, password } = req.body;
 
-	const userExist = await prisma.users.findOne({ where: { username } });
+	const userExist = await prisma.users.findOne({
+		where: { username: toLower(username) },
+	});
 	if (userExist) {
 		return res
 			.status(409)
@@ -25,7 +28,7 @@ router.post("/create", async (req, res) => {
 		const hashedPassword = bcrypt.hashSync(password, SALT);
 		const user = await prisma.users.create({
 			data: {
-				username,
+				username: toLower(username),
 				password: hashedPassword,
 			},
 		});
@@ -44,7 +47,9 @@ router.get("/", authRequired, adminOnly, async (req, res) => {
 router.post("/login", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username, password } = req.body;
-	const user = await prisma.users.findOne({ where: { username } });
+	const user = await prisma.users.findOne({
+		where: { username: toLower(username) },
+	});
 	if (!user ?? !bcrypt.compareSync(password, user?.password || "")) {
 		return res.status(401).json({ message: "Invalid login credentials" });
 	}
@@ -59,7 +64,7 @@ router.get("/:username/notes", authRequired, async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const { username } = req.params;
 	const user = await prisma.users.findOne({
-		where: { username },
+		where: { username: toLower(username) },
 		include: { notes: true },
 	});
 	if (!user) {
@@ -75,12 +80,14 @@ router.post("/admin/login", async (req, res) => {
 	const adminPass = process.env.ADMIN_PASSWORD;
 
 	if (username === adminUser && password === adminPass) {
-		let user = await prisma.users.findOne({ where: { username } });
+		let user = await prisma.users.findOne({
+			where: { username: toLower(username) },
+		});
 		if (!user) {
 			const hashedPassword = bcrypt.hashSync(password, SALT);
 			user = await prisma.users.create({
 				data: {
-					username,
+					username: toLower(username),
 					password: hashedPassword,
 					is_admin: true,
 				},
