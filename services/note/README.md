@@ -1,9 +1,21 @@
-#### clone the repo
+#### clone the repo to run the frontend locally
 
 `git clone https://github.com/chidibede/Frontend-Assessment.git`
 
 cd into the folder and run
 `yarn bootstrap`
+
+### Running the next app
+
+cd into packages/www and run
+`yarn dev`
+This runs the frontend client
+
+## The Backend Server
+
+The backend is hosted on heroku.The url is `https://chidibede-tuteria-backend.herokuapp.com/`
+
+### Running the backend server locally (optional)
 
 #### Running the migrations
 
@@ -21,16 +33,3 @@ This runs prisma generate and generate the prismaclient
 #### Running tests
 
 `yarn service:note test`
-
-### Running the dev servers
-
-`yarn service:note run dev`
-This runs the dev server for the backend
-
-cd into packages/www and run
-`yarn dev`
-This runs the frontend client
-
-Admin login details
-Email: admin@yahoo.com
-Password: adminpassword

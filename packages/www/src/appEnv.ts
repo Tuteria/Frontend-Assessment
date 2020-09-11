@@ -1,5 +1,5 @@
 const url = {
-	BASE_URL: "http://localhost:4000",
+	BASE_URL: "https://chidibede-tuteria-backend.herokuapp.com",
 };
 
 export const adminToken = {
