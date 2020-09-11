@@ -16,14 +16,9 @@ import { NOTE_LIST_VIEW, NOTE_EDIT_VIEW } from "../store/constants";
 interface NoteFormProps {
 	editNote?: INote;
 	isEditing?: boolean;
-	isViewing?: boolean;
 }
 
-const NoteForm = ({
-	editNote,
-	isEditing = false,
-	isViewing = false,
-}: NoteFormProps) => {
+const NoteForm = ({ editNote, isEditing = false }: NoteFormProps) => {
 	const { dispatch } = useContext(storeContext);
 	const [note, setNote] = useState(
 		editNote ? editNote : { title: "", description: "" }
@@ -62,13 +57,11 @@ const NoteForm = ({
 					placeholder="Note Title"
 					mb="2"
 					focusBorderColor="#fccde2"
-					isDisabled={isViewing}
 					value={note.title}
 				/>
 				<Textarea
 					value={note.description}
 					onChange={handleChange}
-					isDisabled={isViewing}
 					focusBorderColor="#fccde2"
 					fontSize={["md", "xl", "xl"]}
 					name="description"
@@ -79,33 +72,21 @@ const NoteForm = ({
 					mb="3"
 				></Textarea>
 				<Flex>
-					{isViewing ? (
-						<Button
-							onClick={(e) => dispatch(setNoteView(NOTE_EDIT_VIEW))}
-							type="submit"
-							color="#fc5c9c"
-							border="0"
-							mr="2"
-						>
-							Edit
-						</Button>
-					) : (
-						<Button
-							onClick={(e) => handleSubmit(note, e)}
-							type="submit"
-							color="#fc5c9c"
-							border="0"
-							mr="2"
-						>
-							{isEditing ? "Update" : "Create"}
-						</Button>
-					)}
+					<Button
+						onClick={(e) => handleSubmit(note, e)}
+						type="submit"
+						color="#fc5c9c"
+						border="0"
+						mr="2"
+					>
+						{isEditing ? "Update" : "Create"}
+					</Button>
 					<Button
 						onClick={() => dispatch(setNoteView(NOTE_LIST_VIEW))}
 						color="grey"
 						border="0"
 					>
-						{isViewing ? "View Notes" : "Cancel"}
+						Cancel
 					</Button>
 				</Flex>
 			</FormControl>

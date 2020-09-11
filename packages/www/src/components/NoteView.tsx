@@ -1,5 +1,5 @@
+import { useContext, FunctionComponent } from "react";
 import { Box, Text, Button, Flex } from "@chakra-ui/core";
-import { useContext } from "react";
 
 import { storeContext, setNoteView } from "../store";
 import { NOTE_LIST_VIEW, NOTE_EDIT_VIEW } from "../store/constants";
@@ -8,7 +8,7 @@ interface NoteFormProps {
 	note?: INote;
 }
 
-const NoteForm = ({ note }: NoteFormProps) => {
+const NoteForm: FunctionComponent<NoteFormProps> = ({ note }) => {
 	const { dispatch } = useContext(storeContext);
 	return (
 		<Box>
@@ -34,7 +34,7 @@ const NoteForm = ({ note }: NoteFormProps) => {
 			</Text>
 			<Flex>
 				<Button
-					onClick={(e) => dispatch(setNoteView(NOTE_EDIT_VIEW))}
+					onClick={() => dispatch(setNoteView(NOTE_EDIT_VIEW))}
 					type="submit"
 					color="#fc5c9c"
 					border="0"

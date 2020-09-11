@@ -4,7 +4,7 @@ import { useState, useContext } from "react";
 import { storeContext, setUserView, USER_LIST_VIEW } from "../store";
 import client from "../api/client";
 
-export default () => {
+const NewUserForm = () => {
 	const { dispatch } = useContext(storeContext);
 	const [user, setUser] = useState({});
 	const [hasError, setHasErrors] = useState(false);
@@ -22,6 +22,7 @@ export default () => {
 			setHasErrors(true);
 		}
 	};
+
 	return (
 		<Flex flexDirection="column" width="100%" pt="2">
 			<form onSubmit={handleSubmit}>
@@ -64,3 +65,5 @@ export default () => {
 		</Flex>
 	);
 };
+
+export default NewUserForm;

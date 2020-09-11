@@ -12,12 +12,11 @@ import {
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
-import Link from "next/link";
 
 import { storeContext, setNoteView } from "../store";
 import { NOTE_CREATE_VIEW, NOTE_LIST_VIEW } from "../store/constants";
 
-export default function Header() {
+const Header = () => {
 	const { state, handleLogout } = useContext(storeContext);
 	const router = useRouter();
 	const { dispatch } = useContext(storeContext);
@@ -53,7 +52,7 @@ export default function Header() {
 				>
 					{state.currentUser?.username &&
 						username &&
-						`${state.currentUser.username}'s`}{" "}
+						state.currentUser.username}
 					Notes
 				</Text>
 				<Flex>
@@ -102,4 +101,6 @@ export default function Header() {
 			</Flex>
 		</Box>
 	);
-}
+};
+
+export default Header;

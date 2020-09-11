@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import Cookie from "js-cookie";
 
-const X_TOKEN_KEY_NAME = "XSDDX-Token";
+const X_TOKEN_KEY_NAME = "34dkkkjk#dfksfsdksdkfsjk";
 
 export function getAuthToken() {
 	return Cookie.get(X_TOKEN_KEY_NAME);

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, Dispatch, ReducerState } from "react";
 import { useStoreReducer, setActiveUser, logout } from "./reducer";
 import { getUserfromCookie, removeAuthToken } from "../libs/cookie";
 
@@ -7,6 +7,7 @@ interface IStoreContext {
 	dispatch?: any;
 	handleLogout?: any;
 }
+
 const defaultValues: IStoreContext = {};
 export const storeContext = createContext(defaultValues);
 

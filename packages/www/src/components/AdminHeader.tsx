@@ -6,7 +6,6 @@ import {
 	Menu,
 	MenuButton,
 	MenuList,
-	MenuDivider,
 	MenuItem,
 	Icon,
 } from "@chakra-ui/core";
@@ -16,7 +15,7 @@ import { useContext } from "react";
 import { storeContext, setNoteView } from "../store";
 import { NOTE_CREATE_VIEW, NOTE_LIST_VIEW } from "../store/constants";
 
-export default function AdminHeader() {
+const AdminHeader = () => {
 	const { handleLogout } = useContext(storeContext);
 	const router = useRouter();
 	const { dispatch } = useContext(storeContext);
@@ -26,6 +25,7 @@ export default function AdminHeader() {
 		handleLogout();
 		router.push("/");
 	};
+
 	return (
 		<Box width="100%" mt={[2, 5, 10]}>
 			<Flex justifyContent="space-between" alignItems="center">
@@ -73,4 +73,6 @@ export default function AdminHeader() {
 			</Flex>
 		</Box>
 	);
-}
+};
+
+export default AdminHeader;

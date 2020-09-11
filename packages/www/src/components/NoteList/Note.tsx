@@ -1,3 +1,4 @@
+import { FunctionComponent } from "react";
 import { Flex, Text, IconButton } from "@chakra-ui/core";
 
 interface NoteProps {
@@ -7,7 +8,12 @@ interface NoteProps {
 	onClick?: (n: INote) => void;
 }
 
-const Note = ({ note, handleEdit, handleDelete, onClick }: NoteProps) => (
+const Note: FunctionComponent<NoteProps> = ({
+	note,
+	handleEdit,
+	handleDelete,
+	onClick,
+}) => (
 	<Flex
 		key={`${note.id}-${note.title}`}
 		width="100%"

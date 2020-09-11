@@ -1,7 +1,7 @@
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 
 import { fetcher } from "../api/client";
 
-export default function useFetcher(url) {
-	return useSWR(url, fetcher);
-}
+type CallBack = () => any;
+
+export default (url: string | CallBack) => useSWR(url, fetcher);

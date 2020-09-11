@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginForm";
 import client from "../api/client";
 import { setAuthToken } from "../libs/cookie";
 
-export default () => {
+const UserLogin = () => {
 	const [apiError, setApiError] = useState(null);
 	const router = useRouter();
 
@@ -22,3 +22,5 @@ export default () => {
 	};
 	return <LoginForm onSubmit={onSubmit} error={apiError} />;
 };
+
+export default UserLogin;

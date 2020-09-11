@@ -2,8 +2,8 @@ import { useContext, useEffect } from "react";
 import { Flex, Box, Text, IconButton } from "@chakra-ui/core";
 
 import AdminLayout from "../../components/Layout/AdminLayout";
-import Users from "../../components/UserList/Users";
-import NoteList from "../../components/NoteList";
+import { UserList } from "../../components/UserList";
+import { NoteList } from "../../components/NoteList";
 import NoteForm from "../../components/NoteForm";
 import NoteView from "../../components/NoteView";
 import {
@@ -18,7 +18,7 @@ import NewUserForm from "../../components/NewUserForm";
 import { getUserfromCookie } from "../../libs/cookie";
 import { useRouter } from "next/router";
 
-export default () => {
+const AdminHome = () => {
 	const { state, dispatch } = useContext(storeContext);
 	const router = useRouter();
 
@@ -47,7 +47,7 @@ export default () => {
 							mb="1"
 							textTransform="capitalize"
 						>
-							{`${state.editedUser.username}'s`} Notes
+							{state.editedUser.username} Notes
 						</Text>
 						<NoteList
 							notesURI={
@@ -68,7 +68,7 @@ export default () => {
 			case USER_CREATE_VIEW:
 				return <NewUserForm />;
 			default:
-				return <Users />;
+				return <UserList />;
 		}
 	};
 
@@ -104,3 +104,5 @@ export default () => {
 		</AdminLayout>
 	);
 };
+
+export default AdminHome;

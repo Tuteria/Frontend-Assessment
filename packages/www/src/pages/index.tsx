@@ -1,13 +1,13 @@
 import { useContext } from "react";
 
 import UserLayout from "../components/Layout/UserLayout";
-import NoteList from "../components/NoteList";
+import { NoteList } from "../components/NoteList";
 import { storeContext } from "../store";
 import { NOTE_EDIT_VIEW, NOTE_SINGLE_VIEW, NOTE_CREATE_VIEW } from "../store";
 import NoteForm from "../components/NoteForm";
 import NoteView from "../components/NoteView";
 
-export default () => {
+const Home = () => {
 	const { state } = useContext(storeContext);
 
 	const renderView = () => {
@@ -25,3 +25,5 @@ export default () => {
 
 	return <UserLayout>{renderView()}</UserLayout>;
 };
+
+export default Home;

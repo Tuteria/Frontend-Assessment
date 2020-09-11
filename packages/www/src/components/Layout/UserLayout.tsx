@@ -1,8 +1,13 @@
+import { FunctionComponent } from "react";
 import { Box, Flex, Divider } from "@chakra-ui/core";
 
 import Header from "../Header";
 
-const UserLayout = ({ children }) => {
+interface UserLayoutProps {
+	children: any;
+}
+
+const UserLayout: FunctionComponent<UserLayoutProps> = ({ children }) => {
 	return (
 		<Flex alignItems="center" flexDirection="column">
 			<Box width={["95%", "80%", "60%", "50%"]}>

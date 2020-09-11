@@ -7,15 +7,19 @@ import {
 	Flex,
 	Button,
 } from "@chakra-ui/core";
-import { useState } from "react";
+import { useState, FunctionComponent } from "react";
 
 interface LoginFormProps {
-	onSubmit?: (e: any) => any;
+	onSubmit?: (e: any) => void;
 	header?: string;
 	error?: string;
 }
 
-export default ({ onSubmit, header, error }: LoginFormProps) => {
+const LoginForm: FunctionComponent<LoginFormProps> = ({
+	onSubmit,
+	header,
+	error,
+}) => {
 	const [user, setUser] = useState({});
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
@@ -58,3 +62,5 @@ export default ({ onSubmit, header, error }: LoginFormProps) => {
 		</Box>
 	);
 };
+
+export default LoginForm;

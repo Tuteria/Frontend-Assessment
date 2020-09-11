@@ -5,7 +5,7 @@ import LoginForm from "../../components/LoginForm";
 import client from "../../api/client";
 import { setAuthToken } from "../../libs/cookie";
 
-export default () => {
+const AdminLogin = () => {
 	const [apiError, setApiError] = useState(null);
 	const router = useRouter();
 
@@ -25,3 +25,5 @@ export default () => {
 		<LoginForm onSubmit={onSubmit} error={apiError} header="Admin Login" />
 	);
 };
+
+export default AdminLogin;

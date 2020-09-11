@@ -1,7 +1,6 @@
-import { Box, Spinner, Flex, Text, Skeleton } from "@chakra-ui/core";
+import { Box, Flex, Text, Skeleton } from "@chakra-ui/core";
 import { mutate } from "swr";
-import React, { useContext } from "react";
-import { useRouter } from "next/router";
+import React, { useContext, FunctionComponent } from "react";
 
 import { storeContext, setActiveNote, setNoteView } from "../../store";
 import Note from "./Note";
@@ -13,9 +12,12 @@ interface NoteListProps {
 	notesURI?: string;
 }
 
-const NoteList = ({ notesURI = "/notes" }: NoteListProps) => {
+const NoteList: FunctionComponent<NoteListProps> = ({
+	notesURI = "/notes",
+}) => {
 	const { dispatch } = useContext(storeContext);
 	const { data, error } = useFetcher(notesURI);
+
 	if (error) {
 		return <Box>There was an error while fetching notes</Box>;
 	}
@@ -54,6 +56,7 @@ const NoteList = ({ notesURI = "/notes" }: NoteListProps) => {
 		await client.delete(`/notes/${note.id}`);
 		mutate(notesURI);
 	};
+
 	return (
 		<Box>
 			{data.map((note) => (

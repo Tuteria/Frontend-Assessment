@@ -1,6 +1,5 @@
 import { useReducer } from "react";
 import {
-	ADD_NOTES,
 	SET_NOTE_VIEW,
 	SET_USER_VIEW,
 	SET_ACTIVE_NOTE,
@@ -9,12 +8,11 @@ import {
 	EDITED_USER,
 } from "./constants";
 
-const createAction = (actionType) => (payload) => ({
+const createAction = (actionType: string) => (payload: any) => ({
 	type: actionType,
 	payload,
 });
 
-export const addNotes = createAction(ADD_NOTES);
 export const setNoteView = createAction(SET_NOTE_VIEW);
 export const setUserView = createAction(SET_USER_VIEW);
 export const setActiveNote = createAction(SET_ACTIVE_NOTE);
@@ -22,12 +20,10 @@ export const setActiveUser = createAction(SET_ACTIVE_USER);
 export const logout = createAction(USER_LOGOUT);
 export const setEditedUser = createAction(EDITED_USER);
 
-const reducer = (state, action) => {
+const reducer = (state: any, action: any) => {
 	switch (action.type) {
 		case SET_ACTIVE_NOTE:
 			return { ...state, note: action.payload };
-		case ADD_NOTES:
-			return { ...state, notes: action.payload };
 		case SET_NOTE_VIEW:
 			return { ...state, noteViewName: action.payload };
 		case SET_USER_VIEW:
@@ -44,12 +40,11 @@ const reducer = (state, action) => {
 };
 
 const initialState = {
-	notes: [],
 	note: {},
 	noteViewName: "",
 	userViewName: "",
 	currentUser: {},
-	isAuthentticated: false,
+	isAuthenticated: false,
 	editedUser: {},
 };
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import { getAuthToken } from "../libs/cookie";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "/";
+
 const client = axios.create({
 	baseURL: API_URL,
 });
