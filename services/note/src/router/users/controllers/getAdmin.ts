@@ -4,15 +4,11 @@ import { Request, Response } from "express";
 // instantiate the prisma data layer
 const prisma = new PrismaClient();
 
-export const getNotes = async (req: Request, res: Response) => {
+export const getAdmin = async (req: Request, res: Response) => {
 	try {
-		const notes = await prisma.note.findMany({
-			orderBy: [{ created_at: "desc" }],
-		});
-		res.status(200).json(notes);
+		const admins = await prisma.admin.findMany();
+		res.status(200).json(admins);
 	} catch (error) {
-		console.log(error);
-
 		res.status(500).json();
 	} finally {
 		await prisma.$disconnect();

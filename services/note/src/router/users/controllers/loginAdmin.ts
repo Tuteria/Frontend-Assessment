@@ -8,10 +8,10 @@ import { issueTokens } from "./auth/issueTokens";
 // instantiate the prisma data layer
 const prisma = new PrismaClient();
 
-export const loginUser = async (req: Request, res: Response) => {
+export const loginAdmin = async (req: Request, res: Response) => {
 	const { body }: { body: LoginUserInterface } = req;
 	try {
-		const result = await prisma.user.findMany({
+		const result = await prisma.admin.findMany({
 			where: { email: body.email },
 		});
 		const user: any = result[0];
@@ -35,7 +35,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 				res.status(200).json({
 					token: token,
-					message: "User Logged in Successfully",
+					message: "Admin Logged in Successfully",
 				});
 			} else {
 				res

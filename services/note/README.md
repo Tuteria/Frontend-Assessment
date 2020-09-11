@@ -5,19 +5,22 @@
 cd into the folder and run
 `yarn bootstrap`
 
-#### Running the prisma commands (optional)
+#### Running the migrations
 
-`yarn service:note prisma introspect`
+Navigate to the data-layer folder and run
+`>poetry run alembic revision --autogenerate -m "Added notes and users and admin table"`
+This runs the migrations in the data-layer
+
+Navigate back to the root and run
+`yarn service:note db:update`
 This introspects and updates the models
 
-`yarn service:note prisma generate`
-This runs the schema.prisma to generate the data source
+`yarn service:note db:generate`
+This runs prisma generate and generate the prismaclient
 
-`yarn service:note prisma migrate save --experimental`
-This saves the migration file
+#### Running tests
 
-`yarn service:note prisma migrate up --experimental`
-This runs the migration file
+`yarn service:note test`
 
 ### Running the dev servers
 
@@ -31,7 +34,3 @@ This runs the frontend client
 Admin login details
 Email: admin@yahoo.com
 Password: adminpassword
-
-#### Running tests
-
-`yarn service:note test`

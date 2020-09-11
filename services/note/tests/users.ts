@@ -15,13 +15,13 @@ Users.before(async (context) => {
 	// context.prisma = await beforeCallback();
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
-	await context.prisma.$queryRaw('DELETE from "public"."User";');
+	await context.prisma.$queryRaw('DELETE from "public"."user";');
 });
 
 Users.after(async (context) => {
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
-	await context.prisma.$queryRaw('DELETE from "public"."User";');
+	await context.prisma.$queryRaw('DELETE from "public"."user";');
 	const count = await context.prisma.user.count();
 	console.log(count);
 

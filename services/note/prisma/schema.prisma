@@ -12,21 +12,26 @@ model alembic_version {
   version_num String @id
 }
 
-model User {
-  id        Int      @default(autoincrement()) @id
-  username  String   @unique
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model admin {
+  id       Int     @default(autoincrement()) @id
+  username String? @unique
+  email    String? @unique
+  password String?
 }
 
-model Note {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  category  String?
-  body      String?
-  username  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model note {
+  id         Int       @default(autoincrement()) @id
+  title      String?
+  body       String?
+  username   String?
+  category   String?
+  created_at DateTime?
+  updated_at DateTime?
+}
+
+model user {
+  id       Int     @default(autoincrement()) @id
+  username String? @unique
+  email    String? @unique
+  password String?
 }

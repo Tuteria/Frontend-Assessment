@@ -1,1 +1,4 @@
-from .notes import *
+from .note import *
+from .user import *
+from .admin import *
+

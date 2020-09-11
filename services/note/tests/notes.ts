@@ -15,13 +15,13 @@ Notes.before(async (context) => {
 	// context.prisma = await beforeCallback();
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
-	await context.prisma.$queryRaw('DELETE from "public"."Note";');
+	await context.prisma.$queryRaw('DELETE from "public"."note";');
 });
 
 Notes.after(async (context) => {
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
-	await context.prisma.$queryRaw('DELETE from "public"."Note";');
+	await context.prisma.$queryRaw('DELETE from "public"."note";');
 	const count = await context.prisma.note.count();
 	console.log(count);
 
