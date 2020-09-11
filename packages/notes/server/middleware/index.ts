@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { prisma } from "../lib";
-import { CustomRequest } from "../types";
+import { CustomRequest } from "../../types";
 
 export default {
 	async authenticateRequest(

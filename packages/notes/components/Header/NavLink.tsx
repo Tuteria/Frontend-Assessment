@@ -1,11 +1,7 @@
 import React from "react";
 import { Link } from "@chakra-ui/core";
+import { NavLinkProps as Props } from "../../types";
 
-type Props = {
-	children: string;
-	href: string;
-	isLast?: boolean;
-};
 
 const NavLink: React.FC<Props> = ({ children, href, isLast }: Props) => (
 	<Link

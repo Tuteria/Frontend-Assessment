@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { ValidationError } from "joi";
 import bcrypt from "bcrypt";
 import { prisma } from "../lib";
-import { CustomRequest } from "../types";
+import { CustomRequest } from "../../types";
 import { userSchema as schema } from "../schema";
 
 

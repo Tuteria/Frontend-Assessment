@@ -1,18 +1,36 @@
 import React from "react";
-import { notes as Note } from "@prisma/client";
+import { notes as Notes } from "@prisma/client";
 import { GetServerSideProps } from "next";
+import {
+	Grid,
+	ModalActivator,
+	Note,
+	NoteModal,
+	PageProvider,
+	PageContext,
+} from "../components";
 
 type Props = {
-	notes: Note[];
+	notes: Notes[];
 };
 
-export default ({ notes }: Props) => {
+export default (props: Props) => {
 	return (
-		<ul>
-			{notes.map(({ id, title }) => (
-				<li key={id}>{title}</li>
-			))}
-		</ul>
+		<PageProvider initialState={props}>
+			<PageContext.Consumer>
+				{({ state }) => (
+					<React.Fragment>
+						<Grid>
+							{state.notes.map((note) => (
+								<Note key={note.id} note={note} />
+							))}
+						</Grid>
+						{state.isNoteModalOpen && <NoteModal />}
+						<ModalActivator note={null} />
+					</React.Fragment>
+				)}
+			</PageContext.Consumer>
+		</PageProvider>
 	);
 };
 

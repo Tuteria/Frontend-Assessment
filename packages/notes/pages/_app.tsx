@@ -2,7 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@chakra-ui/core";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { Header, Main, Footer } from "../components";
+import { Header, Main } from "../components";
 import "../styles/main.css";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
@@ -19,7 +19,6 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
 				<Main>
 					<Component {...pageProps} />
 				</Main>
-				<Footer />
 			</ThemeProvider>
 		</React.Fragment>
 	);

@@ -10,6 +10,7 @@ const Main: React.FC<Props> = ({ children }: Props) => (
     as="main"
     minHeight="calc(100vh - (80px + 41px))"
     backgroundColor="white"
+    p={["2", "3"]}
   >
     {children}
   </Box>

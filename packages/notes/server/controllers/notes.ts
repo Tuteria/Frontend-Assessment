@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ValidationError } from "joi";
 import { notesCreateInput } from "@prisma/client";
-import { CustomRequest } from "../types";
+import { CustomRequest } from "../../types";
 import { prisma } from "../lib";
 import { noteSchema as schema } from "../schema";
 
