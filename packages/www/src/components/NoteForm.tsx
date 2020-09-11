@@ -20,6 +20,7 @@ interface NoteFormProps {
 
 const NoteForm = ({ editNote, isEditing = false }: NoteFormProps) => {
 	const { dispatch } = useContext(storeContext);
+	const [isLoading, setIsLoading] = useState(false);
 	const [note, setNote] = useState(
 		editNote ? editNote : { title: "", description: "" }
 	);
@@ -29,6 +30,7 @@ const NoteForm = ({ editNote, isEditing = false }: NoteFormProps) => {
 	};
 
 	const handleSubmit = async (note, e) => {
+		setIsLoading(true);
 		e.preventDefault();
 		const user = getUserfromCookie();
 		let data = user ? { ...note, user_id: user.id } : note;
@@ -78,8 +80,9 @@ const NoteForm = ({ editNote, isEditing = false }: NoteFormProps) => {
 						color="#fc5c9c"
 						border="0"
 						mr="2"
+						isLoading={isLoading}
 					>
-						{isEditing ? "Update" : "Create"}
+						{isEditing ? "Update" : "Create"} {isLoading && "...."}
 					</Button>
 					<Button
 						onClick={() => dispatch(setNoteView(NOTE_LIST_VIEW))}

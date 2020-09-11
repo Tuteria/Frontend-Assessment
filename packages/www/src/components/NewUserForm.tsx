@@ -1,4 +1,4 @@
-import { FormControl, Input, Flex, Button } from "@chakra-ui/core";
+import { FormControl, Input, Flex, Button, Text } from "@chakra-ui/core";
 import { useState, useContext } from "react";
 
 import { storeContext, setUserView, USER_LIST_VIEW } from "../store";
@@ -8,23 +8,26 @@ const NewUserForm = () => {
 	const { dispatch } = useContext(storeContext);
 	const [user, setUser] = useState({});
 	const [hasError, setHasErrors] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleChange = (e) => {
 		setUser({ ...user, [e.target.name]: e.target.value });
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setIsLoading(true);
 		try {
 			setHasErrors(false);
 			await client.post("/users/create", user);
 			dispatch(setUserView(USER_LIST_VIEW));
 		} catch (err) {
 			setHasErrors(true);
+			setIsLoading(false);
 		}
 	};
 
 	return (
-		<Flex flexDirection="column" width="100%" pt="2">
+		<Flex flexDirection="column" width="100%" pt="3">
 			<form onSubmit={handleSubmit}>
 				<FormControl>
 					<Input
@@ -33,7 +36,7 @@ const NewUserForm = () => {
 						type="text"
 						name="username"
 						placeholder="username"
-						borderColor={hasError ? "red" : "grey"}
+						borderColor={hasError ? "#c86f5e" : "grey"}
 						mb="2"
 					/>
 					<Input
@@ -42,12 +45,19 @@ const NewUserForm = () => {
 						mb="2"
 						type="password"
 						name="password"
-						placeholder="user password"
-						borderColor={hasError ? "red" : "grey"}
+						placeholder="password"
+						borderColor={hasError ? "#c86f5e" : "grey"}
 						width="100%"
 					/>
 					<Flex>
-						<Button flex="1" type="submit" m="1" border="0" color="#fc5c9c">
+						<Button
+							isLoading={isLoading}
+							flex="1"
+							type="submit"
+							m="1"
+							border="0"
+							color="#fc5c9c"
+						>
 							Create
 						</Button>
 						<Button

@@ -46,6 +46,7 @@ const AdminHome = () => {
 							mt="1"
 							mb="1"
 							textTransform="capitalize"
+							textAlign="center"
 						>
 							{state.editedUser.username} Notes
 						</Text>

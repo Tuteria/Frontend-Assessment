@@ -6,21 +6,24 @@ import client from "../api/client";
 import { setAuthToken } from "../libs/cookie";
 
 const UserLogin = () => {
-	const [apiError, setApiError] = useState(null);
+	const [hasError, setHasError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
 
 	const onSubmit = async (user) => {
+		setIsLoading(true);
 		try {
 			const res = await client.post("/users/login", user);
 			setAuthToken(res.data.token);
 			router.push(`/${res.data.user.username}`);
 		} catch (err) {
-			if (err?.response?.status >= 400) {
-				setApiError(err.response.data.message);
-			}
+			setIsLoading(false);
+			setHasError(true);
 		}
 	};
-	return <LoginForm onSubmit={onSubmit} error={apiError} />;
+	return (
+		<LoginForm onSubmit={onSubmit} hasError={hasError} isLoading={isLoading} />
+	);
 };
 
 export default UserLogin;

@@ -18,10 +18,14 @@ interface UserProps {
 const Users = ({}: UserProps) => {
 	const { data: users, error } = useFetcher("/users");
 	if (error) {
-		return <div>error</div>;
+		return <div>Could note fetch users</div>;
 	}
 	if (!users) {
-		return <Spinner />;
+		return (
+			<Flex justifyContent="center" alignItems="center" mt="2" mb="2">
+				<Spinner />
+			</Flex>
+		);
 	}
 
 	return (

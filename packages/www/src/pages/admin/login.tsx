@@ -4,25 +4,32 @@ import { useRouter } from "next/router";
 import LoginForm from "../../components/LoginForm";
 import client from "../../api/client";
 import { setAuthToken } from "../../libs/cookie";
+import { isObject } from "util";
 
 const AdminLogin = () => {
-	const [apiError, setApiError] = useState(null);
+	const [hasError, setHasError] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
 
 	const onSubmit = async (user) => {
+		setIsLoading(true);
 		try {
 			const res = await client.post("/users/admin/login", user);
 			setAuthToken(res.data.token);
 			router.push(`/admin`);
 		} catch (err) {
-			if (err?.response?.status >= 400) {
-				setApiError(err.response.data.message);
-			}
+			setHasError(true);
+			setIsLoading(false);
 		}
 	};
 
 	return (
-		<LoginForm onSubmit={onSubmit} error={apiError} header="Admin Login" />
+		<LoginForm
+			onSubmit={onSubmit}
+			hasError={hasError}
+			isLoading={isLoading}
+			header="Admin Login"
+		/>
 	);
 };
 

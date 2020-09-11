@@ -6,19 +6,23 @@ import {
 	Heading,
 	Flex,
 	Button,
+	Link,
+	Text,
 } from "@chakra-ui/core";
 import { useState, FunctionComponent } from "react";
 
 interface LoginFormProps {
 	onSubmit?: (e: any) => void;
 	header?: string;
-	error?: string;
+	hasError?: boolean;
+	isLoading?: boolean;
 }
 
 const LoginForm: FunctionComponent<LoginFormProps> = ({
 	onSubmit,
 	header,
-	error,
+	hasError,
+	isLoading = false,
 }) => {
 	const [user, setUser] = useState({});
 	const handleChange = (e) => {
@@ -28,36 +32,70 @@ const LoginForm: FunctionComponent<LoginFormProps> = ({
 		e.preventDefault();
 		onSubmit(user);
 	};
+
 	return (
 		<Box>
 			<Flex
-				flexDirection="column"
 				justifyContent="center"
 				alignItems="center"
-				mt={[2, 4, 10]}
+				flexDirection="column"
+				mt={[4, 10]}
 			>
-				<Heading as="h4" size="lg" color="#cb3b3b">
-					{header || "User Login"}
-				</Heading>
-				{error && (
-					<Box mt="2" mb="2" color="#ff5959">
-						Invalid Login Credentials
-					</Box>
-				)}
-				<form onSubmit={handleSubmit}>
-					<FormControl>
-						<FormLabel htmlFor="username">Username</FormLabel>
-						<Input onChange={handleChange} type="text" name="username" mb="2" />
-						<FormLabel htmlFor="password">Password</FormLabel>
-						<Input
-							onChange={handleChange}
-							mb="2"
-							type="password"
-							name="password"
-						/>
-						<Button type="submit">Login</Button>
-					</FormControl>
-				</form>
+				<Link
+					href="/"
+					_hover={{ textDecoration: "none" }}
+					_focus={{ outline: 0 }}
+				>
+					<Text fontSize={["3xl"]} m="2" color="#92898a">
+						Notes
+					</Text>
+				</Link>
+				<Flex
+					flexDirection="column"
+					bg="#fff"
+					width={["95%", "55%", "40%", "25%"]}
+					rounded="5px"
+					padding="3"
+				>
+					<Heading textAlign="center" as="h4" size="lg" color="#cb3b3b">
+						{header || "User Login"}
+					</Heading>
+					{hasError && (
+						<Box mt="2" mb="2" color="#ff5959">
+							Invalid Login Credentials
+						</Box>
+					)}
+					<form onSubmit={handleSubmit}>
+						<FormControl>
+							<FormLabel htmlFor="username">Username</FormLabel>
+							<Input
+								borderColor="grey"
+								onChange={handleChange}
+								boxSizing="border-box"
+								type="text"
+								name="username"
+								mb="2"
+							/>
+							<FormLabel htmlFor="password">Password</FormLabel>
+							<Input
+								borderColor="grey"
+								onChange={handleChange}
+								boxSizing="border-box"
+								mb="2"
+								type="password"
+								name="password"
+							/>
+							<Button
+								borderColor="grey"
+								color="#cb3b3b"
+								type="submit"
+								isLoading={isLoading}
+							>
+								Login
+							</Button>
+						</FormControl>
+					</form>
+				</Flex>
 			</Flex>
 		</Box>
 	);

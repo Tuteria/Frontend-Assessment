@@ -6,6 +6,7 @@ interface NoteProps {
 	handleEdit?: (n: INote, e) => void;
 	handleDelete?: (n: INote, e) => void;
 	onClick?: (n: INote) => void;
+	isDeleting?: { state: boolean; noteId: number };
 }
 
 const Note: FunctionComponent<NoteProps> = ({
@@ -13,6 +14,7 @@ const Note: FunctionComponent<NoteProps> = ({
 	handleEdit,
 	handleDelete,
 	onClick,
+	isDeleting,
 }) => (
 	<Flex
 		key={`${note.id}-${note.title}`}
@@ -42,6 +44,7 @@ const Note: FunctionComponent<NoteProps> = ({
 				mr="1"
 			/>
 			<IconButton
+				isLoading={isDeleting.state}
 				onClick={(e) => handleDelete(note, e)}
 				aria-label="delete note"
 				icon="delete"
