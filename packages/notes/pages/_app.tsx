@@ -2,7 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@chakra-ui/core";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { Header, Main } from "../components";
+import { Header, Main, PageProvider } from "../components";
 import "../styles/main.css";
 
 const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
@@ -15,10 +15,12 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
 				/>
 			</Head>
 			<ThemeProvider>
-				<Header />
-				<Main>
-					<Component {...pageProps} />
-				</Main>
+				<PageProvider initialState={pageProps}>
+					<Header />
+					<Main>
+						<Component {...pageProps} />
+					</Main>
+				</PageProvider>
 			</ThemeProvider>
 		</React.Fragment>
 	);

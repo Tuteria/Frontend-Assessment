@@ -6,8 +6,7 @@ import {
 	ModalActivator,
 	Note,
 	NoteModal,
-	PageProvider,
-	PageContext,
+	usePageProvider,
 } from "../components";
 
 type Props = {
@@ -15,22 +14,18 @@ type Props = {
 };
 
 export default (props: Props) => {
+	const { state } = usePageProvider();
+	const { isNoteModalOpen, notes } = state;
 	return (
-		<PageProvider initialState={props}>
-			<PageContext.Consumer>
-				{({ state }) => (
-					<React.Fragment>
-						<Grid>
-							{state.notes.map((note) => (
-								<Note key={note.id} note={note} />
-							))}
-						</Grid>
-						{state.isNoteModalOpen && <NoteModal />}
-						<ModalActivator note={null} />
-					</React.Fragment>
-				)}
-			</PageContext.Consumer>
-		</PageProvider>
+		<React.Fragment>
+			<Grid>
+				{notes.map((note) => (
+					<Note key={note.id} note={note} />
+				))}
+			</Grid>
+			<ModalActivator note={null} />
+			{isNoteModalOpen && <NoteModal />}
+		</React.Fragment>
 	);
 };
 
