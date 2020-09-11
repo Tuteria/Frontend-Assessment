@@ -8,7 +8,7 @@ cd into the folder and run
 #### Running the migrations
 
 Navigate to the data-layer folder and run
-`>poetry run alembic revision --autogenerate -m "Added notes and users and admin table"`
+`>poetry run alembic revision --autogenerate -m "Added notes and users and admin table"` and Run `poetry run alembic upgrade head` to apply the migration to the database.
 This runs the migrations in the data-layer
 
 Navigate back to the root and run
