@@ -95,6 +95,7 @@ export default () => {
 						color="white"
 						isLoading={isLoading}
 						onClick={handleSubmit}
+						_hover={{ backgroundColor: "black", color: "white" }}
 					>
 						{selectedNote ? "Edit " : "Create "} Note
 					</Button>
