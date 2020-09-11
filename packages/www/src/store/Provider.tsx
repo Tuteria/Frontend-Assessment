@@ -6,6 +6,7 @@ interface IStoreContext {
 	state?: any;
 	dispatch?: any;
 	handleLogout?: any;
+	handleLogin?: any;
 }
 
 const defaultValues: IStoreContext = {};
@@ -26,8 +27,15 @@ const Provider = ({ children }) => {
 		removeAuthToken();
 		dispatch(logout(null));
 	};
+
+	const handleLogin = (user: NoteUser) => {
+		dispatch(setActiveUser(user));
+	};
+
 	return (
-		<storeContext.Provider value={{ state, dispatch, handleLogout }}>
+		<storeContext.Provider
+			value={{ state, dispatch, handleLogout, handleLogin }}
+		>
 			{children}
 		</storeContext.Provider>
 	);
