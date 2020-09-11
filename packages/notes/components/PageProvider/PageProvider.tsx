@@ -2,7 +2,7 @@ import React, { Dispatch } from "react";
 import reducer from "../../reducer";
 import { PageProviderProps as Props, InitialState } from "../../types";
 
-export const PageContext = React.createContext<{
+const PageContext = React.createContext<{
 	state: InitialState;
 	dispatch: Dispatch<any>;
 }>({

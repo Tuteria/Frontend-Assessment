@@ -10,3 +10,10 @@ export function isActiveLink(path: string): boolean {
 	}
 	return false;
 }
+
+export function capitalize(text: string | string[]): string {
+	if (Array.isArray(text)) {
+		return `${text[0][0].toUpperCase()}${text[0].substr(1)}`;
+	}
+	return `${text[0].toUpperCase()}${text.substr(1)}`;
+}

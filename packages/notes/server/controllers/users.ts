@@ -10,6 +10,14 @@ export async function getUsersNotes(req: Request, res: Response) {
 	const { username } = req.params;
 	const notes = await prisma.notes.findMany({
 		where: { author: { username } },
+		include: {
+			author: {
+				select: {
+					id: true,
+					username: true,
+				}
+			},
+		}
 	});
 	res.json(notes);
 }

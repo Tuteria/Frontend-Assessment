@@ -1,5 +1,4 @@
 import React from "react";
-import { notes as Notes } from "@prisma/client";
 import { GetServerSideProps } from "next";
 import {
 	Grid,
@@ -9,11 +8,9 @@ import {
 	usePageProvider,
 } from "../components";
 
-type Props = {
-	notes: Notes[];
-};
 
-export default (props: Props) => {
+
+export default () => {
 	const { state } = usePageProvider();
 	const { isNoteModalOpen, notes } = state;
 	return (

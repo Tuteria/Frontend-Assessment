@@ -1,1 +1,1 @@
-export { PageContext, PageProvider, usePageProvider } from "./PageProvider";
+export { PageProvider, usePageProvider } from "./PageProvider";

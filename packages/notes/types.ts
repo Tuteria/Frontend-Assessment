@@ -29,7 +29,11 @@ export type NoteProps = {
 		id: number;
 		title: string;
 		description: string;
-		author?: string;
+		author?: {
+			id: number;
+			username: string;
+		};
+		author_id: number | null;
 	};
 };
 
@@ -37,9 +41,10 @@ export type InitialState = {
 	notes?: Note[];
 	selectedNote?: Partial<Note>;
 	isNoteModalOpen?: boolean;
+	user?: User | null;
 };
 
 export type PageProviderProps = {
-	children: ReactChild;
+	children: ReactChild | ReactChild[];
 	initialState: InitialState;
 };

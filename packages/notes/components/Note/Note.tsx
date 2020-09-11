@@ -6,9 +6,19 @@ import { usePageProvider } from "../PageProvider";
 import { NoteProps as Props } from "../../types";
 import { truncateText } from "../../utils";
 
-
 const Note: React.FC<Props> = ({ note }: Props) => {
-	const { dispatch } = usePageProvider();
+	const {
+		dispatch,
+		state: { user },
+	} = usePageProvider();
+	const isAnonymous = !note.author_id;
+	const isUsersNote = user && user.id === note.author_id;
+
+	const handleClick = () => {
+		if (isAnonymous || isUsersNote) {
+			dispatch({ type: "OPEN MODAL", payload: note })
+		}
+	}
 	return (
 		<Box
 			p="10px"
@@ -18,29 +28,31 @@ const Note: React.FC<Props> = ({ note }: Props) => {
 			maxWidth="300px"
 		>
 			<Flex maxHeight="120px" my="10px" justify="space-between">
-				<Link 
-					textDecoration="underline" 
+				<Link
+					textDecoration="underline"
 					href="#"
 					aria-label="edit note"
 					color="black"
-					onClick={() => dispatch({ type: "OPEN MODAL", payload: note })}
+					onClick={handleClick}
 				>
 					{truncateText(note.title, 20, "Untitled")}
 				</Link>
-				<Flex>
-					<ModalActivator note={note} />
-					<DeleteBtn note={note} />
-				</Flex>
+				{isAnonymous || isUsersNote ? (
+					<Flex>
+						<ModalActivator note={note} />
+						<DeleteBtn note={note} />
+					</Flex>
+				) : null}
 			</Flex>
 			<Box>
 				<Text as="p">{truncateText(note.description, 150, "...")}</Text>
 			</Box>
 			<Box>
 				<b>written by: </b>
-				{truncateText(note.author, 15, "Anonymous")}
+				{truncateText(note.author?.username, 15, "Anonymous")}
 			</Box>
 		</Box>
 	);
-}
+};
 
 export default Note;

@@ -4,4 +4,4 @@ export { default as Header } from "./Header";
 export { default as Main } from "./Main";
 export { default as Note } from "./Note";
 export { default as NoteModal, ModalActivator } from "./NoteModal";
-export { PageContext, PageProvider, usePageProvider } from "./PageProvider";
+export { PageProvider, usePageProvider } from "./PageProvider";
