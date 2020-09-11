@@ -30,7 +30,7 @@ export default () => {
 			setLoading(true);
 			const method = selectedNote ? "PUT" : "POST";
 			const type = selectedNote ? "EDIT NOTE" : "CREATE NOTE";
-			let url = "http://localhost:3000/api/notes/";
+			let url = `${process.env.NEXT_PUBLIC_API_URL}/notes/`;
 			if (method === "PUT") {
 				url += selectedNote.id;
 			}
@@ -64,6 +64,7 @@ export default () => {
 		<Modal
 			isOpen={isNoteModalOpen}
 			onClose={() => dispatch({ type: "CLOSE MODAL" })}
+			isCentered
 		>
 			<ModalOverlay />
 			<ModalContent>
