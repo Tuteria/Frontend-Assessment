@@ -17,6 +17,7 @@ import { parseCookies } from "nookies";
 export const getServerSideProps = async (ctx) => {
 	try {
 		const jwt = parseCookies(ctx).jwt;
+		console.log(jwt);
 
 		const userResponse = await fetch(`${url.BASE_URL}/users`, {
 			headers: {
@@ -54,6 +55,12 @@ const AdminPage = ({ users, error }) => {
 							Register Admin
 						</Button>
 					</Link>
+
+					{/* <Link href={`/admin/logout`}>
+						<Button variantColor="teal" variant="solid" size="sm">
+							Logout
+						</Button>
+					</Link> */}
 					<hr />
 					{users.map((user) => {
 						return (

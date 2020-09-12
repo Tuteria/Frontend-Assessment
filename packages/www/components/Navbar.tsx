@@ -53,10 +53,6 @@ const Navbar = () => {
 									<a className="dropdown-item">Admin Page</a>
 								</Link>
 								<div className="dropdown-divider"></div>
-								<Link href="/users/my_notes">
-									<a className="dropdown-item">My Notes</a>
-								</Link>
-								<div className="dropdown-divider"></div>
 								<Link href="/users/login">
 									<a className="dropdown-item">User Login</a>
 								</Link>

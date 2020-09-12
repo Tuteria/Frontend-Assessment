@@ -64,12 +64,12 @@ const Login = () => {
 							actions.setSubmitting(false);
 							setCookie(null, "jwt", token, {
 								maxAge: 30 * 24 * 60 * 60,
-								path: "",
+								path: "/",
 							});
 							router.push("/admin");
 							toast({
-								title: "User Login.",
-								description: "User Logged in successfully",
+								title: "Admin Login.",
+								description: "Admin Logged in successfully",
 								status: "success",
 								duration: 9000,
 								isClosable: true,

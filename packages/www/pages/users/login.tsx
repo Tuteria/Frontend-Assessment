@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import url from "../../src/appEnv";
 import jwt from "jsonwebtoken";
 import { adminToken } from "../../src/appEnv";
+import { setCookie } from "nookies";
 
 const LoginUser = () => {
 	const router = useRouter();
@@ -61,7 +62,11 @@ const LoginUser = () => {
 							});
 						} else {
 							actions.setSubmitting(false);
-							router.push(`/users/${decoded.id}`);
+							setCookie(null, "jwt", token, {
+								maxAge: 30 * 24 * 60 * 60,
+								path: "/",
+							});
+							router.push(`/admin/${decoded.username}`);
 							toast({
 								title: "User Login.",
 								description: "User Logged in successfully",
