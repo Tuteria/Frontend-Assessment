@@ -50,13 +50,11 @@ export default () => {
 				payload: data,
 			});
 		} catch (e) {
-			console.error(e);
+			setLoading(false);
 			dispatch({
 				type: "ERROR",
 				payload: e.message,
 			});
-		} finally {
-			setLoading(false);
 		}
 	};
 

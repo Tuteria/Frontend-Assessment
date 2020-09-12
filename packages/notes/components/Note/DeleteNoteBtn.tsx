@@ -23,12 +23,11 @@ const DeleteBtn: React.FC<Props> = ({ note }: Props) => {
         payload: data,
       });
     } catch(e) {
+      setLoading(false);
       dispatch({
         type: "ERROR",
         payload: e.message,
       });
-    } finally {
-      setLoading(false);
     }
   }
 
