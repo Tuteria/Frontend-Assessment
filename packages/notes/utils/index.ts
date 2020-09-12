@@ -4,13 +4,6 @@ export function truncateText(text: string, len: number, fallback = ""): string {
 	return `${text.substr(0, len)}...`;
 }
 
-export function isActiveLink(path: string): boolean {
-	if (window !== undefined) {
-		return window.location.pathname === path;
-	}
-	return false;
-}
-
 export function capitalize(text: string | string[]): string {
 	if (Array.isArray(text)) {
 		return `${text[0][0].toUpperCase()}${text[0].substr(1)}`;
