@@ -8,7 +8,6 @@ export default () => {
   if (user) {
     router.push(`/users/${user.username}`);
   }
-
   return (
     <LoginForm />
   );
