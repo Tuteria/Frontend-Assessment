@@ -1,5 +1,4 @@
 import React from "react";
-import { useRouter } from "next/router";
 import NavLink from "./NavLink";
 import { usePageProvider } from "../PageProvider";
 

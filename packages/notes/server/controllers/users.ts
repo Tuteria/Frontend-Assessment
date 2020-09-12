@@ -5,6 +5,25 @@ import { prisma } from "../lib";
 import { CustomRequest } from "../../types";
 import { userSchema as schema } from "../schema";
 
+export async function getUsers(req: CustomRequest, res: Response) {
+	const  { user } = req;
+	if (!user || !user.admin) {
+		res.status(401).json({ message: "You must be an admin to access this endpoint" });
+	} else {
+		const users = await prisma.users.findMany({
+			where: {
+				id: {
+					not: user.id
+				}
+			},
+			select: {
+				id: true,
+				username: true,
+			}
+		});
+		res.status(200).json(users);
+	}
+}
 
 export async function getUsersNotes(req: Request, res: Response) {
 	const { username } = req.params;
