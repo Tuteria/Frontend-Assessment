@@ -28,9 +28,8 @@ export default () => {
 			}
 			await router.push(`/users/${data.username}`);
 		} catch (e) {
-			console.error(e.message);
-		} finally {
 			setLoading(false);
+			console.error(e.message);
 		}
 	};
 
@@ -52,7 +51,7 @@ export default () => {
 				<FormLabel htmlFor="password">
 					<b>Password: </b>
 				</FormLabel>
-				<Input id="password" value={password} onChange={handlePasswordChange} />
+				<Input id="password" type="password" value={password} onChange={handlePasswordChange} />
 			</FormControl>
 			<Box>
 				<Button

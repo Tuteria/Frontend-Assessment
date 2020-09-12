@@ -1,12 +1,10 @@
 import React from "react";
 import { GetServerSideProps } from "next";
-import { Grid, User, usePageProvider } from "../components";
+import { Grid, User, usePageProvider, Activator, CreateUserModal } from "../components";
 
 export default () => {
-	const {
-		state: { users },
-	} = usePageProvider();
-
+	const { state } = usePageProvider();
+	const { isUserModalOpen, users } = state;
 	return (
 		<React.Fragment>
 			<Grid>
@@ -14,6 +12,8 @@ export default () => {
 					<User key={user.id} user={user} />
 				))}
 			</Grid>
+			<Activator />
+			{isUserModalOpen && <CreateUserModal />}
 		</React.Fragment>
 	);
 };

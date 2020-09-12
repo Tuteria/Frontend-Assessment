@@ -71,6 +71,7 @@ export async function createUser(req: CustomRequest, res: Response) {
 						id: true,
 						username: true,
 						admin: true,
+						notes: true,
 					},
 				});
 				res.status(201).json(user);

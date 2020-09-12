@@ -42,6 +42,7 @@ export type InitialState = {
 	notes?: Note[];
 	selectedNote?: Partial<Note>;
 	isNoteModalOpen?: boolean;
+	isUserModalOpen?: boolean;
 	user?: User | null;
 	users?: User[];
 };
