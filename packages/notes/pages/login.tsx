@@ -1,14 +1,17 @@
 import React from "react";
-import { useRouter } from "next/router";
-import { LoginForm, usePageProvider } from "../components";
+import { GetServerSideProps } from "next";
+import { LoginForm } from "../components";
 
-export default () => {
-  const { state: { user } } = usePageProvider();
-  const router = useRouter();
-  if (user) {
-    router.push(`/users/${user.username}`);
-  }
-  return (
-    <LoginForm />
-  );
-}
+export default () => <LoginForm />;
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+	if (req.user) {
+		res.writeHead(302, {
+			Location: `/users/${req.user.username}`,
+		});
+		res.end();
+	}
+	return {
+		props: {},
+	};
+};

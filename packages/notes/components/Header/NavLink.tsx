@@ -3,7 +3,7 @@ import { Link } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import { NavLinkProps as Props } from "../../types";
 
-const NavLink: React.FC<Props> = ({ children, href, isLast }: Props) => {
+const NavLink: React.FC<Props> = ({ children, handleClick, href, isLast }: Props) => {
 	const router = useRouter();
   const isActive = router.asPath === href;
 
@@ -14,7 +14,8 @@ const NavLink: React.FC<Props> = ({ children, href, isLast }: Props) => {
 			textDecoration="underline"
 			href={href}
       mr={!isLast ? ["0", "10px", "15px"] : ""}
-      px="5px"
+			px="5px"
+			onClick={handleClick}
 		>
 			{children}
 		</Link>

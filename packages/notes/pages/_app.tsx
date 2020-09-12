@@ -28,7 +28,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 App.getInitialProps = async (appContext: AppContext) => {
 	const props = await NextApp.getInitialProps(appContext);
-	props.user = appContext.ctx.req.user;
+	props.user = appContext.ctx?.req?.user;
 	return {
 		pageProps: { ...props },
 	};

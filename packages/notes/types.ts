@@ -18,6 +18,7 @@ export type NavLinkProps = {
 	children: string;
 	href: string;
 	isLast?: boolean;
+	handleClick?: () => void;
 };
 
 export type GridProps = {

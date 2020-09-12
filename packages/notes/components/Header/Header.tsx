@@ -1,5 +1,6 @@
 import React from "react";
 import { Flex, Link } from "@chakra-ui/core";
+import LogoutBtn from "./LogoutBtn";
 import NavLink from "./NavLink";
 import { usePageProvider } from "../PageProvider";
 
@@ -36,9 +37,7 @@ export default () => {
 				{user && (
 					<React.Fragment>
 						<NavLink href={`/users/${user.username}`}>my notes</NavLink>
-						<NavLink href="#" isLast>
-							logout
-						</NavLink>
+						<LogoutBtn />
 					</React.Fragment>
 				)}
 			</Flex>
