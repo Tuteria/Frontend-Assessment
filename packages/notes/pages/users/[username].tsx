@@ -38,7 +38,7 @@ export default () => {
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 	const { username } = query;
-	const url = `${process.env.NEXT_PUBLIC_API_URL}/users/${username}/notes`;
+	const url = `${process.env.API_URL}/users/${username}/notes`;
 	const response = await fetch(url);
 
 	if (response.ok) {

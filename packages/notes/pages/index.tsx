@@ -27,7 +27,7 @@ export default () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const url = `${process.env.NEXT_PUBLIC_API_URL}/notes`
+	const url = `${process.env.API_URL}/notes`
 	const response = await fetch(url);
 	if (response.ok) {
 		const notes = await response.json();

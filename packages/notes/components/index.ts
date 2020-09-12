@@ -6,3 +6,4 @@ export { default as Main } from "./Main";
 export { default as Note } from "./Note";
 export { default as NoteModal, ModalActivator } from "./NoteModal";
 export { PageProvider, usePageProvider } from "./PageProvider";
+export { default as User } from "./User";

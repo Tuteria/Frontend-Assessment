@@ -30,7 +30,7 @@ export default () => {
 			setLoading(true);
 			const method = selectedNote ? "PUT" : "POST";
 			const type = selectedNote ? "EDIT NOTE" : "CREATE NOTE";
-			let url = `${process.env.NEXT_PUBLIC_API_URL}/notes/`;
+			let url = `${process.env.API_URL}/notes/`;
 			if (method === "PUT") {
 				url += selectedNote.id;
 			}

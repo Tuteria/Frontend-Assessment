@@ -19,6 +19,7 @@ export async function getUsers(req: CustomRequest, res: Response) {
 			select: {
 				id: true,
 				username: true,
+				notes: true,
 			}
 		});
 		res.status(200).json(users);

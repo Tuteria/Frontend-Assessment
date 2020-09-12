@@ -11,7 +11,7 @@ const DeleteBtn: React.FC<Props> = ({ note }: Props) => {
   const deleteNote = async () => {
     try {
       setLoading(true);
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/notes/${note.id}`;
+      const url = `${process.env.API_URL}/notes/${note.id}`;
       const response = await fetch(url, {
         method: "DELETE",
       });

@@ -43,6 +43,7 @@ export type InitialState = {
 	selectedNote?: Partial<Note>;
 	isNoteModalOpen?: boolean;
 	user?: User | null;
+	users?: User[];
 };
 
 export type PageProviderProps = {

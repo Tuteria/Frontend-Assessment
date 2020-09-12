@@ -6,7 +6,7 @@ export default () => {
   const { dispatch } = usePageProvider();
 	const logout = async () => {
     try {
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/logout`;
+      const url = `${process.env.API_URL}/auth/logout`;
       const response = await fetch(url);     
       if(response.ok) {
         window.location.pathname = "/";
