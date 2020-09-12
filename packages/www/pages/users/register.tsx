@@ -4,20 +4,27 @@ import {
 	Button,
 	Stack,
 	FormControl,
+	FormLabel,
 	Input,
 	Text,
+	Textarea,
+	Select,
 	FormErrorMessage,
 	useToast,
 } from "@chakra-ui/core";
 import { useRouter } from "next/router";
 import url from "../../src/appEnv";
-import jwt from "jsonwebtoken";
-import { adminToken } from "../../src/appEnv";
-import { setCookie } from "nookies";
 
-const Login = () => {
+const Register = () => {
 	const router = useRouter();
 	const toast = useToast();
+	function validateUsername(value) {
+		let error;
+		if (!value) {
+			error = "Username is required";
+		}
+		return error;
+	}
 
 	function validateEmail(value) {
 		let error;
@@ -37,10 +44,10 @@ const Login = () => {
 
 	return (
 		<Formik
-			initialValues={{ email: "", password: "" }}
+			initialValues={{ username: "", email: "", password: "" }}
 			onSubmit={async (values, actions) => {
 				try {
-					const response = await fetch(`${url.BASE_URL}/users/admin/login`, {
+					const response = await fetch(`${url.BASE_URL}/users`, {
 						method: "POST",
 						headers: {
 							Accept: "application/json",
@@ -48,34 +55,16 @@ const Login = () => {
 						},
 						body: JSON.stringify(values),
 					});
-					const data = await response.json();
-					const message = data.message;
-					const token = data.token;
-					jwt.verify(token, adminToken.SECRET, function (err, decoded) {
-						if (err) {
-							toast({
-								title: "User Login Failed.",
-								description: "Invalid Email or password",
-								status: "error",
-								duration: 9000,
-								isClosable: true,
-							});
-						} else {
-							actions.setSubmitting(false);
-							setCookie(null, "jwt", token, {
-								maxAge: 30 * 24 * 60 * 60,
-								path: "",
-							});
-							router.push("/admin");
-							toast({
-								title: "User Login.",
-								description: "User Logged in successfully",
-								status: "success",
-								duration: 9000,
-								isClosable: true,
-							});
-						}
+					actions.setSubmitting(false);
+					router.push("/admin");
+					toast({
+						title: "User Created.",
+						description: "User Created successfully",
+						status: "success",
+						duration: 9000,
+						isClosable: true,
 					});
+					console.log(values);
 				} catch (error) {
 					console.log(error);
 				}
@@ -83,8 +72,21 @@ const Login = () => {
 		>
 			{(props) => (
 				<form onSubmit={props.handleSubmit}>
-					<Stack maxWidth={400} margin="auto" spacing={5} marginTop={5}>
-						<Text>Admin Login</Text>
+					<Stack maxWidth={600} margin="auto" spacing={5} marginTop={5}>
+						<Text>Register New User</Text>
+						<Field name="username" validate={validateUsername}>
+							{({ field, form }) => (
+								<FormControl isInvalid={form.errors.username}>
+									<Input
+										{...field}
+										id="username"
+										placeholder="Username"
+										variant="flushed"
+									/>
+									<FormErrorMessage>{form.errors.username}</FormErrorMessage>
+								</FormControl>
+							)}
+						</Field>
 
 						<Field name="email" validate={validateEmail}>
 							{({ field, form }) => (
@@ -122,7 +124,7 @@ const Login = () => {
 							isLoading={props.isSubmitting}
 							type="submit"
 						>
-							Login Admin
+							Register User
 						</Button>
 					</Stack>
 				</form>
@@ -131,4 +133,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;

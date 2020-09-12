@@ -13,9 +13,8 @@ import { useRouter } from "next/router";
 import url from "../../src/appEnv";
 import jwt from "jsonwebtoken";
 import { adminToken } from "../../src/appEnv";
-import { setCookie } from "nookies";
 
-const Login = () => {
+const LoginUser = () => {
 	const router = useRouter();
 	const toast = useToast();
 
@@ -40,7 +39,7 @@ const Login = () => {
 			initialValues={{ email: "", password: "" }}
 			onSubmit={async (values, actions) => {
 				try {
-					const response = await fetch(`${url.BASE_URL}/users/admin/login`, {
+					const response = await fetch(`${url.BASE_URL}/users/login`, {
 						method: "POST",
 						headers: {
 							Accept: "application/json",
@@ -62,11 +61,7 @@ const Login = () => {
 							});
 						} else {
 							actions.setSubmitting(false);
-							setCookie(null, "jwt", token, {
-								maxAge: 30 * 24 * 60 * 60,
-								path: "",
-							});
-							router.push("/admin");
+							router.push(`/users/${decoded.id}`);
 							toast({
 								title: "User Login.",
 								description: "User Logged in successfully",
@@ -84,7 +79,7 @@ const Login = () => {
 			{(props) => (
 				<form onSubmit={props.handleSubmit}>
 					<Stack maxWidth={400} margin="auto" spacing={5} marginTop={5}>
-						<Text>Admin Login</Text>
+						<Text>User Login</Text>
 
 						<Field name="email" validate={validateEmail}>
 							{({ field, form }) => (
@@ -122,7 +117,7 @@ const Login = () => {
 							isLoading={props.isSubmitting}
 							type="submit"
 						>
-							Login Admin
+							Login User
 						</Button>
 					</Stack>
 				</form>
@@ -131,4 +126,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default LoginUser;

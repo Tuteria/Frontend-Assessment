@@ -11,10 +11,14 @@ h1 {
 .navbar {
 	margin-bottom: 20px;
 	padding: 10px;
-	background: #008cba;
+	background: teal;
 	color: #fff;
 	display: flex;
 	justify-content: space-between;
+}
+
+.right-nav {
+	padding-right: 5px;
 }
 
 .navbar .create {
@@ -25,6 +29,10 @@ h1 {
 .navbar .navbar-brand {
 	color: #fff;
 	font-size: 1.4rem;
+}
+
+.bgColor {
+	background-color: teal;
 }
 
 .navbar-brand:hover,

@@ -8,5 +8,5 @@
     "jsx": "preserve"
   },
   "exclude": ["node_modules", "**/**/*.stories.tsx", "src/stories"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/auth/[...nextauth].js"]
 }
