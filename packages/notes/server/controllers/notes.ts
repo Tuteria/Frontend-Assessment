@@ -15,7 +15,17 @@ export async function createNote(req: CustomRequest, res: Response) {
 				connect: { id: user.id },
 			};
 		}
-		const note = await prisma.notes.create({ data });
+		const note = await prisma.notes.create({
+			data,
+			include: {
+				author: {
+					select: {
+						id: true,
+						username: true,
+					},
+				},
+			},
+		});
 		res.status(201).json(note);
 	} catch (e) {
 		if (e instanceof ValidationError) {
@@ -40,7 +50,7 @@ export async function getNote(req: Request, res: Response) {
 	const note = await prisma.notes.findOne({
 		where: { id: Number(id) },
 	});
-	if (!note) res.json({})
+	if (!note) res.json({});
 	else res.json(note);
 }
 

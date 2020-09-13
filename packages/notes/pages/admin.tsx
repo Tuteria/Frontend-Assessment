@@ -1,6 +1,7 @@
 import React from "react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps} from "next";
 import { Grid, User, usePageProvider, Activator, CreateUserModal } from "../components";
+import { PageContext } from "../types";
 
 export default () => {
 	const { state } = usePageProvider();
@@ -18,7 +19,7 @@ export default () => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }: PageContext) => {
 	if (!req.user || !req.user.admin) {
 		res
 			.writeHead(302, {

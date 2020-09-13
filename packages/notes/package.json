@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development babel-node -r dotenv/config server/index.ts --extensions \".ts\"",
-    "build": "next build",
-    "start": "next start",
+    "build:next": "next build",
+    "build:server": "babel server --out-dir dist --extensions \".ts\"",
+    "build": "yarn build:next && yarn build:server",
+    "start": "node dist/",
     "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL jest --runInBand --setupFiles dotenv/config",
     "db:update": "prisma introspect",
     "db:generate": "prisma generate"

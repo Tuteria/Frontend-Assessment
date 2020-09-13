@@ -1,9 +1,16 @@
 import { Request } from "express";
 import { ReactChild } from "react";
 import { notes as Note, users as User } from "@prisma/client";
+import { AppContext as Context } from "next/app";
+import { IncomingMessage } from "http";
+import { NextPageContext, GetServerSidePropsContext } from "next";
 
 export type CustomRequest = Request & {
-	user: User | null;
+	user: {
+		id: number;
+		username: string;
+		admin: boolean;
+	} | null;
 };
 
 export type HeaderProps = {
@@ -51,3 +58,17 @@ export type PageProviderProps = {
 	children: ReactChild | ReactChild[];
 	initialState: InitialState;
 };
+
+export interface PageContext extends GetServerSidePropsContext {
+	req: IncomingMessage & {
+		user: User | null;
+	};
+}
+
+export interface AppContext extends Context {
+	ctx: NextPageContext & {
+		req: IncomingMessage & {
+			user: User | null;
+		};
+	};
+}
