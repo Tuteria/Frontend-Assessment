@@ -1,8 +1,9 @@
 import React from "react";
 import { ThemeProvider } from "@chakra-ui/core";
-import NextApp, { AppContext, AppProps } from "next/app";
+import NextApp, { AppProps } from "next/app";
 import Head from "next/head";
 import { Header, Main, PageProvider } from "../components";
+import { AppContext } from "../types";
 import "../styles/main.css";
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -28,9 +29,8 @@ const App = ({ Component, pageProps }: AppProps) => {
 
 App.getInitialProps = async (appContext: AppContext) => {
 	const props = await NextApp.getInitialProps(appContext);
-	props.user = appContext.ctx?.req?.user;
 	return {
-		pageProps: { ...props },
+		pageProps: { ...props, user: appContext.ctx?.req?.user },
 	};
 };
 

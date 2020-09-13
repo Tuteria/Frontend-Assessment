@@ -14,9 +14,8 @@ export async function loginOrRegister(req: Request, res: Response) {
 		if (user) {
 			const isValidPassword = bcrypt.compareSync(password, user.password);
 			if (isValidPassword) {
-				const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-					expiresIn: "24h",
-				});
+				
+				const token = jwt.sign({ id: user.id } , process.env.JWT_SECRET, { expiresIn: '24h' });
 				res
 					.cookie("token", token, { httpOnly: true })
 					.json({ ...user, password: undefined });
@@ -34,9 +33,7 @@ export async function loginOrRegister(req: Request, res: Response) {
 					admin: true,
 				},
 			});
-			const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, {
-				expiresIn: "24h",
-			});
+			const token = jwt.sign({ id: newUser.id } , process.env.JWT_SECRET, { expiresIn: '24h' });
 			res.cookie("token", token, { httpOnly: true }).json(newUser);
 		}
 	} catch (e) {

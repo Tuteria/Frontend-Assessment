@@ -15,7 +15,13 @@ export default {
 			try {
 				const decoded = jwt.verify(token, process.env.JWT_SECRET);
 				const user = await prisma.users.findOne({
+					//@ts-ignore
 					where: { id: decoded.id },
+					select: {
+						id: true,
+						username: true,
+						admin: true,
+					}
 				});
 				req.user = user;
 			} catch (e) {

@@ -32,6 +32,7 @@
     "db:generate-all": "yarn service:example db:generate"
   },
   "devDependencies": {
+    "@babel/cli": "^7.11.6",
     "@babel/core": "^7.10.5",
     "@babel/node": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.11.5",
