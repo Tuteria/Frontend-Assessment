@@ -1,5 +1,9 @@
 import Cookie from "js-cookie";
 import jwt from "jsonwebtoken";
+import {createContext} from "react";
+
+
+const AuthContext = createContext(null);
 
 
 export const setAuthToken = (token: string) => {
