@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from "classnames/bind";
-
-// import { Button } from '../stories/button';
-// import adminUserIcon from './assets/administrator.svg';
 import styles from './header.module.css';
 import {Button} from "@chakra-ui/core";
 
 
 let cx = classNames.bind(styles);
-
-// const {isAdmin} = user;
-
 export const Header = ({ isAdmin, username, onLogin, onLogout }: any) => (
 
 	<div>
@@ -25,18 +19,15 @@ export const Header = ({ isAdmin, username, onLogin, onLogout }: any) => (
 						<>
 							<div className={styles.user}>
 								<div className={cx({isNotVisible: !isAdmin, adminIcon:true})}>
-									{/*<img src={adminUserIcon}/>*/}
 									<p className={styles.adminIconText}>Admin</p>
 								</div>
 								<p>{username}</p>
 							</div>
-							{/*<Button signout={true} onClick={onLogout} label="Log out" />*/}
 							<Button onClick={onLogout}>Log out</Button>
 						</>
 					) : (
 						<>
 							<Button onClick={onLogin}>Log in</Button>
-							{/*<Button primary size="small" onClick={onCreateAccount} label="Sign up" />*/}
 						</>
 					)}
 				</div>
@@ -50,6 +41,8 @@ Header.propTypes = {
 	onLogin: PropTypes.func.isRequired,
 	onLogout: PropTypes.func.isRequired,
 	onCreateAccount: PropTypes.func.isRequired,
+	isAdmin: PropTypes.bool,
+	username: PropTypes.string,
 };
 
 Header.defaultProps = {

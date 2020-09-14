@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 interface IPayload {
 	id: number,
-	role: string
+	is_admin: boolean
 }
 
 const generateToken = (payload: IPayload) => {

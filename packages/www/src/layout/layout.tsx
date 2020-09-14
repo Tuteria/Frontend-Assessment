@@ -76,8 +76,8 @@ export default function Layout({noteList, isAdminPage=false, userList}) {
 			console.log(response.data)
 			await setAuthToken(response.data.token);
 			const decodedUser = decodeToken(response.data.token);
-			await saveUserData(decodedUser['username'], true); // change to value of is_admin
-			redirectOnLogin(username, true); // change to value of is_admin
+			await saveUserData(decodedUser['username'], decodedUser['is_admin']);
+			redirectOnLogin(username, decodedUser['is_admin']);
 			toast({
 				title: `Welcome ${username}`,
 				status: "success",

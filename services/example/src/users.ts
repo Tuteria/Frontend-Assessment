@@ -33,12 +33,12 @@ async function createUser(req: Request, res: Response) {
 		const hashPassword = await hash(password, 10);
 
 		const createdUser = await prisma.users.create({
-			data: {email, username, password: hashPassword, role: "USER"},
+			data: {email, username, password: hashPassword, is_admin: false},
 		});
 
 		const payload = {
 			id: createdUser.id,
-			role: createdUser.role,
+			is_admin: createdUser.is_admin,
 		};
 
 		const token = generateToken(payload);
@@ -89,7 +89,7 @@ async function loginUser(req: any, res: any) {
 		const payload = {
 			id: foundUser.id,
 			username: foundUser.username,
-			role: foundUser.role,
+			is_admin: foundUser.is_admin,
 		};
 		const token = generateToken(payload);
 		return res.status(200).json({
