@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styles from './table.module.css';
 import classNames from "classnames/bind";
-import {TableRow} from "./tableRow";
 import {Spinner} from "@chakra-ui/core";
+import {TableRow} from "../tableRow/tableRow";
 
 let cx = classNames.bind(styles);
 
 
-export const Table = ({users, onRowViewClick, loading}: any) => {
+export default function Table ({users, onRowViewClick, loading}: any) {
 	if (loading) {
 		return (
 			<div className={styles.listItems}>
@@ -45,7 +45,7 @@ export const Table = ({users, onRowViewClick, loading}: any) => {
 			</div>
 			<div className={styles.tableBody}>
 				{
-					users.map((user, index) => {
+					users.map((user: any, index: any) => {
 						return <TableRow key={index} id={user.id} username={user.username} email={user.email}
 														 notes={user.notes} onViewClick={onRowViewClick}/>
 					})

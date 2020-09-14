@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from "prop-types";
 import {Spinner} from "@chakra-ui/core";
 import {Note} from "../note/note";
 import styles from './noteList.module.css';
@@ -34,13 +33,3 @@ export default function NoteList({ loading, notes, onEditClick, onDeleteClick, i
 	);
 }
 
-
-NoteList.propTypes = {
-	loading: PropTypes.bool,
-	notes: PropTypes.array,
-};
-
-NoteList.defaultProps = {
-	loading: false,
-	notes: [],
-};

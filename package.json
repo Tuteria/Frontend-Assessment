@@ -83,12 +83,14 @@
     "@prisma/client": "^2.2.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/classnames": "^2.2.10",
+    "axios": "^0.20.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "emotion-theming": "^10.0.27",
     "express": "^4.17.1",
+    "js-cookie": "^2.2.1",
     "json-groupby": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
@@ -97,6 +99,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "swr": "^0.3.2",
     "typescript": "3.9.6",
     "winston": "^3.3.3"
   }
