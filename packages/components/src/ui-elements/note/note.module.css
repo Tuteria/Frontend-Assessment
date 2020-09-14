@@ -1,0 +1,29 @@
+.noteContainer {
+	width: 75%;
+	max-width: 450px;
+	border: 1px solid lightblue;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.noteTop {
+	display: flex;
+	align-items: center;
+}
+
+.noteHeader {
+	font-size: 16px;
+	font-weight: bold;
+	width: 80%;
+}
+
+.noteContent {
+	font-size: 14px;
+}
+
+.noteActions {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
