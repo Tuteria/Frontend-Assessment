@@ -1,0 +1,26 @@
+.container {
+
+}
+
+.pageContent {
+	padding: 10px 5% 30px 5%;
+}
+
+.actions {
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	margin: 30px 0;
+}
+
+.btnIsVisible {
+	display: block;
+}
+
+.isNotVisible {
+	display: none;
+}
+
+.userBtn {
+	margin-right: 25px;
+}
