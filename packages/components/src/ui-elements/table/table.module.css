@@ -1,0 +1,43 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.tableHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	color: white;
+	background-color: black;
+	padding: 10px;
+	width: 100%;
+}
+
+.tableBody {
+	padding: 10px;
+	width: 100%;
+}
+
+.element, .headerElement {
+	width: 25%;
+	text-align: center;
+}
+
+.userHeaderElement {
+
+}
+
+.emailHeaderElement {
+
+}
+
+.totalNoHeaderElement {
+
+}
+
+.actionHeaderElement {
+
+}
