@@ -3,5 +3,6 @@ module.exports = {
 	addons: [
 		"@storybook/addon-actions",
 		"@storybook/addon-links",
+		'storybook-css-modules-preset',
 	],
 };
