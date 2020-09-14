@@ -12,4 +12,11 @@ router.post("/create", async (req, res) => {
 	res.status(200).json(result);
 });
 
+
+router.get("/", async(req, res) => {
+	const prisma: PrismaClient = req.app.locals.prisma;
+	const result = await prisma.notes.findMany();
+	res.json(result);
+});
+
 export default router;
