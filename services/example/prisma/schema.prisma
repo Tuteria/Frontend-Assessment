@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./../../../example.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model alembic_version {
@@ -12,7 +12,18 @@ model alembic_version {
 }
 
 model notes {
-  description String?
   id          Int     @default(autoincrement()) @id
   title       String?
+  description String?
+  user_id     Int?
+  users       users?  @relation(fields: [user_id], references: [id])
+}
+
+model users {
+  id       Int     @default(autoincrement()) @id
+  username String  @unique
+  email    String  @unique
+  password String
+  is_admin Boolean
+  notes    notes[]
 }
