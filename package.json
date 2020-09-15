@@ -27,6 +27,7 @@
     "clean": "lerna clean --yes && rm -rf node_modules",
     "test": "lerna run test",
     "service:common": "yarn workspace @tuteria/common",
+    "service:main": "yarn workspace @tuteria/service",
     "service:example": "yarn workspace @tuteria/example-service",
     "db:generate-all": "yarn service:example db:generate"
   },

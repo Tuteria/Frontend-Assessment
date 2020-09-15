@@ -1,0 +1,17 @@
+{
+  "name": "@tuteria/service",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "uvu -r ts-node/register test",
+    "db:update": "cross-env NODE_ENV=production prisma introspect",
+    "db:generate": "cross-env NODE_ENV=production prisma generate",
+    "seed": "cross-env NODE_ENV=development nodemon prisma/seed"
+  },
+  "dependencies": {
+    "next": "9.4.4"
+  }
+}

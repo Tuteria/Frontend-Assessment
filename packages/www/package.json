@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "test": "uvu -r ts-node/register test",
-    "postinstall": "yarn workspace @tuteria/example-service db:generate"
+    "postinstall": "yarn workspace @tuteria/service db:generate"
   },
   "dependencies": {
     "next": "9.4.4"

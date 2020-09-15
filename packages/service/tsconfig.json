@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": false,
+    "noEmit": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "exclude": ["node_modules", "**/**/*.stories.tsx", "src/stories"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+}
