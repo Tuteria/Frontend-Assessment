@@ -9,7 +9,7 @@ export default () => {
       const url = `${process.env.API_URL}/auth/logout`;
       const response = await fetch(url);     
       if(response.ok) {
-        window.location.pathname = "/";
+        window.location.assign("/");
       } 
     } catch(e) {  
       dispatch({

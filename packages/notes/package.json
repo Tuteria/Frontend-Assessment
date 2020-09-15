@@ -7,7 +7,7 @@
     "build:next": "next build",
     "build:server": "babel server --out-dir dist --extensions \".ts\"",
     "build": "yarn build:next && yarn build:server",
-    "start": "node dist/",
+    "start": "cross-env NODE_ENV=production node dist/",
     "test": "cross-env DATABASE_URL=$TEST_DATABASE_URL jest --runInBand --setupFiles dotenv/config",
     "db:update": "prisma introspect",
     "db:generate": "prisma generate"
