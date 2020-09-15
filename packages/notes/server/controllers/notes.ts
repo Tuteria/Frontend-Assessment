@@ -61,6 +61,14 @@ export async function updateNote(req: Request, res: Response) {
 		const note = await prisma.notes.update({
 			where: { id: Number(id) },
 			data: { title, description },
+			include: {
+				author: {
+					select: {
+						id: true,
+						username: true,
+					},
+				},
+			},
 		});
 		res.json(note);
 	} catch (e) {
