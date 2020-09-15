@@ -20,7 +20,7 @@
     "lint": "lerna run lint",
     "components": "yarn workspace @tuteria/components",
     "web": "yarn workspace @tuteria/www",
-    "build": "lerna build",
+    "build": "lerna run build",
     "validate": "npm-run-all --parallel check-format lint build",
     "storybook": "start-storybook -p 9010 -s public --ci",
     "build-storybook": "build-storybook -s public",

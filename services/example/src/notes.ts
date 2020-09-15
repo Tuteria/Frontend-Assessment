@@ -12,10 +12,17 @@ router.post("/create", async (req, res) => {
 	res.status(200).json(result);
 });
 
+// router.get("/", async(req, res) => {
+// 	const prisma: PrismaClient = req.app.locals.prisma;
+// 	const result = await prisma.notes.findMany();
+// 	res.json(result);
+// });
 
-router.get("/", async(req, res) => {
+router.get("/", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
-	const result = await prisma.notes.findMany();
+	const result = await prisma.notes.findMany({
+		where: { title: "Second note" },
+	});
 	res.json(result);
 });
 
