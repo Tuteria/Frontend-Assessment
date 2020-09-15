@@ -12,6 +12,7 @@
     "db:generate": "prisma generate",
     "lint:src": "eslint src --ext .ts --config ../../.eslintrc",
     "lint:types": "tsc --noEmit",
-    "lint": "npm-run-all lint:src lint:types"
+    "lint": "npm-run-all lint:src lint:types",
+    "seed": "cross-env NODE_ENV=development nodemon prisma/seed"
   }
 }

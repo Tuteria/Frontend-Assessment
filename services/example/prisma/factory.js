@@ -9,7 +9,7 @@ const userFactory = (defaults = {}) => ({
 	username: faker.internet.userName(),
 	email: faker.internet.email().toLowerCase(),
 	password: hashPassword,
-	role: 'USER',
+	is_admin: false,
 	...defaults,
 })
 
