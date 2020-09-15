@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./../../../example.db"
+  url      = env("EXAMPLE_DB_URL")
 }
 
 model alembic_version {
