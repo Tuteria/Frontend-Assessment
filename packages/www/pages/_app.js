@@ -1,4 +1,3 @@
-import '../utils/styles.css';
 import Cookie from "js-cookie";
 import {CSSReset, ThemeProvider} from "@chakra-ui/core";
 import AuthContext from "../utils/auth";
