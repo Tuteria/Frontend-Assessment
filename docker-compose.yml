@@ -23,8 +23,6 @@ services:
     environment:
       DB_USER: test_db
       DB_PASS: test_db
-      DB_NAME: test_db
+      DB_NAME: test_db,main_db
     ports:
       - "5529:5432"
-
-  
