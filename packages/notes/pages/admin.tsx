@@ -1,6 +1,12 @@
 import React from "react";
-import { GetServerSideProps} from "next";
-import { Grid, User, usePageProvider, Activator, CreateUserModal } from "../components";
+import { GetServerSideProps } from "next";
+import {
+	Grid,
+	User,
+	usePageProvider,
+	Activator,
+	CreateUserModal,
+} from "../components";
 import { PageContext } from "../types";
 
 export default () => {
@@ -19,24 +25,31 @@ export default () => {
 	);
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }: PageContext) => {
+export const getServerSideProps: GetServerSideProps = async ({
+	req,
+	res,
+}: PageContext) => {
 	if (!req.user || !req.user.admin) {
 		res
 			.writeHead(302, {
-				Location: "/",
+				Location: "/login",
 			})
 			.end();
-	}
-	const url = `${process.env.API_URL}/users`;
-	const response = await fetch(url, {
-		headers: { cookie: req.headers.cookie },
-	});
+			return {
+				props: {},
+			};
+	} else {
+		const url = `${process.env.API_URL}/users`;
+		const response = await fetch(url, {
+			headers: { cookie: req.headers.cookie },
+		});
 
-	if (response.ok) {
-		const users = await response.json();
-		return {
-			props: { users },
-		};
+		if (response.ok) {
+			const users = await response.json();
+			return {
+				props: { users },
+			};
+		}
+		throw new Error(response.statusText);
 	}
-	throw new Error(response.statusText);
 };
