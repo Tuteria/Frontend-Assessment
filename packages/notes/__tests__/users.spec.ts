@@ -1,5 +1,6 @@
 import request from "supertest";
 import session from "supertest-session";
+import bcrypt from "bcrypt";
 import app from "../server/app";
 import { prisma } from "../server/lib";
 
@@ -15,7 +16,7 @@ beforeAll(async () => {
 		},
 		create: {
 			username: "admin",
-			password: "$2y$10$xXULhziSVdFjqiLYukEtMeWjOCR3auE5lMetM7dvriXjgMD4Dm46m",
+			password: bcrypt.hashSync("password", 10),
 			admin: true,
 		},
 		update: {},
