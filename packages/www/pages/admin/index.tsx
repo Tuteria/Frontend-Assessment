@@ -24,7 +24,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json())
 
 	if (!isAdmin) {
 		return (
-			<div className="notFound">
+			<div className="adminContainer">
 				<p>Page not found.</p>
 				<p>Go
 					<Link href="/">
