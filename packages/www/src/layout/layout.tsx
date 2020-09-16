@@ -107,7 +107,9 @@ export default function Layout({noteList, isAdminPage=false, userList}) {
 	const onDeleteNoteBtnSelect = async (id) => {
 		try {
 
-			mutate('/api/notes', await axios.delete(`/api/notes/${id}`))
+			// mutate('/api/notes', await axios.delete(`/api/notes/${id}`))
+			await axios.delete(`/api/notes/${id}`);
+			mutate('/api/notes');
 			toast({
 				title: "Note deleted",
 				description: "Note is deleted",
@@ -131,7 +133,9 @@ export default function Layout({noteList, isAdminPage=false, userList}) {
 
 	const createNewNote = async (title, description) => {
 		try {
-			mutate('/api/notes', await axios.post('/api/notes/create', {title, description}))
+			// mutate('/api/notes', await axios.post('/api/notes/create', {title, description}))
+			await axios.post('/api/notes/create', {title, description})
+			mutate('/api/notes')
 
 			toast({
 				title: "Note added",
@@ -154,11 +158,39 @@ export default function Layout({noteList, isAdminPage=false, userList}) {
 		}
 	}
 
+	const createNewUser = async (username, email, password) => {
+		try {
+			await axios.post('/api/users', {username, email, password})
+			mutate('/api/users')
+
+			toast({
+				title: "User added",
+				description: "New User is created",
+				status: "success",
+				position: "top",
+				duration: 9000,
+				isClosable: true
+			});
+			setIsDrawerOpen(false)
+		} catch (err) {
+			toast({
+				title: "An error occurred.",
+				description: "Unable to create a new User.",
+				status: "error",
+				position: "top",
+				duration: 9000,
+				isClosable: true
+			})
+		}
+	}
+
 
 
 	const editNote = async (noteId, title, description) => {
 		try {
-			mutate('/api/notes', await axios.put(`/api/notes/${noteId}`, {title, description}))
+			await axios.put(`/api/notes/${noteId}`, {title, description});
+			mutate('/api/notes');
+			// mutate('/api/notes', await axios.put(`/api/notes/${noteId}`, {title, description}));
 
 			toast({
 				title: "Note edited",
@@ -238,7 +270,7 @@ export default function Layout({noteList, isAdminPage=false, userList}) {
 
 						<DrawerBody>
 							{
-								formType === 'user' ? <UserForm/>: <NoteForm {...noteProps} isEditing={isEditingNote} onSubmit={createNewNote} onEditSave={editNote}/>
+								formType === 'user' ? <UserForm onSubmit={createNewUser}/>: <NoteForm {...noteProps} isEditing={isEditingNote} onSubmit={createNewNote} onEditSave={editNote}/>
 							}
 
 						</DrawerBody>
