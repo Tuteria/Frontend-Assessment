@@ -8,18 +8,14 @@ import {Field, Formik} from "formik";
 let cx = classNames.bind(styles);
 
 
-export const UserForm = ({}) => {
-	const [show, setShow] = useState(false);
+export const UserForm = ({onSubmit}: any) => {
 
 	return (
 		<div className={styles.userContainer}>
 			<Formik
 				initialValues={{ name: "", email: "", pass: "" }}
-				onSubmit={(values, actions) => {
-					setTimeout(() => {
-						alert(JSON.stringify(values, null, 2));
-						actions.setSubmitting(false);
-					}, 1000);
+				onSubmit={(values) => {
+					onSubmit(values.name, values.email, values.pass)
 				}}
 			>
 				{props => (
@@ -51,7 +47,6 @@ export const UserForm = ({}) => {
 								</FormControl>
 							)}
 						</Field>
-						<Checkbox id="role">Is Admin</Checkbox>
 						<Button
 							mt={4}
 							variantColor="teal"

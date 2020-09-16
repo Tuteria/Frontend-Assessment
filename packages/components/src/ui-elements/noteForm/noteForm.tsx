@@ -9,9 +9,7 @@ let cx = classNames.bind(styles);
 
 
 export const NoteForm = ({id = null, title = '', content = '', isEditing=false, onSubmit, onEditSave}: any) => {
-	const [show, setShow] = useState(false);
 
-	console.log(isEditing)
 
 	function validateTitle(value: any) {
 		let error;

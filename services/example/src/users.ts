@@ -15,12 +15,11 @@ const prisma = new PrismaClient()
  * @returns {(json)}JSON object
 
  */
-async function createUser(req: Request, res: Response) {
+async function createUser(req: any, res: any) {
 	try {
-		const { email, username, password  } = req.body;
-
+		const { email, username, password } = req.body;
 		const foundUser = await prisma.users.findOne({
-			where:{username: username}
+			where:{email: email}
 		})
 		if (foundUser) {
 			return res.status(409)
