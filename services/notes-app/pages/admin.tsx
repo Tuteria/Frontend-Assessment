@@ -1,4 +1,5 @@
 import Layout from '../components/Layout'
+import {useRouter} from "next/router"
 import UsersList from "../components/UsersList"
 import {Box,Stack,Textarea,Button,Input,Text} from "@chakra-ui/core"
 import React from 'react'
@@ -28,9 +29,12 @@ const Admin = () => {
     error:"",
     data:[]
   })
+  const router = useRouter()
   React.useEffect(() => {
     const token = window.localStorage.getItem("jwtToken")
-    if(token){
+    if(!token){
+      router.push("/login")
+    }else if(token){
       const jwt = JSON.parse(token)
       setAuth(jwt)
       async function apiCall(){

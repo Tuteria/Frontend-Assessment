@@ -1,7 +1,8 @@
 import React, { ReactNode } from 'react'
 import Link from 'next/link'
 import Head from 'next/head'
-import {Box} from "@chakra-ui/core"
+import {Box,Button} from "@chakra-ui/core"
+import removeToken from "../auth-helpers/removeToken"
 
 type Props = {
   children?: ReactNode
@@ -53,6 +54,13 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             <a>Admin</a>
           </Link>
           }
+          {auth &&
+          <Button ml="auto" backgroundColor="tomato" onClick={removeToken} >
+            <Link href="/">
+              Logout
+            </Link>
+          </Button>
+           }
         </nav>
       </Box>
       {children}

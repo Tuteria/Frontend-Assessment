@@ -10,7 +10,7 @@ interface IToken {
 }
 
 
-const getToken = ():IToken | null => {
+const getToken = () => {
   console.log("calling get token")
   let token = null;
   if(window !== undefined){

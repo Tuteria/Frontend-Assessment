@@ -7,7 +7,7 @@ import useSwr from "swr"
 
 const IndexPage = () => {
   
-  const nullArr = new Array(10).fill(null)
+  const nullArr = new Array(6).fill(null)
 
   const fetcher = (url:string) => fetch(url)
                     .then(res => res.json())

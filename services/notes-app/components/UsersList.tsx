@@ -113,7 +113,7 @@ const UserList:React.SFC<IUserList> = ({user}) => {
               {/* {user.notes && user.notes.map((note,idx) => (
                 <Note note={note} handleDelete={} key={idx} />
               ))} */}
-              <NoteList notes={user.notes} />
+              <NoteList notes={(user.notes as INote[])} />
               { user.notes && user.notes.length < 1 && <Text>No Notes yet from this user</Text>}
             </Box>
         </Skeleton>

@@ -35,6 +35,24 @@ router.get("/", async (req, res) => {
 		})
 	}
 });
+router.get("/:noteId", async (req, res) => {
+	const prisma: PrismaClient = req.app.locals.prisma;
+	const noteId = Number(req.params.noteId);
+	try {
+		let foundNote = await prisma.notes.findOne({ where: { id: noteId } });
+		if(foundNote){
+			return res.status(200).json(foundNote)
+		}else{
+			return res.status(404).json({
+				message:"Note not found"
+			})
+		}
+	} catch (err) {
+		return res.status(401).json({
+			error: err.message || "Something went wrong",
+		});
+	}
+});
 router.put("/:noteId", async (req, res) => {
 	const prisma: PrismaClient = req.app.locals.prisma;
 	const noteId = Number(req.params.noteId);

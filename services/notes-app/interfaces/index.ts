@@ -17,3 +17,16 @@ export interface IToken {
     admin:boolean;
   }
 }
+
+export interface INote {
+  title:string;
+  description:string;
+  author?:string;
+  id:string
+}
+
+interface INoteParams { 
+  handleDelete:() => {};
+  note:INote
+}
+

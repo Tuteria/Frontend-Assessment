@@ -1,29 +1,26 @@
 import React from "react";
-// import { action } from "@storybook/addon-actions";
-// import { Button } from "@storybook/react/demo";
 import {Box} from "@chakra-ui/core"
 import Note from "./note"
 
 interface INote {
   title:string;
   description:string;
-  id:number;
+  id:string;
   author?:string
 }
 type INoteList =  { 
   notes:INote[] | null[]
 }
 
-const NoteList:React.SFC<INoteList> = ({notes}) => {
+const NoteList:React.FC<INoteList> = ({notes}) => {
   const [defaultNote,setDefaultNote] = React.useState(Array(10).fill(null))
-
   React.useEffect(() => {
     if(Array.isArray(notes)){
       setDefaultNote(notes)
     }
   },[notes])
 
-  const handleDelete = (notesId:number) => async() => {
+  const handleDelete = (notesId:string) => async() => {
     const filterNote = defaultNote.filter((note:INote) => (
       note.id !== notesId
     ))
