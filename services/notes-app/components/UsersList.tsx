@@ -29,8 +29,14 @@ const UserList:React.SFC<IUserList> = ({user}) => {
     success:"",
     error:""
   })
+  console.log(user.length)
   const [jwt,setJwt] = React.useState<IToken| null >(null)
   const [userDetail,setUserDetail] = React.useState(user)
+
+  React.useEffect(() => {
+    setUserDetail(user)
+  },[user])
+  
   React.useEffect(() => {
     const token = window.localStorage.getItem("jwtToken")
     if(token){
@@ -38,6 +44,7 @@ const UserList:React.SFC<IUserList> = ({user}) => {
       setJwt(auth)
       }
   },[])
+  
   const handleAdminToggle = (username:string) => async () => {
     const newUserDetail = userDetail.map((user) => {
       if(user.username === username){

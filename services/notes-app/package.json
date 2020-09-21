@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "start:dev":"npm run dev -- -p 3001",
     "start": "next start",
     "type-check": "tsc"
   },

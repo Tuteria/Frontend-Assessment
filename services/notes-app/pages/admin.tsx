@@ -40,10 +40,8 @@ const Admin = () => {
           }
         })
         const result = await response.json()
-        console.log(result)
         if(!(result.message)){
           setState({...state,data:(result as unknown as IUser[])})
-        console.log(state.data)
         }
       }
       apiCall()
@@ -77,6 +75,9 @@ const Admin = () => {
       body:JSON.stringify(body)
     })
     const result = await response.json()
+    console.log("this is the result returned",result)
+    const newData = [...state.data,result]
+    setState({...state,data:newData})
     if(result.username == body.username){
       setBody({
         password:"",
@@ -129,7 +130,7 @@ const Admin = () => {
         </Stack>
         <Box>
           {state.error ? <div>Something went wrong</div> : 
-          state.data && (state.data as IUser[]).length > 1 ? <UsersList user={(state.data as IUser[])} /> :
+          (state.data as IUser[]).length > 0 ? <UsersList user={(state.data as IUser[])} /> :
           <div>No User available</div>
         }
         </Box>
