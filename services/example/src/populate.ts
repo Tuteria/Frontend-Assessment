@@ -89,4 +89,4 @@ const populator = async (amt: populatorArg = [5, 10]) => {
 
 populator([5,10])
 
-// export default populator;
+export default populator;

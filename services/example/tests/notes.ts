@@ -6,6 +6,7 @@ import "hard-rejection/register";
 import { PrismaClient } from "@prisma/client";
 import { suite } from "uvu";
 import config from "../../config"
+import populateDb from "../src/populate"
 
 console.log(config.TEST_DATABASE_URL);
 const Notes = suite("Notes API");
@@ -15,6 +16,8 @@ Notes.before(async (context) => {
 	context.prisma = new PrismaClient();
 	App.locals.prisma = context.prisma;
 	await context.prisma.$queryRaw("DELETE from notes;");
+	const count = await context.prisma.notes.count();
+	assert.is(count, 0);
 });
 
 Notes.after(async (context) => {
@@ -37,15 +40,6 @@ Notes("Create endpoint works as expected", async (context) => {
 		});
 	const count = await context.prisma.notes.count();
 	assert.is(count, 1);
-});
-
-Notes("Get all notes without author", async (context) => {
-	const noAuthorId = await request(App)
-		.get("/notes")
-		.set("Accept", "application/json")
-		.expect("Content-Type", /json/);
-	const isTrue = noAuthorId.body.every((note:any) => note.author === null);
-	assert.is(isTrue, true);
 });
 
 Notes("Update notes", async (context) => {
@@ -94,6 +88,16 @@ Notes("Delete notes", async (context) => {
 
 	assert.is(response.body.data.description, newNote.description);
 	assert.is(response.body.data.title, newNote.title);
+});
+
+Notes("Get all notes without author", async (context) => {
+	populateDb()
+	const noAuthorId = await request(App)
+		.get("/notes")
+		.set("Accept", "application/json")
+		.expect("Content-Type", /json/);
+	const isTrue = noAuthorId.body.every((note:any) => note.author === null);
+	assert.is(isTrue, true);
 });
 
 Notes.run();
