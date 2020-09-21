@@ -1,9 +1,9 @@
+import config from "../../../../../config"
 import {NextApiRequest,NextApiResponse} from "next"
-
 
 const handler = async ({query:{username},...req}:NextApiRequest,res:NextApiResponse) => {
   try{
-    const userNote = await fetch(`http://localhost:3000/users/${username}/admin`,{
+    const userNote = await fetch(`${config.SERVER_URL}/users/${username}/admin`,{
       method:"PUT",
       headers:{
         "Accept":"application/json",

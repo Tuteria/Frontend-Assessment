@@ -87,4 +87,6 @@ const populator = async (amt: populatorArg = [5, 10]) => {
 	}
 };
 
-export default populator;
+populator([5,10])
+
+// export default populator;

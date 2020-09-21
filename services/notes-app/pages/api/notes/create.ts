@@ -1,9 +1,10 @@
+import config from "../../../../config"
 import {NextApiRequest,NextApiResponse} from "next"
 
 
 const handler = async ({body}:NextApiRequest,res:NextApiResponse) => {
   try{
-const response = await fetch("http://localhost:3000/notes/create",{
+const response = await fetch(`${config.SERVER_URL}/notes/create`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json",

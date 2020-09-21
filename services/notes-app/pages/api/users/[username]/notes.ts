@@ -1,9 +1,9 @@
+import config from "../../../../../config"
 import {NextApiRequest,NextApiResponse} from "next"
-
 
 const handler = async ({query:{username}}:NextApiRequest,res:NextApiResponse) => {
   try{
-    const userNote = await fetch(`http://localhost:3000/users/${username}/notes`,{
+    const userNote = await fetch(`${config.SERVER_URL}/users/${username}/notes`,{
       method:"GET",
       headers:{
         "Accept":"application/json"

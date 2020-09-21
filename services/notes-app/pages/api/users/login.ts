@@ -1,9 +1,9 @@
 import {NextApiRequest,NextApiResponse} from "next"
-
+import config from "../../../../config"
 
 const handler = async ({body}:NextApiRequest,res:NextApiResponse) => {
   try{
-    const newUser = await fetch("http://localhost:3000/users/login",{
+    const newUser = await fetch(`${config.SERVER_URL}/users/login`,{
       method:"POST",
       headers:{
         "Content-Type":"application/json",

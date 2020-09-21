@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import {Request,Response,NextFunction} from "express"
 import jwt from "jsonwebtoken"
+import config from "../../config"
 import { Router } from "express";
 const router = Router();
 
@@ -20,7 +21,7 @@ interface IDecoded {
 	admin:boolean
 }
 
-const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
+const jwtSecret = config.jwtSecret
 
 const verifyAdmin = (req:Request,res:Response,next:NextFunction) => {
 	try{

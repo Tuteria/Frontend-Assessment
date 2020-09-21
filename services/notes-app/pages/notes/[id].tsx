@@ -3,7 +3,6 @@ import Layout from "../../components/Layout"
 import Notelist from "../../components/notelist"
 import {INote} from "../../interfaces"
 
-
 interface IProps {
     data:INote[]
 }
@@ -21,7 +20,7 @@ const ReadNote:React.FC<IProps> = (props) => {
 export async function getServerSideProps(context: { params: { id: string } }) {
     // Fetch data from external API
     if(context.params.id){
-      const res = await fetch(`http://localhost:3000/notes/${context.params.id}`,{
+      const res = await fetch(`http://localhost:3001/api/notes/${context.params.id}`,{
         method:'GET',
         headers:{
           "Accept":"application/json"

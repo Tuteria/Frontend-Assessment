@@ -3,11 +3,6 @@ import notes from "./notes";
 import users from "./users";
 import * as bodyParser from "body-parser";
 // import { logging as httpLogger } from "@tuteria/common/src/middleware";
-import populatDb from "./populate";
-
-
-// Comment out for test
-// populatDb([5,10]);
 
 const app = express();
 app.use(bodyParser.json());

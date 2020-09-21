@@ -28,10 +28,13 @@ const Login = () => {
     submitting:false
   })
   const router = useRouter()
-  React.useEffect(() => {
-    if(typeof window.localStorage.getItem("jwtToken") !== null)
-    router.push("/")
-  },[])
+  
+  // React.useEffect(() => {
+  //   if(typeof window.localStorage.getItem("jwtToken") !== null){
+  //     router.push("/")
+  //   }
+  // },[])
+
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
   }

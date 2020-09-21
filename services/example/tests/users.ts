@@ -6,6 +6,7 @@ import "hard-rejection/register";
 import { PrismaClient } from "@prisma/client";
 import { suite } from "uvu";
 import jwt from "jsonwebtoken"
+import config from "../../config"
 
 console.log("This is the test databse",process.env.TEST_DATABASE_URL);
 const Users = suite("Users API");
@@ -18,7 +19,7 @@ const testUser = {
 	email: "john@doe.com",
 	about: "Adding a description to the test user for testing",
 };
-const jwtSecret = process.env.jwtSecret || "noibsoabiibadilboibvsofnapsndfansdiin"
+const jwtSecret = config.jwtSecret
 			
 Users.before(async (context) => {
 	try {

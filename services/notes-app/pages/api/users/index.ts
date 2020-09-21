@@ -1,11 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import config from "../../../../config"
 
 const handler = async (req:NextApiRequest,res:NextApiResponse) => {
   try{
     if(!req.headers.authorization){
      throw new Error("Authorization needed")
     }
-    const allUser = await fetch("http://localhost:3000/users",{
+    const allUser = await fetch(`${config.SERVER_URL}/users`,{
       method:"GET",
       headers:{
         "Accept":"application/json",

@@ -5,8 +5,9 @@ import * as assert from "uvu/assert";
 import "hard-rejection/register";
 import { PrismaClient } from "@prisma/client";
 import { suite } from "uvu";
+import config from "../../config"
 
-console.log(process.env.TEST_DATABASE_URL);
+console.log(config.TEST_DATABASE_URL);
 const Notes = suite("Notes API");
 
 Notes.before(async (context) => {
@@ -43,7 +44,7 @@ Notes("Get all notes without author", async (context) => {
 		.get("/notes")
 		.set("Accept", "application/json")
 		.expect("Content-Type", /json/);
-	const isTrue = noAuthorId.body.every((note) => note.author === null);
+	const isTrue = noAuthorId.body.every((note:any) => note.author === null);
 	assert.is(isTrue, true);
 });
 

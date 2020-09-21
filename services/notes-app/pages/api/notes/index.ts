@@ -1,10 +1,11 @@
+import config from "../../../../config"
 import {NextApiRequest,NextApiResponse} from "next"
 
 
 const handler = async (_req:NextApiRequest,res:NextApiResponse) => {
 
   try{
-    const getAllArticle = await fetch("http://localhost:3000/notes",{
+    const getAllArticle = await fetch(`${config.SERVER_URL}/notes`,{
       method:"GET",
       headers:{
         "Accept":"application/json"
