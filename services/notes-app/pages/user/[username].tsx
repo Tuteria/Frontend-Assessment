@@ -18,7 +18,6 @@ interface IAlert {
   success:string;
 }
 
-
 const User:React.FC<IProps> = (props) => {
   const nullArr = new Array(10).fill(null)
   const [body,setBody] = React.useState<IState>({
@@ -40,11 +39,16 @@ const User:React.FC<IProps> = (props) => {
     }
   },[])
 
+  const handleNoteUpdate = (id:string) => {
+    const filterNote = note.filter((note:INote) => (
+      note.id !== id
+    ))
+    setNote(filterNote)
+  }
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
   }
-  console.log(props.data)
   const handleSubmit = async () => {
     setAlert({...alert,submitting:true})
     const response = await fetch("/api/notes/create",{
@@ -56,7 +60,6 @@ const User:React.FC<IProps> = (props) => {
       body:JSON.stringify({...body,...(auth !== null && {author:(auth as IToken).user.username})})
     })
     const result = await response.json()
-    console.log("this is the result",result)
     if(result.title == body.title){
       const newNote = [...note,result]
       setNote(newNote)
@@ -69,6 +72,7 @@ const User:React.FC<IProps> = (props) => {
       setAlert({submitting:false,success:"",error:"Something went wrong"})  
     }
   }
+
   return(
     <Layout>
         {(auth as IToken)?.user.username == props.username &&(
@@ -84,7 +88,7 @@ const User:React.FC<IProps> = (props) => {
           </Button>
         </Stack>  
         )}
-        {note.length > 0 && <NoteList notes={(note as INote[]) || nullArr} />}
+        {note.length > 0 && <NoteList handleNoteUpdate={handleNoteUpdate} notes={(note as INote[]) || nullArr} />}
     </Layout>
   )
 }

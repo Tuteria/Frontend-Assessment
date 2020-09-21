@@ -4,10 +4,11 @@ import Note from "./note"
 import {INote} from "../interfaces"
 
 type INoteList =  { 
-  notes:INote[] | null[]
+  notes:INote[] | null[];
+  handleNoteUpdate?(arg:string):void
 }
 
-const NoteList:React.FC<INoteList> = ({notes}) => {
+const NoteList:React.FC<INoteList> = ({notes,...props}) => {
   const [defaultNote,setDefaultNote] = React.useState(Array(10).fill(null))
   React.useEffect(() => {
     if(Array.isArray(notes)){
@@ -20,6 +21,9 @@ const NoteList:React.FC<INoteList> = ({notes}) => {
     const filterNote = defaultNote.filter((note:INote) => (
       note.id !== notesId
     ))
+    if(props.handleNoteUpdate){
+      props.handleNoteUpdate(notesId)
+    }
 
     setDefaultNote(filterNote)
     const response = await fetch(`/api/notes/${notesId}`,{
