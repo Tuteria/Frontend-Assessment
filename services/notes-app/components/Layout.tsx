@@ -50,10 +50,15 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
           <Link href="/">
             <a>Home</a>
           </Link>{' '}
+          {
+            !auth &&
+            <> 
           |{' '}
             <Link href="/login">
               <a>Login</a> 
             </Link>
+            </>
+          }
           {
             auth?.user.admin &&
             <>

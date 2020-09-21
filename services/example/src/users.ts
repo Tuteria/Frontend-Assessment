@@ -57,7 +57,7 @@ router.get("/",verifyAdmin,async (req,res) => {
 			const foundNote = await prisma.notes.findMany({where:{author:allUser[i].username}})
 			newArr.push({...allUser[i],notes:foundNote})
 		}
-		res.status(200).json(newArr)
+		res.status(200).json(newArr.reverse())
 	}catch(err){
 		return res.status(401).json({
 			message:err.message || "Something went wrong"

@@ -51,6 +51,7 @@ const Admin = () => {
       apiCall()
     }
   },[])
+
   const [body,setBody] = React.useState<IState>({
     username:"",
     password:"",
@@ -79,9 +80,6 @@ const Admin = () => {
       body:JSON.stringify(body)
     })
     const result = await response.json()
-    console.log("this is the result returned",result)
-    const newData = [...state.data,result]
-    setState({...state,data:newData})
     if(result.username == body.username){
       setBody({
         password:"",
@@ -90,6 +88,7 @@ const Admin = () => {
         about:"",
         admin:false
       })
+      setState({...state,data:[result,...state.data]})
       setAlert({submitting:false,success:"Create User Successful",error:""})
     }else{
       setAlert({submitting:false,success:"",error:"Something went wrong"})  
@@ -99,7 +98,7 @@ const Admin = () => {
     return <div>Please Login</div>
   }else if(auth.user.admin){
     return(
-      <Layout title="About | Next.js + TypeScript Example">
+      <Layout title="Admin page">
         <Text>Welcome to the secure admin page</Text>
         {
           alert.error.length > 3 &&
@@ -134,7 +133,8 @@ const Admin = () => {
         </Stack>
         <Box>
           {state.error ? <div>Something went wrong</div> : 
-          (state.data as IUser[]).length > 0 ? <UsersList user={(state.data as IUser[])} /> :
+          (state.data as IUser[]).length > 0 ? 
+          <UsersList user={(state.data as IUser[])} /> :
           <div>No User available</div>
         }
         </Box>
