@@ -1,13 +1,8 @@
-import React from "react";
+import React,{SyntheticEvent} from "react";
 import {Box} from "@chakra-ui/core"
 import Note from "./note"
+import {INote} from "../interfaces"
 
-interface INote {
-  title:string;
-  description:string;
-  id:string;
-  author?:string
-}
 type INoteList =  { 
   notes:INote[] | null[]
 }
@@ -20,10 +15,12 @@ const NoteList:React.FC<INoteList> = ({notes}) => {
     }
   },[notes])
 
-  const handleDelete = (notesId:string) => async() => {
+  const handleDelete = (notesId:string) => async(e:SyntheticEvent<any>) => {
+    e.stopPropagation()
     const filterNote = defaultNote.filter((note:INote) => (
       note.id !== notesId
     ))
+
     setDefaultNote(filterNote)
     const response = await fetch(`/api/notes/${notesId}`,{
       method:"DELETE",

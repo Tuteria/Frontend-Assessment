@@ -4,7 +4,7 @@ import {useRouter} from "next/router"
 import Link from "next/link"
 
 interface INote { 
-  handleDelete:() => {};
+  handleDelete(arg:any):Promise<any>;
   note:{
     title:string;
     description:string;
@@ -47,10 +47,10 @@ const Note:React.FC<INote> = ({note,handleDelete}) => {
               </Box> : 
               <Box>{note.author}</Box>
             }
-            {/* {auth && auth.user.username === note.author && 
+            {auth?.user.username === note.author && 
               <Button display="block" mx="auto" mt="10px" onClick={handleDelete} variantColor="teal" variant="solid" size="md" >
                 Delete
-              </Button>} */}
+              </Button>}
           </Box>
       </Box>
       </Link>

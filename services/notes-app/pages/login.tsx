@@ -43,7 +43,6 @@ const Login = () => {
       body:JSON.stringify(body)
     })
     const result = await response.json()
-    console.log("This is the result",result)
     if(result.message.indexOf("Successful") > 1){
       router.push("/")
       saveToken({

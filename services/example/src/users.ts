@@ -80,9 +80,10 @@ router.post("/login",async (req,res) => {
 				message:"Login Successful",
 				token,
 				user:{
-					email:foundUser.email,
-					username:foundUser.username,
-					admin:foundUser.admin
+					id: foundUser.id,
+					username: foundUser.username,
+					email: foundUser.email,
+					admin: foundUser.admin
 				}
 			})
 		}else{

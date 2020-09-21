@@ -1,15 +1,8 @@
-// import { GetServerSideProps,InferGetServerSidePropsType } from 'next'
 import Layout from '../../components/Layout'
 import NoteList from "../../components/notelist"
 import {Stack,Textarea,Button,Input,Text} from "@chakra-ui/core"
 import React from 'react'
-
-interface INote {
-  title:string;
-  description:string;
-  id:number;
-  author?:string
-}
+import {IToken,INote} from "../../interfaces"
 
 interface IProps {
   data:INote[];
@@ -26,14 +19,14 @@ interface IAlert {
 }
 
 
-const User:React.SFC<IProps> = (props) => {
+const User:React.FC<IProps> = (props) => {
   const nullArr = new Array(10).fill(null)
   const [body,setBody] = React.useState<IState>({
     title:"",
     description:""
   })
   const [note,setNote] = React.useState(props.data)
-  const [auth,setAuth] = React.useState(null)
+  const [auth,setAuth] = React.useState<IToken>()
   const [alert,setAlert] = React.useState<IAlert>({
     error:"",
     success:"",
@@ -51,8 +44,7 @@ const User:React.SFC<IProps> = (props) => {
   const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     setBody({...body,[e.target.name]:e.target.value})
   }
-
-
+  console.log(props.data)
   const handleSubmit = async () => {
     setAlert({...alert,submitting:true})
     const response = await fetch("/api/notes/create",{
@@ -61,7 +53,7 @@ const User:React.SFC<IProps> = (props) => {
         "Content-Type":"application/json",
         "Accept":"application/json"
       },
-      body:JSON.stringify({...body,...(auth !== null && {author:auth.user.username})})
+      body:JSON.stringify({...body,...(auth !== null && {author:(auth as IToken).user.username})})
     })
     const result = await response.json()
     console.log("this is the result",result)
@@ -79,7 +71,7 @@ const User:React.SFC<IProps> = (props) => {
   }
   return(
     <Layout>
-        {auth !== null ? auth.user.username === props.username &&(
+        {(auth as IToken)?.user.username == props.username &&(
           <Stack display="flex" justifyContent="center" alignItems="center"
           margin="auto"
           flexDirection="column" width={"75%"} >
@@ -91,8 +83,8 @@ const User:React.SFC<IProps> = (props) => {
             {alert.submitting ? `Creating new note for ${props.username}` : "Submit"}
           </Button>
         </Stack>  
-        ) : null}
-        {note.length > 0 && <NoteList notes={note || nullArr} />}
+        )}
+        {note.length > 0 && <NoteList notes={(note as INote[]) || nullArr} />}
     </Layout>
   )
 }

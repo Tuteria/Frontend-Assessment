@@ -15,6 +15,7 @@ export interface IToken {
     username:string;
     email:string;
     admin:boolean;
+    id:string;
   }
 }
 
