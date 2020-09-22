@@ -7,3 +7,9 @@
 
 ### Setup
 navigate to the services folder, both the example and notes-app can be started by running npm run start:dev
+# Changes
+Added notes read page
+Added profile link to navbar
+Added populating scripts to the examples folder
+Fixed the get notes with author test
+Added env variables to the url addresses on the api routes
