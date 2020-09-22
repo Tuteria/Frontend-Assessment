@@ -71,7 +71,8 @@ const Login = () => {
       <Text>Please Login</Text>
         {
           alert.error.length > 3 &&
-        <Box width={"75%"} background="red" color="black" >
+        <Box width={"75%"} style={{margin:"auto"}}
+         background="red" color="black" >
           <Text textAlign="center" fontSize="1.9em">
             {alert.error}
           </Text>
@@ -79,7 +80,8 @@ const Login = () => {
         }
         {
           alert.success.length > 3 &&
-        <Box width={"75%"} background="blue" color="whitesmoke" >
+        <Box width={"75%"} style={{margin:"auto"}}
+         background="blue" color="whitesmoke" >
           <Text textAlign="center" fontSize="1.9em">
             {alert.success}
           </Text>

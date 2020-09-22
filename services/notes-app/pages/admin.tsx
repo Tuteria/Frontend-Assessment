@@ -102,7 +102,8 @@ const Admin = () => {
         <Text>Welcome to the secure admin page</Text>
         {
           alert.error.length > 3 &&
-        <Box width={"75%"} background="red" color="black" >
+        <Box width={"75%"} style={{margin:"auto"}}
+         background="red" color="black" >
           <Text textAlign="center" fontSize="1.9em">
             {alert.error}
           </Text>
@@ -110,14 +111,15 @@ const Admin = () => {
         }
         {
           alert.success.length > 3 &&
-        <Box width={"75%"} background="blue" color="whitesmoke" >
+        <Box width={"75%"} style={{margin:"auto"}}
+         background="blue" color="whitesmoke" >
           <Text textAlign="center" fontSize="1.9em">
             {alert.success}
           </Text>
         </Box>
         }
         <Stack display="flex" justifyContent="center" alignItems="center"
-        margin="auto"
+          margin="auto"
          flexDirection="column" width={"75%"} >
            <Text>Create New User</Text>
           <Input my={2} name="username" onChange={handleChange} value={body.username}
