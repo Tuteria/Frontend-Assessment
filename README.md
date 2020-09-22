@@ -4,3 +4,6 @@
 
 ## Third task
 - [x] Use Chakra-UI as the component library of choice This is already installed in the project.
+
+### Setup
+navigate to the services folder, both the example and notes-app can be started by running npm run start:dev
